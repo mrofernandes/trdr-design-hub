@@ -1,0 +1,230 @@
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.title {
+  font-family: var(--font-primary);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--content-primary);
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--content-tertiary);
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 var(--spacing-sm);
+  background-color: var(--surface-brand);
+  color: var(--content-brand);
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Options grid (Step 1) */
+.optionsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.option:hover {
+  border-color: var(--action-brand-default);
+  background-color: rgba(61, 153, 255, 0.04);
+}
+
+.optionIcon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.optionLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--content-primary);
+  margin-bottom: 4px;
+}
+
+.optionDesc {
+  font-size: 12px;
+  color: var(--content-tertiary);
+  line-height: 1.4;
+}
+
+/* Options list (Step 2) */
+.optionsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.optionRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--spacing-lg) var(--spacing-2xl);
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.optionRow:hover {
+  border-color: var(--action-brand-default);
+}
+
+/* Component chips (Step 3) */
+.compGroups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: var(--spacing-sm);
+}
+
+.compGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.compGroupLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--content-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.compGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.compChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 var(--spacing-md);
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  color: var(--content-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.compChip:hover {
+  border-color: var(--border-default);
+  color: var(--content-primary);
+}
+
+.compChip.compChipSelected {
+  background-color: var(--surface-brand);
+  border-color: var(--action-brand-default);
+  color: var(--content-brand);
+}
+
+/* Actions bar */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--spacing-2xl);
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Step 4 — Prompt output */
+.promptBox {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.promptHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--bg-tertiary);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.promptLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--content-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.promptContent {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--content-secondary);
+  padding: var(--spacing-2xl);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: var(--bg-primary);
+}
+
+.tip {
+  padding: var(--spacing-lg);
+  background-color: var(--surface-info);
+  border: 1px solid rgba(61, 153, 255, 0.2);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  color: var(--content-secondary);
+  line-height: 1.5;
+}
+
+.tip strong {
+  color: var(--content-brand);
+}
+
+.tip em {
+  color: var(--content-primary);
+  font-style: normal;
+  font-weight: 500;
+}

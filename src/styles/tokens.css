@@ -1,0 +1,375 @@
+/* ==========================================================================
+   TRDR Design System — CSS Variables
+   Fonte: design.md v1.4 | Gerado em: 2026-04-07
+   ========================================================================== */
+
+:root {
+
+  /* =========================================================================
+     PRIMITIVOS — CORES
+     Nunca use diretamente na UI. Use tokens semânticos.
+     ========================================================================= */
+
+  /* Azul */
+  --color-blue-50: #F0F7FF;
+  --color-blue-100: #E0EEFF;
+  --color-blue-200: #C1DDFF;
+  --color-blue-300: #A2CDFF;
+  --color-blue-400: #84BFFF;
+  --color-blue-500: #65B0FF;
+  --color-blue-600: #3D99FF;
+  --color-blue-700: #1E82FF;
+  --color-blue-800: #0066FF;
+  --color-blue-900: #0052CC;
+  --color-blue-alpha-08: #0052CC14;
+  --color-blue-alpha-16: #0052CC29;
+  --color-blue-alpha-32: #0052CC52;
+
+  /* Neutro */
+  --color-neutral-0: #FFFFFF;
+  --color-neutral-50: #FAFAFA;
+  --color-neutral-100: #EEEEEE;
+  --color-neutral-200: #E8E8E8;
+  --color-neutral-300: #D2D2D2;
+  --color-neutral-400: #BCBCBC;
+  --color-neutral-500: #A4A4A4;
+  --color-neutral-600: #777777;
+  --color-neutral-700: #4A4A4A;
+  --color-neutral-800: #222222;
+  --color-neutral-900: #1A1A1A;
+  --color-neutral-1000: #141519;
+  --color-neutral-1200: #0E0E0E;
+
+  /* Verde */
+  --color-green-50: #F0FFF7;
+  --color-green-100: #CCFFDF;
+  --color-green-200: #99FFBF;
+  --color-green-300: #66FFA0;
+  --color-green-400: #33FF80;
+  --color-green-500: #00FF60;
+  --color-green-600: #31DD7E;
+  --color-green-700: #00CC4D;
+  --color-green-800: #009933;
+  --color-green-900: #00661F;
+  --color-green-alpha-08: #4FE29014;
+  --color-green-alpha-12: #4FE2901F;
+  --color-green-alpha-16: #4FE29029;
+  --color-green-alpha-32: #4FE29052;
+  --color-green-alpha-40: #4FE29066;
+  --color-green-alpha-48: #4FE2907A;
+  --color-green-alpha-56: #4FE2908F;
+
+  /* Vermelho */
+  --color-red-50: #FFF0F0;
+  --color-red-100: #FFCCCC;
+  --color-red-200: #FF9999;
+  --color-red-300: #FF6666;
+  --color-red-400: #FF3333;
+  --color-red-500: #FF0000;
+  --color-red-600: #F34F45;
+  --color-red-700: #CC0000;
+  --color-red-800: #990000;
+  --color-red-900: #660000;
+  --color-red-alpha-08: #F34F4514;
+  --color-red-alpha-12: #F34F451F;
+  --color-red-alpha-16: #F34F4529;
+  --color-red-alpha-32: #F34F4552;
+  --color-red-alpha-40: #F34F4566;
+  --color-red-alpha-48: #F34F457A;
+  --color-red-alpha-56: #F34F458F;
+
+  /* Amarelo */
+  --color-yellow-50: #FFFBF0;
+  --color-yellow-100: #FFF3CC;
+  --color-yellow-200: #FFE799;
+  --color-yellow-300: #FFDB66;
+  --color-yellow-400: #FFCF33;
+  --color-yellow-500: #FFCC40;
+  --color-yellow-600: #FFB800;
+  --color-yellow-700: #CC9200;
+  --color-yellow-800: #996D00;
+  --color-yellow-900: #664900;
+  --color-yellow-alpha-08: #FFCC4014;
+  --color-yellow-alpha-16: #FFCC4029;
+  --color-yellow-alpha-32: #FFCC4052;
+
+  /* Laranja */
+  --color-orange-50: #FFF5F0;
+  --color-orange-100: #FFE0CC;
+  --color-orange-200: #FFC199;
+  --color-orange-300: #FFA266;
+  --color-orange-400: #FF8333;
+  --color-orange-500: #FF6400;
+  --color-orange-600: #F57C00;
+  --color-orange-700: #CC5000;
+  --color-orange-800: #993C00;
+  --color-orange-900: #662800;
+  --color-orange-alpha-08: #FF640014;
+  --color-orange-alpha-16: #FF640029;
+  --color-orange-alpha-32: #FF640052;
+
+  /* Roxo */
+  --color-purple-50: #F5F0FF;
+  --color-purple-100: #E0CCFF;
+  --color-purple-200: #C199FF;
+  --color-purple-300: #A266FF;
+  --color-purple-400: #8333FF;
+  --color-purple-500: #7C4DFF;
+  --color-purple-600: #6200EA;
+  --color-purple-700: #5000CC;
+  --color-purple-800: #3C0099;
+  --color-purple-900: #280066;
+  --color-purple-alpha-08: #7C4DFF14;
+  --color-purple-alpha-16: #7C4DFF29;
+  --color-purple-alpha-32: #7C4DFF52;
+
+  /* =========================================================================
+     PRIMITIVOS — ESPAÇAMENTOS
+     ========================================================================= */
+  --space-0: 0px;
+  --space-50: 4px;
+  --space-100: 8px;
+  --space-200: 12px;
+  --space-300: 16px;
+  --space-400: 20px;
+  --space-500: 24px;
+  --space-600: 32px;
+  --space-700: 40px;
+  --space-800: 48px;
+  --space-900: 56px;
+  --space-1000: 64px;
+  --space-1200: 80px;
+  --space-1400: 96px;
+
+  /* =========================================================================
+     PRIMITIVOS — BORDER RADIUS
+     ========================================================================= */
+  --radius-prim-0: 0px;
+  --radius-prim-50: 2px;
+  --radius-prim-100: 4px;
+  --radius-prim-200: 8px;
+  --radius-prim-300: 12px;
+  --radius-prim-400: 16px;
+  --radius-prim-500: 20px;
+  --radius-prim-600: 24px;
+  --radius-prim-700: 32px;
+  --radius-prim-full: 9999px;
+
+  /* =========================================================================
+     PRIMITIVOS — TIPOGRAFIA
+     ========================================================================= */
+  --font-size-50: 12px;
+  --font-size-100: 14px;
+  --font-size-200: 16px;
+  --font-size-300: 18px;
+  --font-size-400: 20px;
+  --font-size-500: 24px;
+  --font-size-600: 28px;
+  --font-size-700: 32px;
+  --font-size-800: 40px;
+
+  /* =========================================================================
+     PRIMITIVOS — OPACIDADES
+     ========================================================================= */
+  --opacity-0: 0;
+  --opacity-08: 0.08;
+  --opacity-16: 0.16;
+  --opacity-32: 0.32;
+  --opacity-48: 0.48;
+  --opacity-64: 0.64;
+  --opacity-80: 0.80;
+  --opacity-100: 1;
+
+  /* =========================================================================
+     SEMÂNTICOS — BACKGROUNDS (Dark padrão)
+     ========================================================================= */
+  --bg-primary: #0E0E0E;
+  --bg-secondary: #141519;
+  --bg-tertiary: #1A1A1A;
+  --bg-inverse: #FFFFFF;
+  --bg-overlay: #FFFFFF29;
+  --bg-brand: #3D99FF;
+  --bg-warning: #FFCC40;
+  --bg-danger: #F34F45;
+  --bg-success: #31DD7E;
+  --bg-base-alpha-0: rgba(14, 14, 14, 0);
+
+  /* =========================================================================
+     SEMÂNTICOS — SURFACES
+     ========================================================================= */
+  --surface-primary: #4A4A4A;
+  --surface-secondary: #222222;
+  --surface-tertiary: #1A1A1A;
+  --surface-interactive: #0052CC;
+  --surface-disabled: #1A1A1A;
+  --surface-info: rgba(61, 153, 255, 0.08);
+  --surface-error: rgba(243, 79, 69, 0.08);
+  --surface-warning: rgba(255, 204, 64, 0.08);
+  --surface-success: rgba(79, 226, 144, 0.08);
+  --surface-brand: rgba(0, 82, 204, 0.16);
+
+  /* =========================================================================
+     SEMÂNTICOS — CONTEÚDO (TEXTO)
+     ========================================================================= */
+  --content-primary: #FFFFFF;
+  --content-secondary: #E8E8E8;
+  --content-tertiary: #A4A4A4;
+  --content-disabled: #4A4A4A;
+  --content-inverse: #1A1A1A;
+  --content-info: #65B0FF;
+  --content-warning: #FFCC40;
+  --content-error: #F34F45;
+  --content-success: #4FE290;
+  --content-brand: #3D99FF;
+  --content-on-brand: #FFFFFF;
+
+  /* =========================================================================
+     SEMÂNTICOS — BORDAS
+     ========================================================================= */
+  --border-default: #4A4A4A;
+  --border-subtle: #222222;
+  --border-strong: #A4A4A4;
+  --border-focus: #65B0FF;
+  --border-disabled: #777777;
+
+  /* =========================================================================
+     SEMÂNTICOS — AÇÕES
+     ========================================================================= */
+
+  /* Brand (Azul — primário) */
+  --action-brand-default: #3D99FF;
+  --action-brand-hover: #1E82FF;
+  --action-brand-active: #0066FF;
+  --action-brand-disabled: #0052CC29;
+  --action-brand-alpha: rgba(61, 153, 255, 0.16);
+
+  /* Brand Inverse (em fundo azul) */
+  --action-brand-inverse-default: #FFFFFF;
+  --action-brand-inverse-hover: #E8E8E8;
+  --action-brand-inverse-active: #D2D2D2;
+
+  /* Secondary (Neutro) */
+  --action-secondary-default: #4A4A4A;
+  --action-secondary-hover: #777777;
+  --action-secondary-active: #A4A4A4;
+  --action-secondary-disabled: #1A1A1A;
+  --action-secondary-alpha: rgba(74, 74, 74, 0.16);
+
+  /* Tertiary (Roxo) */
+  --action-tertiary-default: #7C4DFF;
+  --action-tertiary-hover: #6200EA;
+  --action-tertiary-active: #5000CC;
+  --action-tertiary-disabled: #7C4DFF29;
+
+  /* Destructive (Laranja) */
+  --action-destructive-default: #F57C00;
+  --action-destructive-hover: #FF6400;
+  --action-destructive-active: #CC5000;
+  --action-destructive-disabled: #FF640014;
+
+  /* =========================================================================
+     SEMÂNTICOS — CONTEXTO DE TRADING
+     ========================================================================= */
+
+  /* Candlesticks */
+  --context-chart-up: #31DD7E;
+  --context-chart-down: #F34F45;
+
+  /* Preço */
+  --context-trading-up: #4FE290;
+  --context-trading-down: #F34F45;
+
+  /* Long (Compra) */
+  --context-trading-long-text: #4FE290;
+  --context-trading-long-default: rgba(79, 226, 144, 0.08);
+  --context-trading-long-hover: rgba(79, 226, 144, 0.12);
+  --context-trading-long-active: rgba(79, 226, 144, 0.16);
+
+  /* Short (Venda) */
+  --context-trading-short-text: #F34F45;
+  --context-trading-short-default: rgba(243, 79, 69, 0.08);
+  --context-trading-short-hover: rgba(243, 79, 69, 0.12);
+  --context-trading-short-active: rgba(243, 79, 69, 0.16);
+
+  /* Stop Loss */
+  --context-trading-stop-default: rgba(255, 100, 0, 0.16);
+  --context-trading-stop-hover: rgba(255, 100, 0, 0.24);
+  --context-trading-stop-active: rgba(255, 100, 0, 0.32);
+  --context-trading-stop-alpha: rgba(255, 100, 0, 0.08);
+
+  /* =========================================================================
+     SCALE — ESPAÇAMENTOS RESPONSIVOS (Desktop padrão)
+     ========================================================================= */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 20px;
+  --spacing-2xl: 24px;
+  --spacing-3xl: 32px;
+  --spacing-3xl-2: 40px;
+  --spacing-3xl-3: 48px;
+  --spacing-3xl-4: 56px;
+  --spacing-3xl-5: 64px;
+  --spacing-3xl-6: 80px;
+  --spacing-3xl-7: 96px;
+
+  /* =========================================================================
+     SCALE — BORDER RADIUS
+     ========================================================================= */
+  --radius-none: 0px;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* =========================================================================
+     FONTES
+     ========================================================================= */
+  --font-primary: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
+  --font-secondary: var(--font-inter), 'Inter', sans-serif;
+  --font-mono: var(--font-roboto-mono), 'Roboto Mono', monospace;
+
+  /* =========================================================================
+     GRADIENTES DE BRANDING (Site)
+     ========================================================================= */
+  --gradient-text-brand: linear-gradient(90deg, #3D99FF 0%, #FFFFFF 100%);
+  --gradient-text-brand-hero: linear-gradient(90deg, #3D99FF 30%, #FFFFFF 100%);
+  --gradient-bg-hero: linear-gradient(180deg, #0052CC 0%, #0E0E0E 40%);
+  --gradient-bg-fade: linear-gradient(180deg, rgba(14,14,14,0) 0%, #0E0E0E 47%);
+}
+
+/* ==========================================================================
+   LIGHT MODE
+   ========================================================================== */
+[data-theme="light"] {
+  --bg-primary: #EEEEEE;
+  --bg-secondary: #F5F5F5;
+  --bg-tertiary: #FAFAFA;
+  --bg-inverse: #1A1A1A;
+  --bg-overlay: #00000029;
+
+  --surface-primary: #D2D2D2;
+  --surface-secondary: #E8E8E8;
+  --surface-tertiary: #EEEEEE;
+  --surface-interactive: #84BFFF;
+  --surface-disabled: #FAFAFA;
+
+  --content-primary: #1A1A1A;
+  --content-secondary: #222222;
+  --content-tertiary: #4A4A4A;
+  --content-disabled: #777777;
+  --content-inverse: #FFFFFF;
+  --content-brand: #0066FF;
+
+  --border-default: #A4A4A4;
+  --border-subtle: #E8E8E8;
+  --border-strong: #D2D2D2;
+  --border-disabled: #E8E8E8;
+
+  --action-brand-default: #0066FF;
+  --action-brand-hover: #1E82FF;
+  --action-brand-active: #3D99FF;
+}

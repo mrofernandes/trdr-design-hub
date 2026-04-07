@@ -1,0 +1,36 @@
+.copyLabel {
+  font-size: 13px;
+  color: var(--content-tertiary);
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2xl);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--surface-secondary);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  color: var(--content-tertiary);
+  font-family: var(--font-mono);
+}
+
+.viewer {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.content {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--content-secondary);
+  padding: var(--spacing-2xl);
+  white-space: pre-wrap;
+  word-break: break-word;
+  background-color: var(--bg-primary);
+  overflow-x: auto;
+  max-height: 80vh;
+  overflow-y: auto;
+}

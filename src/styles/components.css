@@ -1,0 +1,251 @@
+/* ==========================================================================
+   TRDR Design Hub — Componentes reutilizáveis
+   Todos os valores vêm de CSS vars do design system
+   ========================================================================== */
+
+/* ==========================================================================
+   Card / Surface
+   ========================================================================== */
+.trdr-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-2xl);
+}
+
+.trdr-card-hover {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-2xl);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.trdr-card-hover:hover {
+  border-color: var(--border-default);
+  background-color: var(--bg-tertiary);
+}
+
+/* ==========================================================================
+   Botões
+   ========================================================================== */
+.trdr-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  height: 32px;
+  padding: 0 var(--spacing-lg);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.trdr-btn-primary {
+  background-color: var(--action-brand-default);
+  color: var(--content-inverse);
+}
+
+.trdr-btn-primary:hover {
+  background-color: var(--action-brand-hover);
+}
+
+.trdr-btn-secondary {
+  background-color: var(--action-secondary-default);
+  color: var(--content-primary);
+}
+
+.trdr-btn-secondary:hover {
+  background-color: var(--action-secondary-hover);
+}
+
+.trdr-btn-ghost {
+  background-color: transparent;
+  color: var(--content-tertiary);
+  border: 1px solid var(--border-default);
+}
+
+.trdr-btn-ghost:hover {
+  color: var(--content-primary);
+  border-color: var(--border-strong);
+}
+
+/* ==========================================================================
+   Badge
+   ========================================================================== */
+.trdr-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.trdr-badge-brand {
+  background-color: var(--surface-brand);
+  color: var(--content-brand);
+}
+
+.trdr-badge-success {
+  background-color: var(--surface-success);
+  color: var(--content-success);
+}
+
+.trdr-badge-neutral {
+  background-color: var(--surface-secondary);
+  color: var(--content-tertiary);
+}
+
+.trdr-badge-warning {
+  background-color: var(--surface-warning);
+  color: var(--content-warning);
+}
+
+/* ==========================================================================
+   Input de busca
+   ========================================================================== */
+.trdr-input {
+  width: 100%;
+  height: 36px;
+  padding: 0 var(--spacing-md);
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--content-primary);
+  font-family: var(--font-secondary);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.trdr-input::placeholder {
+  color: var(--content-tertiary);
+}
+
+.trdr-input:focus {
+  border-color: var(--border-focus);
+}
+
+/* ==========================================================================
+   Code block
+   ========================================================================== */
+.trdr-code-block {
+  position: relative;
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-2xl);
+  overflow-x: auto;
+}
+
+.trdr-code-block pre {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--content-secondary);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ==========================================================================
+   Divider
+   ========================================================================== */
+.trdr-divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--border-subtle);
+  margin: var(--spacing-2xl) 0;
+}
+
+/* ==========================================================================
+   Section heading
+   ========================================================================== */
+.trdr-section-title {
+  font-family: var(--font-primary);
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--content-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.trdr-section-subtitle {
+  font-size: 14px;
+  color: var(--content-tertiary);
+  margin-bottom: var(--spacing-3xl);
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   Table
+   ========================================================================== */
+.trdr-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.trdr-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--content-tertiary);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.trdr-table td {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 13px;
+  color: var(--content-secondary);
+  vertical-align: middle;
+}
+
+.trdr-table tr:last-child td {
+  border-bottom: none;
+}
+
+.trdr-table tr:hover td {
+  background-color: var(--bg-tertiary);
+}
+
+/* ==========================================================================
+   Copy button feedback
+   ========================================================================== */
+.trdr-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--content-tertiary);
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.trdr-copy-btn:hover {
+  color: var(--content-primary);
+  background-color: var(--surface-secondary);
+  border-color: var(--border-default);
+}
+
+.trdr-copy-btn.copied {
+  color: var(--content-success);
+  background-color: var(--surface-success);
+  border-color: var(--content-success);
+}
