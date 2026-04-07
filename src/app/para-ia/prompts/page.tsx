@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import PromptWizard from '@/components/prompt-generator/PromptWizard'
+import PromptGenerator from '@/components/prompt-generator/PromptGenerator'
 import styles from '../../page-layout.module.css'
 
 export default function PromptsPage() {
@@ -7,15 +7,15 @@ export default function PromptsPage() {
     <div className={styles.page}>
       <div className={styles.header}>
         <div>
-          <h1 className={styles.title}>Gerador de Prompts</h1>
+          <h1 className={styles.title}>Gerar Prompt para Claude Code</h1>
           <p className={styles.subtitle}>
-            3 passos para criar um prompt completo com os tokens TRDR, specs de componentes e regras absolutas do Design System.
+            Descreva o que você desenvolveu e receba um prompt completo com o Design System TRDR para o Claude Code implementar o visual correto.
           </p>
         </div>
       </div>
 
       <Suspense>
-        <PromptWizard />
+        <PromptGenerator />
       </Suspense>
     </div>
   )
