@@ -2,4 +2,4 @@
 cmds = ["npm run build"]
 
 [start]
-cmd = "HOSTNAME=0.0.0.0 node .next/standalone/server.js"
+cmd = "next start"
