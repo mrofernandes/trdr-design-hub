@@ -19,7 +19,7 @@
 .logo {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   text-decoration: none;
 }
 
@@ -30,9 +30,10 @@
 
 .logoSub {
   font-family: var(--font-secondary);
-  font-size: 11px;
+  font-size: 10px;
+  font-weight: 500;
   color: var(--content-tertiary);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   line-height: 1;
 }
@@ -71,10 +72,12 @@
 .item {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-sm) var(--spacing-lg);
+  padding: 6px var(--spacing-lg);
+  font-family: var(--font-secondary);
   font-size: 13px;
-  color: var(--content-secondary);
+  font-weight: 400;
+  letter-spacing: 0.1px;
+  color: var(--content-tertiary);
   border-radius: 0;
   text-decoration: none;
   transition: color 0.12s ease, background-color 0.12s ease;
@@ -82,13 +85,14 @@
 }
 
 .item:hover {
-  color: var(--content-primary);
+  color: var(--content-secondary);
   background-color: var(--surface-secondary);
 }
 
 .item.active {
-  color: var(--action-brand-default);
+  color: var(--content-primary);
   background-color: rgba(61, 153, 255, 0.06);
+  font-weight: 500;
 }
 
 .item.active::before {
@@ -102,17 +106,6 @@
   border-radius: 0 var(--radius-full) var(--radius-full) 0;
 }
 
-.icon {
-  font-size: 12px;
-  width: 16px;
-  text-align: center;
-  flex-shrink: 0;
-  color: var(--content-tertiary);
-}
-
-.item.active .icon {
-  color: var(--action-brand-default);
-}
 
 .footer {
   padding: var(--spacing-lg);

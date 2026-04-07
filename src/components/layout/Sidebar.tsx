@@ -8,40 +8,40 @@ const navGroups = [
   {
     label: 'Visão Geral',
     items: [
-      { href: '/', label: 'Home', icon: '⬡' },
+      { href: '/', label: 'Home' },
     ],
   },
   {
     label: 'Tokens',
     items: [
-      { href: '/tokens', label: 'Todos os Tokens', icon: '◈' },
-      { href: '/tokens/primitivos', label: 'Primitivos', icon: '·' },
-      { href: '/tokens/semanticos', label: 'Semânticos', icon: '·' },
+      { href: '/tokens', label: 'Todos os Tokens' },
+      { href: '/tokens/primitivos', label: 'Primitivos' },
+      { href: '/tokens/semanticos', label: 'Semânticos' },
     ],
   },
   {
     label: 'Componentes',
     items: [
-      { href: '/componentes', label: 'Catálogo', icon: '◧' },
+      { href: '/componentes', label: 'Catálogo' },
     ],
   },
   {
     label: 'Padrões',
     items: [
-      { href: '/layouts', label: 'Layouts', icon: '▤' },
+      { href: '/layouts', label: 'Layouts' },
     ],
   },
   {
     label: 'Para IA',
     items: [
-      { href: '/para-ia', label: 'Guia & Regras', icon: '✦' },
-      { href: '/para-ia/prompts', label: 'Gerar Prompt', icon: '▶' },
+      { href: '/para-ia', label: 'Guia & Regras' },
+      { href: '/para-ia/prompts', label: 'Gerar Prompt' },
     ],
   },
   {
     label: 'Referência',
     items: [
-      { href: '/design-md', label: 'design.md completo', icon: '⊡' },
+      { href: '/design-md', label: 'design.md' },
     ],
   },
 ]
@@ -78,7 +78,6 @@ export default function Sidebar() {
                       href={item.href}
                       className={`${styles.item} ${isActive ? styles.active : ''}`}
                     >
-                      <span className={styles.icon}>{item.icon}</span>
                       {item.label}
                     </Link>
                   </li>

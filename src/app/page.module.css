@@ -1,45 +1,52 @@
 .page {
-  padding: var(--spacing-3xl);
-  max-width: 1100px;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-3xl);
 }
 
-/* Hero */
+/* =====================================================================
+   Hero — gradient do site TRDR (surface.interactive → bg.primary)
+   seção 6.3 design.md
+   ===================================================================== */
 .hero {
+  padding: 64px var(--spacing-3xl) 56px;
+  background: linear-gradient(
+    to bottom,
+    var(--surface-interactive) 0%,
+    var(--bg-primary) 60%
+  );
   display: flex;
   flex-direction: column;
   gap: var(--spacing-lg);
-  padding: var(--spacing-3xl) 0;
   border-bottom: 1px solid var(--border-subtle);
-}
-
-.heroLabel {
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--content-brand);
 }
 
 .heroTitle {
   font-family: var(--font-primary);
   font-size: 48px;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: -0.8px;
   line-height: 1.1;
   color: var(--content-primary);
+  margin: 0;
 }
 
+/* Gradiente de texto — seção 6.3 design.md, variante Hero */
 .heroAccent {
-  color: var(--action-brand-default);
+  background: linear-gradient(90deg, var(--action-brand-default) 30%, #FFFFFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .heroDesc {
+  font-family: var(--font-secondary);
   font-size: 16px;
-  color: var(--content-tertiary);
+  font-weight: 500;
+  color: var(--content-secondary);
   line-height: 1.6;
-  max-width: 600px;
+  max-width: 560px;
+  letter-spacing: -0.3px;
+  margin: 0;
 }
 
 .heroActions {
@@ -49,69 +56,119 @@
   margin-top: var(--spacing-sm);
 }
 
-/* Stats */
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--spacing-lg);
+/* =====================================================================
+   Conteúdo abaixo do hero
+   ===================================================================== */
+.content {
+  padding: var(--spacing-3xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3xl);
+  max-width: 1100px;
 }
 
-/* Cards grid */
+/* =====================================================================
+   Grid de acesso rápido — hierarquia editorial, não grade de iguais
+   ===================================================================== */
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto auto;
   gap: var(--spacing-lg);
 }
 
-.cardIcon {
-  font-size: 20px;
-  color: var(--content-tertiary);
-  margin-bottom: var(--spacing-md);
-  display: block;
-}
-
-.cardTitle {
-  font-family: var(--font-secondary);
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--content-primary);
-  margin-bottom: var(--spacing-sm);
-}
-
-.cardDesc {
-  font-size: 13px;
-  color: var(--content-tertiary);
-  line-height: 1.5;
-}
-
-/* Callout */
-.callout {
+.cardPrimary {
+  grid-column: 1 / -1;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--spacing-2xl);
-  padding: var(--spacing-2xl);
-  background: linear-gradient(135deg, rgba(61, 153, 255, 0.08) 0%, rgba(61, 153, 255, 0.02) 100%);
-  border: 1px solid rgba(61, 153, 255, 0.2);
+  padding: var(--spacing-2xl) var(--spacing-3xl);
+  background: linear-gradient(135deg, rgba(61,153,255,0.10) 0%, rgba(61,153,255,0.03) 100%);
+  border: 1px solid var(--border-focus);
   border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
-.calloutContent {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
+.cardPrimary:hover {
+  border-color: var(--action-brand-default);
+  background: linear-gradient(135deg, rgba(61,153,255,0.15) 0%, rgba(61,153,255,0.05) 100%);
 }
 
-.calloutTitle {
+.cardPrimaryLabel {
   font-family: var(--font-secondary);
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--content-primary);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--content-brand);
+  margin-bottom: var(--spacing-xs);
 }
 
-.calloutDesc {
+.cardPrimaryTitle {
+  font-family: var(--font-primary);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  color: var(--content-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.cardPrimaryDesc {
+  font-family: var(--font-secondary);
   font-size: 13px;
   color: var(--content-tertiary);
   line-height: 1.5;
-  max-width: 500px;
+  max-width: 480px;
+  margin: 0;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-2xl);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.card:hover {
+  border-color: var(--border-default);
+  background-color: var(--bg-tertiary);
+}
+
+.cardCategory {
+  font-family: var(--font-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--content-tertiary);
+}
+
+.cardTitle {
+  font-family: var(--font-primary);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  color: var(--content-primary);
+}
+
+.cardDesc {
+  font-family: var(--font-secondary);
+  font-size: 13px;
+  color: var(--content-tertiary);
+  line-height: 1.5;
+}
+
+.cardCount {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--content-brand);
+  margin-top: auto;
+  padding-top: var(--spacing-md);
 }
