@@ -1,38 +1,40 @@
 .page {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
-/* =====================================================================
-   Hero — gradient do site TRDR (surface.interactive → bg.primary)
-   seção 6.3 design.md
-   ===================================================================== */
+/* ——— Hero ——— */
 .hero {
-  padding: 64px var(--spacing-3xl) 56px;
+  padding: 104px 64px;
   background: linear-gradient(
     to bottom,
     var(--surface-interactive) 0%,
-    var(--bg-primary) 60%
+    var(--bg-primary) 39.9%
   );
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
+  gap: 16px;
   border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
 }
 
 .heroTitle {
   font-family: var(--font-primary);
-  font-size: 48px;
-  font-weight: 700;
-  letter-spacing: -0.8px;
+  font-size: 56px;
+  font-weight: 500;
+  letter-spacing: 0px;
   line-height: 1.1;
-  color: var(--content-primary);
   margin: 0;
+  max-width: 745px;
 }
 
-/* Gradiente de texto — seção 6.3 design.md, variante Hero */
-.heroAccent {
-  background: linear-gradient(90deg, var(--action-brand-default) 30%, #FFFFFF 100%);
+.heroTitleWhite {
+  color: #ffffff;
+}
+
+.heroTitleGradient {
+  background: linear-gradient(90deg, #ffffff 58%, #3D99FF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -40,135 +42,203 @@
 
 .heroDesc {
   font-family: var(--font-secondary);
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 400;
   color: var(--content-secondary);
-  line-height: 1.6;
-  max-width: 560px;
-  letter-spacing: -0.3px;
+  line-height: 1.4;
+  max-width: 670px;
   margin: 0;
 }
 
 .heroActions {
   display: flex;
-  gap: var(--spacing-md);
+  gap: 16px;
   align-items: center;
-  margin-top: var(--spacing-sm);
+  margin-top: 8px;
 }
 
-/* =====================================================================
-   Conteúdo abaixo do hero
-   ===================================================================== */
-.content {
-  padding: var(--spacing-3xl);
+.btnPrimary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  padding: 16px 20px;
+  background-color: var(--action-brand-inverse-default);
+  border: 0.5px solid var(--action-brand-inverse-default);
+  border-radius: 8px;
+  font-family: var(--font-secondary);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--content-primary);
+  text-decoration: none;
+  transition: background-color 0.12s ease, border-color 0.12s ease;
+  white-space: nowrap;
+}
+
+.btnPrimary:hover {
+  background-color: var(--action-brand-inverse-hover);
+  border-color: var(--action-brand-inverse-hover);
+}
+
+.btnSecondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  padding: 16px 20px;
+  background-color: transparent;
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  font-family: var(--font-secondary);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--content-secondary);
+  text-decoration: none;
+  transition: border-color 0.12s ease, color 0.12s ease;
+  white-space: nowrap;
+}
+
+.btnSecondary:hover {
+  border-color: var(--border-strong);
+  color: var(--content-primary);
+}
+
+/* ——— Tabs (pill-style) ——— */
+.tabsBar {
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  padding: 0 64px;
+  flex-shrink: 0;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 12px 8px;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 9999px;
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+  white-space: nowrap;
+  border: none;
+  outline: none;
+}
+
+.tabActive {
+  background-color: var(--action-brand-inverse-default);
+  color: var(--content-primary);
+}
+
+.tabInactive {
+  background-color: var(--surface-secondary);
+  color: var(--content-tertiary);
+}
+
+.tabInactive:hover {
+  color: var(--content-secondary);
+}
+
+/* ——— Cards ——— */
+.cardsSection {
+  padding: 48px 64px;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-3xl);
-  max-width: 1100px;
+  gap: 32px;
 }
 
-/* =====================================================================
-   Grid de acesso rápido — hierarquia editorial, não grade de iguais
-   ===================================================================== */
 .grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto auto;
-  gap: var(--spacing-lg);
-}
-
-.cardPrimary {
-  grid-column: 1 / -1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-2xl);
-  padding: var(--spacing-2xl) var(--spacing-3xl);
-  background: linear-gradient(135deg, rgba(61,153,255,0.10) 0%, rgba(61,153,255,0.03) 100%);
-  border: 1px solid var(--border-focus);
-  border-radius: var(--radius-md);
-  text-decoration: none;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
-}
-
-.cardPrimary:hover {
-  border-color: var(--action-brand-default);
-  background: linear-gradient(135deg, rgba(61,153,255,0.15) 0%, rgba(61,153,255,0.05) 100%);
-}
-
-.cardPrimaryLabel {
-  font-family: var(--font-secondary);
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--content-brand);
-  margin-bottom: var(--spacing-xs);
-}
-
-.cardPrimaryTitle {
-  font-family: var(--font-primary);
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: -0.8px;
-  color: var(--content-primary);
-  margin-bottom: var(--spacing-sm);
-}
-
-.cardPrimaryDesc {
-  font-family: var(--font-secondary);
-  font-size: 13px;
-  color: var(--content-tertiary);
-  line-height: 1.5;
-  max-width: 480px;
-  margin: 0;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-2xl);
-  background-color: var(--bg-secondary);
+  gap: 8px;
+  height: 312px;
+  padding: 32px;
+  background-color: var(--surface-tertiary);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
+  border-radius: 12px;
   text-decoration: none;
+  overflow: hidden;
   transition: border-color 0.15s ease, background-color 0.15s ease;
+  justify-content: center;
 }
 
 .card:hover {
   border-color: var(--border-default);
-  background-color: var(--bg-tertiary);
+  background-color: var(--surface-secondary);
 }
 
 .cardCategory {
   font-family: var(--font-secondary);
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--content-tertiary);
+  letter-spacing: 0.02em;
+  color: var(--content-brand);
+  line-height: normal;
 }
 
 .cardTitle {
   font-family: var(--font-primary);
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: -0.3px;
-  color: var(--content-primary);
+  font-size: 38px;
+  font-weight: 500;
+  letter-spacing: 0px;
+  line-height: 57px;
+  color: var(--content-secondary);
 }
 
 .cardDesc {
   font-family: var(--font-secondary);
-  font-size: 13px;
-  color: var(--content-tertiary);
-  line-height: 1.5;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--content-secondary);
+  line-height: 1.2;
 }
 
-.cardCount {
+.cardMeta {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--content-brand);
   margin-top: auto;
-  padding-top: var(--spacing-md);
+}
+
+/* ——— Footer text + link ——— */
+.footerText {
+  border-top: 1px solid var(--border-subtle);
+  padding: 24px 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footerParagraph {
+  font-family: var(--font-secondary);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--content-primary);
+  text-align: center;
+}
+
+.footerLink {
+  color: var(--content-brand);
+  text-decoration: none;
+}
+
+.footerLink:hover {
+  text-decoration: underline;
 }

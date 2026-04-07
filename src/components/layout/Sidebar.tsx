@@ -8,40 +8,40 @@ const navGroups = [
   {
     label: 'Visão Geral',
     items: [
-      { href: '/', label: 'Home' },
+      { href: '/', label: 'Home', icon: 'home' },
     ],
   },
   {
     label: 'Tokens',
     items: [
-      { href: '/tokens', label: 'Todos os Tokens' },
-      { href: '/tokens/primitivos', label: 'Primitivos' },
-      { href: '/tokens/semanticos', label: 'Semânticos' },
+      { href: '/tokens', label: 'Todos os Tokens', icon: 'palette' },
+      { href: '/tokens/primitivos', label: 'Primitivos', icon: 'grain' },
+      { href: '/tokens/semanticos', label: 'Semânticos', icon: 'join_left' },
     ],
   },
   {
     label: 'Componentes',
     items: [
-      { href: '/componentes', label: 'Catálogo' },
+      { href: '/componentes', label: 'Catálogo', icon: 'widgets' },
     ],
   },
   {
     label: 'Padrões',
     items: [
-      { href: '/layouts', label: 'Layouts' },
+      { href: '/layouts', label: 'Layouts', icon: 'view_quilt' },
     ],
   },
   {
     label: 'Para IA',
     items: [
-      { href: '/para-ia', label: 'Guia & Regras' },
-      { href: '/para-ia/prompts', label: 'Gerar Prompt' },
+      { href: '/para-ia', label: 'Guia & Regras', icon: 'smart_toy' },
+      { href: '/para-ia/prompts', label: 'Gerar Prompt', icon: 'auto_awesome' },
     ],
   },
   {
     label: 'Referência',
     items: [
-      { href: '/design-md', label: 'design.md' },
+      { href: '/design-md', label: 'design.md', icon: 'article' },
     ],
   },
 ]
@@ -78,6 +78,7 @@ export default function Sidebar() {
                       href={item.href}
                       className={`${styles.item} ${isActive ? styles.active : ''}`}
                     >
+                      <span className={styles.icon}>{item.icon}</span>
                       {item.label}
                     </Link>
                   </li>

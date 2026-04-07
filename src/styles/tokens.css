@@ -243,10 +243,10 @@
   --action-brand-disabled: #0052CC29;
   --action-brand-alpha: rgba(61, 153, 255, 0.16);
 
-  /* Brand Inverse (em fundo azul) */
-  --action-brand-inverse-default: #FFFFFF;
-  --action-brand-inverse-hover: #E8E8E8;
-  --action-brand-inverse-active: #D2D2D2;
+  /* Brand Inverse (botão primário sólido azul) */
+  --action-brand-inverse-default: #0066FF;
+  --action-brand-inverse-hover: #1E82FF;
+  --action-brand-inverse-active: #0052CC;
 
   /* Secondary (Neutro) */
   --action-secondary-default: #4A4A4A;
