@@ -34,7 +34,8 @@ export interface SemanticToken {
   token: string
   cssVar: string
   dark: string
-  base: string
+  light: string
+  description: string
 }
 
 // ============================================================
@@ -167,30 +168,39 @@ export function parsePrimitiveSubsections(): PrimitiveSubsection[] {
 // ============================================================
 
 /**
- * Retorna os tokens semânticos da Seção 2 do design.md.
- * Tabela: Token | CSS Variable | Dark | Base Primitiva
+ * Retorna todos os tokens semânticos da Seção 2 do design.md.
+ * Tabela: Token | CSS Variable | Dark | Light | Descrição
+ * Parseia todas as tabelas da seção (múltiplos subgrupos).
  */
 export function parseSemanticTokens(): SemanticToken[] {
   const content = readDesignMd()
 
-  const sec2Match = content.match(/^## 2\. Tokens Semânticos[\s\S]*?([\s\S]*?)(?=^## \d+\.|\z)/m)
-  if (!sec2Match) return []
+  const sec2Start = content.indexOf('## 2. Tokens Semânticos')
+  if (sec2Start === -1) return []
 
-  const tableMatch = content
-    .slice(content.indexOf('## 2.'))
-    .match(/\|.+\|(\n\|[-:\s|]+\|)+(\n\|.+\|)*/g)
+  const sec3Start = content.indexOf('\n## 3.', sec2Start)
+  const sec2 = sec3Start > 0
+    ? content.slice(sec2Start, sec3Start)
+    : content.slice(sec2Start)
 
-  if (!tableMatch) return []
+  const tableMatches = sec2.match(/\|.+\|(\n\|[-:\s|]+\|)+(\n\|.+\|)*/g) || []
 
-  const rows = parseTable(tableMatch[0])
-  return rows
-    .filter(r => r.length >= 3)
-    .map(r => ({
-      token: r[0],
-      cssVar: r[1],
-      dark: r[2],
-      base: r[3] ?? '',
-    }))
+  const result: SemanticToken[] = []
+  for (const table of tableMatches) {
+    const rows = parseTable(table)
+    for (const r of rows) {
+      if (r.length >= 3 && r[0] && r[1]) {
+        result.push({
+          token: r[0],
+          cssVar: r[1],
+          dark: r[2],
+          light: r[3] ?? '',
+          description: r[4] ?? '',
+        })
+      }
+    }
+  }
+  return result
 }
 
 // ============================================================
