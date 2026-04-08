@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getComponentBySlug, components, COMPONENT_CATEGORY_LABELS } from '@/data/components'
 import CopyButton from '@/components/ui/CopyButton'
+import ComponentPreview from '@/components/ui/ComponentPreview'
 import styles from './component-detail.module.css'
 import pageStyles from '../../page-layout.module.css'
 
@@ -42,6 +43,14 @@ export default async function ComponentDetailPage({ params }: PageProps) {
       </div>
 
       <div className={styles.grid}>
+        {/* Preview ao vivo */}
+        {comp.implemented && (
+          <section className={styles.section}>
+            <h2 className={styles.sectionTitle}>Preview</h2>
+            <ComponentPreview slug={comp.slug} />
+          </section>
+        )}
+
         {/* Dimensões */}
         {comp.dimensions.length > 0 && (
           <section className={styles.section}>

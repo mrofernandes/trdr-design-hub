@@ -6,7 +6,7 @@
 
 /* ——— Hero ——— */
 .hero {
-  padding: 104px 64px;
+  padding: 96px 56px 32px;
   background: linear-gradient(
     to bottom,
     var(--surface-interactive) 0%,
@@ -26,18 +26,7 @@
   letter-spacing: 0px;
   line-height: 1.1;
   margin: 0;
-  max-width: 745px;
-}
-
-.heroTitleWhite {
-  color: #ffffff;
-}
-
-.heroTitleGradient {
-  background: linear-gradient(90deg, #ffffff 58%, #3D99FF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--content-primary);
 }
 
 .heroDesc {
@@ -46,7 +35,6 @@
   font-weight: 400;
   color: var(--content-secondary);
   line-height: 1.4;
-  max-width: 670px;
   margin: 0;
 }
 
@@ -61,7 +49,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 200px;
+  min-width: 180px;
   padding: 16px 20px;
   background-color: var(--action-brand-inverse-default);
   border: 0.5px solid var(--action-brand-inverse-default);
@@ -84,7 +72,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 200px;
+  min-width: 180px;
   padding: 16px 20px;
   background-color: transparent;
   border: 1px solid var(--border-default);
@@ -103,63 +91,14 @@
   color: var(--content-primary);
 }
 
-/* ——— Tabs (pill-style) ——— */
-.tabsBar {
-  border-bottom: 1px solid var(--border-subtle);
-  display: flex;
-  align-items: center;
-  padding: 0 64px;
-  flex-shrink: 0;
-}
-
-.tabs {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  padding: 12px 8px;
-}
-
-.tab {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 12px;
-  border-radius: 9999px;
-  font-family: var(--font-secondary);
-  font-size: 14px;
-  font-weight: 400;
-  cursor: pointer;
-  transition: background-color 0.12s ease, color 0.12s ease;
-  white-space: nowrap;
-  border: none;
-  outline: none;
-}
-
-.tabActive {
-  background-color: var(--action-brand-inverse-default);
-  color: var(--content-primary);
-}
-
-.tabInactive {
-  background-color: var(--surface-secondary);
-  color: var(--content-tertiary);
-}
-
-.tabInactive:hover {
-  color: var(--content-secondary);
-}
-
 /* ——— Cards ——— */
 .cardsSection {
-  padding: 48px 64px;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
+  padding: 48px 56px;
 }
 
 .grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-wrap: wrap;
   gap: 16px;
 }
 
@@ -167,15 +106,15 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  height: 312px;
-  padding: 32px;
+  flex: 1 1 0;
+  min-width: 250px;
+  padding: 24px;
   background-color: var(--surface-tertiary);
   border: 1px solid var(--border-subtle);
   border-radius: 12px;
   text-decoration: none;
   overflow: hidden;
   transition: border-color 0.15s ease, background-color 0.15s ease;
-  justify-content: center;
 }
 
 .card:hover {
@@ -183,44 +122,38 @@
   background-color: var(--surface-secondary);
 }
 
-.cardCategory {
-  font-family: var(--font-secondary);
-  font-size: 12px;
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
+.cardIcon {
+  font-family: 'Material Symbols Outlined';
+  font-size: 44px;
+  font-weight: 100;
+  font-style: normal;
   color: var(--content-brand);
-  line-height: normal;
+  line-height: 1;
+  font-variation-settings: 'FILL' 0, 'GRAD' 0;
 }
 
 .cardTitle {
   font-family: var(--font-primary);
-  font-size: 38px;
+  font-size: 26px;
   font-weight: 500;
   letter-spacing: 0px;
-  line-height: 57px;
+  line-height: 1.1;
   color: var(--content-secondary);
 }
 
 .cardDesc {
   font-family: var(--font-secondary);
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 400;
   color: var(--content-secondary);
   line-height: 1.2;
-}
-
-.cardMeta {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--content-brand);
-  margin-top: auto;
+  margin: 0;
 }
 
 /* ——— Footer text + link ——— */
 .footerText {
   border-top: 1px solid var(--border-subtle);
-  padding: 24px 64px;
+  padding: 24px 56px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -232,6 +165,7 @@
   font-weight: 500;
   color: var(--content-primary);
   text-align: center;
+  margin: 0;
 }
 
 .footerLink {

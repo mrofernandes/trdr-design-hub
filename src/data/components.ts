@@ -53,6 +53,7 @@ export interface DesignComponent {
   tokens: TokenUsage[]
   anatomy?: string
   notes?: string
+  implemented?: boolean
 }
 
 export const components: DesignComponent[] = [
@@ -86,6 +87,7 @@ export const components: DesignComponent[] = [
     anatomy: `[Icon?] [Label] [Icon?]
 Padding: 8px horizontal (Default) / 12px (Large)`,
     notes: 'Variante "Long" e "Short" são botões de largura fixa pré-definida para contextos de formulário de trading.',
+    implemented: true,
   },
   {
     slug: 'text-input',
@@ -115,6 +117,7 @@ Padding: 8px horizontal (Default) / 12px (Large)`,
       { property: 'Placeholder', token: 'content.tertiary', value: '#A4A4A4' },
     ],
     notes: 'Quick Action é uma variante compacta para inputs em toolbars e painéis de trading.',
+    implemented: true,
   },
   {
     slug: 'dropdown',
@@ -238,6 +241,7 @@ Split visual com divider vertical interno`,
     anatomy: `[Container radius-full bg surface.secondary]
   └── [Tab 1] [Tab 2] [Tab N...]
       Padding: 2px no container`,
+    implemented: true,
   },
   {
     slug: 'tooltip',
@@ -438,6 +442,7 @@ Altura: 56px | Padding: 16px H / 8px V`,
       { property: 'Tab inativa text', token: 'content.tertiary', value: '#A4A4A4' },
     ],
     notes: 'Estilo 2 de abas: fundo na tab ativa. Diferente do header-window (bottom-border) e pill tabs.',
+    implemented: true,
   },
   {
     slug: 'sidebar-icon',
@@ -472,6 +477,7 @@ Altura: 56px | Padding: 16px H / 8px V`,
       { property: 'BG hover', token: 'surface.secondary', value: '#222222' },
       { property: 'Text', token: 'content.secondary', value: '#E8E8E8' },
     ],
+    implemented: true,
   },
   {
     slug: 'menu-lateral',
@@ -682,6 +688,26 @@ Altura: 56px | Padding: 16px H / 8px V`,
       { property: 'Título', token: 'content.primary', value: '#FFFFFF' },
       { property: 'Meta info', token: 'content.tertiary', value: '#A4A4A4' },
     ],
+  },
+  {
+    slug: 'card',
+    name: 'Card',
+    figmaId: '—',
+    category: 'outros',
+    description: 'Card de conteúdo — container com borda, padding e hover. Usado como base para cards de navegação e informação no Design Hub.',
+    props: [
+      { name: 'Variant', type: 'enum', values: ['Default', 'With Icon'] },
+    ],
+    dimensions: [{ label: 'Default', height: 'auto' }],
+    tokens: [
+      { property: 'Background', token: 'surface.tertiary', value: '#1A1A1A' },
+      { property: 'Border', token: 'border.subtle', value: '#222222' },
+      { property: 'Radius', token: 'scale.radius.md', value: '12px' },
+      { property: 'Padding', token: 'scale.spacing.2xl', value: '24px' },
+    ],
+    anatomy: `[Icon? 44px brand]\n[Title H-6]\n[Description B-3]`,
+    notes: 'Hover: border-color passa para border.default, background para surface.secondary.',
+    implemented: true,
   },
   {
     slug: 'componente-coringa',

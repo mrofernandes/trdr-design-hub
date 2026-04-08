@@ -18,12 +18,17 @@ export default function ComponentCard({ component }: ComponentCardProps) {
       <p className={styles.desc}>{component.description}</p>
       <div className={styles.footer}>
         <code className={styles.figmaId}>{component.figmaId}</code>
-        {component.dimensions[0] && (
-          <span className={styles.dim}>
-            {component.dimensions[0].width && `${component.dimensions[0].width} × `}
-            {component.dimensions[0].height}
-          </span>
-        )}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          {component.implemented && (
+            <span className="trdr-badge trdr-badge-success">Implementado</span>
+          )}
+          {component.dimensions[0] && (
+            <span className={styles.dim}>
+              {component.dimensions[0].width && `${component.dimensions[0].width} × `}
+              {component.dimensions[0].height}
+            </span>
+          )}
+        </div>
       </div>
     </Link>
   )

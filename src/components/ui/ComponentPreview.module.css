@@ -1,0 +1,104 @@
+.wrapper {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.previewInner {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Row layout */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Col layout */
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+}
+
+/* Input wrapper with icon */
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--surface-primary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Tabs */
+.tabsWrapper {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid var(--border-subtle);
+  overflow-x: auto;
+}
+
+.tabItem {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  cursor: pointer;
+}
+
+.tabUnderline {
+  height: 2px;
+  background-color: var(--action-brand-active);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+/* Menu items */
+.menuList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 220px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 8px;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.1s;
+}
+
+.menuItem:hover,
+.menuItem[data-active='true'] {
+  background-color: var(--surface-secondary);
+}
+
+/* Card examples */
+.cardExample {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1 1 0;
+  min-width: 160px;
+  padding: 20px;
+}
