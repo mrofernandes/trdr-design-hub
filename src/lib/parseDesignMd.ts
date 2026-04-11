@@ -6,7 +6,7 @@ import path from 'path'
 // ============================================================
 
 export function readDesignMd(): string {
-  const filePath = path.join(process.cwd(), 'design.md')
+  const filePath = path.join(process.cwd(), 'designtokens.md')
   return fs.readFileSync(filePath, 'utf-8')
 }
 

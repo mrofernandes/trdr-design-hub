@@ -17,6 +17,7 @@ const navGroups = [
       { href: '/tokens', label: 'Todos os Tokens', icon: 'palette' },
       { href: '/tokens/primitivos', label: 'Primitivos', icon: 'grain' },
       { href: '/tokens/semanticos', label: 'Semânticos', icon: 'join_left' },
+      { href: '/tokens/tipografia', label: 'Tipografia', icon: 'text_fields' },
     ],
   },
   {
@@ -41,7 +42,7 @@ const navGroups = [
   {
     label: 'Referência',
     items: [
-      { href: '/design-md', label: 'design.md', icon: 'article' },
+      { href: '/design-md', label: 'designtokens.md', icon: 'article' },
     ],
   },
 ]
@@ -90,8 +91,8 @@ export default function Sidebar() {
       </nav>
 
       <div className={styles.footer}>
-        <span className={styles.version}>v1.4</span>
-        <span className={styles.versionLabel}>design.md</span>
+        <span className={styles.version}>v1.5</span>
+        <span className={styles.versionLabel}>designtokens.md</span>
       </div>
     </aside>
   )

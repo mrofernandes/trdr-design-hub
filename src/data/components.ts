@@ -42,6 +42,13 @@ export interface TokenUsage {
   value: string
 }
 
+export interface ComponentCode {
+  html?: string      // HTML + CSS inline/classes
+  css?: string       // CSS Module usando tokens TRDR
+  react?: string     // Componente React (TSX + CSS Module)
+  prompt?: string    // Prompt otimizado para Claude Code
+}
+
 export interface DesignComponent {
   slug: string
   name: string
@@ -54,6 +61,7 @@ export interface DesignComponent {
   anatomy?: string
   notes?: string
   implemented?: boolean
+  code?: ComponentCode
 }
 
 export const components: DesignComponent[] = [
@@ -88,6 +96,122 @@ export const components: DesignComponent[] = [
 Padding: 8px horizontal (Default) / 12px (Large)`,
     notes: 'Variante "Long" e "Short" são botões de largura fixa pré-definida para contextos de formulário de trading.',
     implemented: true,
+    code: {
+      html: `<button class="btn btn-primary">Label</button>
+<button class="btn btn-primary btn-lg">Label Large</button>
+<button class="btn btn-secondary">Secundário</button>
+<button class="btn btn-ghost">Ghost</button>
+<button class="btn btn-destructive">Destructive</button>`,
+      css: `/* Button — Design System TRDR */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 8px;
+  height: 24px;
+  border: none;
+  border-radius: var(--scale-radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font-inter);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+/* Large */
+.btn-lg {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 14px;
+}
+
+/* Primary */
+.btn-primary {
+  background: var(--action-brand-default);
+  color: var(--content-inverse);
+}
+.btn-primary:hover  { background: var(--action-brand-hover); }
+.btn-primary:active { background: var(--action-brand-active); }
+.btn-primary:disabled { background: var(--action-brand-disabled); }
+
+/* Secondary */
+.btn-secondary {
+  background: var(--action-secondary-default);
+  color: var(--content-primary);
+}
+.btn-secondary:hover  { background: var(--action-secondary-hover); }
+.btn-secondary:active { background: var(--action-secondary-active); }
+.btn-secondary:disabled { background: var(--action-secondary-disabled); }
+
+/* Ghost */
+.btn-ghost {
+  background: transparent;
+  color: var(--content-secondary);
+  border: 1px solid var(--border-subtle);
+}
+.btn-ghost:hover { background: var(--surface-secondary); border-color: var(--border-default); }
+
+/* Destructive */
+.btn-destructive {
+  background: var(--action-destructive-default);
+  color: var(--content-inverse);
+}
+.btn-destructive:hover  { background: var(--action-destructive-hover); }
+.btn-destructive:active { background: var(--action-destructive-active); }
+.btn-destructive:disabled { background: var(--action-destructive-disabled); }`,
+      react: `interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary' | 'ghost' | 'destructive'
+  size?: 'default' | 'lg'
+  children: React.ReactNode
+}
+
+export function Button({
+  variant = 'primary',
+  size = 'default',
+  children,
+  className = '',
+  ...props
+}: ButtonProps) {
+  return (
+    <button
+      className={\`btn btn-\${variant}\${size === 'lg' ? ' btn-lg' : ''} \${className}\`}
+      {...props}
+    >
+      {children}
+    </button>
+  )
+}
+
+/* Uso:
+<Button variant="primary">Confirmar</Button>
+<Button variant="secondary" size="lg">Cancelar</Button>
+<Button variant="ghost" disabled>Desabilitado</Button>
+*/`,
+      prompt: `Implemente o componente Button do Design System TRDR.
+
+Variantes: Primary, Secondary, Ghost, Destructive
+Tamanhos: Default (height: 24px, padding: 0 8px), Large (height: 32px, padding: 0 12px)
+Estados: Default, Hover, Pressed, Disabled
+
+Tokens TRDR obrigatórios:
+- Primary BG: var(--action-brand-default) | hover: var(--action-brand-hover) | active: var(--action-brand-active) | disabled: var(--action-brand-disabled)
+- Secondary BG: var(--action-secondary-default) | hover: var(--action-secondary-hover)
+- Destructive BG: var(--action-destructive-default) | hover: var(--action-destructive-hover)
+- Ghost: background transparent, border: 1px solid var(--border-subtle), hover BG: var(--surface-secondary)
+- Text Primary: var(--content-inverse)
+- Text Secondary/Ghost: var(--content-primary) ou var(--content-secondary)
+- Border radius: var(--scale-radius-sm)
+- Font: 12px (default) / 14px (large), weight 500, var(--font-inter)
+
+Implemente como componente React com CSS Module. Use CSS custom properties do TRDR. O resultado deve ser pixel-perfect em relação ao Figma (Figma ID: 1318:749).`,
+    },
   },
   {
     slug: 'text-input',
@@ -708,6 +832,113 @@ Altura: 56px | Padding: 16px H / 8px V`,
     anatomy: `[Icon? 44px brand]\n[Title H-6]\n[Description B-3]`,
     notes: 'Hover: border-color passa para border.default, background para surface.secondary.',
     implemented: true,
+    code: {
+      html: `<a href="/destino" class="card">
+  <span class="card-icon material-symbols-outlined">palette</span>
+  <span class="card-title">Tokens</span>
+  <p class="card-desc">Cores, espaçamentos e tokens semânticos do design system.</p>
+</a>`,
+      css: `/* Card — Design System TRDR */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--scale-spacing-sm);
+  padding: var(--scale-spacing-2xl);
+  background: var(--surface-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--scale-radius-md);
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.card:hover {
+  border-color: var(--border-default);
+  background: var(--surface-secondary);
+}
+
+.card-icon {
+  font-size: 24px;
+  line-height: 1;
+  color: var(--content-brand);
+}
+
+.card-title {
+  font-size: 16px;  /* B-2: 16px, Medium 500 */
+  font-weight: 500;
+  color: var(--content-primary);
+  font-family: var(--font-inter);
+}
+
+.card-desc {
+  font-size: 12px;  /* B-4: 12px, Medium 500 */
+  font-weight: 500;
+  color: var(--content-tertiary);
+  line-height: 1.5;
+  font-family: var(--font-inter);
+}`,
+      react: `interface CardProps {
+  href: string
+  icon?: string          // Material Symbol name
+  title: string
+  description: string
+}
+
+export function Card({ href, icon, title, description }: CardProps) {
+  return (
+    <a href={href} className={styles.card}>
+      {icon && (
+        <span className={\`\${styles.icon} material-symbols-outlined\`}>
+          {icon}
+        </span>
+      )}
+      <span className={styles.title}>{title}</span>
+      <p className={styles.desc}>{description}</p>
+    </a>
+  )
+}
+
+/* Card.module.css:
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--scale-spacing-sm);
+  padding: var(--scale-spacing-2xl);
+  background: var(--surface-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--scale-radius-md);
+  text-decoration: none;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.card:hover {
+  border-color: var(--border-default);
+  background: var(--surface-secondary);
+}
+.icon { font-size: 24px; color: var(--content-brand); }
+.title { font-size: 16px; font-weight: 500; color: var(--content-primary); }
+.desc { font-size: 12px; font-weight: 500; color: var(--content-tertiary); line-height: 1.5; }
+*/`,
+      prompt: `Implemente o componente Card do Design System TRDR.
+
+Estrutura: ícone (opcional, Material Symbols) + título + descrição
+Comportamento: card clicável (link), com hover state
+
+Tokens TRDR obrigatórios:
+- Background: var(--surface-tertiary)
+- Background hover: var(--surface-secondary)
+- Border: 1px solid var(--border-subtle)
+- Border hover: var(--border-default)
+- Border radius: var(--scale-radius-md)
+- Padding: var(--scale-spacing-2xl) (24px desktop)
+- Gap entre elementos: var(--scale-spacing-sm)
+- Ícone: font-size 24px, color var(--content-brand)
+- Título: 16px (B-2), font-weight 500, var(--content-primary)
+- Descrição: 12px (B-4), font-weight 500, var(--content-tertiary), line-height 1.5
+
+Transição: border-color e background-color em 0.15s ease
+
+Implemente como componente React com CSS Module. Use CSS custom properties do TRDR. O resultado deve ser pixel-perfect em relação ao Figma.`,
+    },
   },
   {
     slug: 'componente-coringa',

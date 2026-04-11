@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getComponentBySlug, components, COMPONENT_CATEGORY_LABELS } from '@/data/components'
 import CopyButton from '@/components/ui/CopyButton'
 import ComponentPreview from '@/components/ui/ComponentPreview'
+import CodeBlock from '@/components/ui/CodeBlock'
 import styles from './component-detail.module.css'
 import pageStyles from '../../page-layout.module.css'
 
@@ -48,6 +49,17 @@ export default async function ComponentDetailPage({ params }: PageProps) {
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>Preview</h2>
             <ComponentPreview slug={comp.slug} />
+          </section>
+        )}
+
+        {/* Código copiável */}
+        {comp.code && (
+          <section className={styles.section}>
+            <h2 className={styles.sectionTitle}>Código</h2>
+            <p className={styles.sectionDesc}>
+              Copie e cole no Claude Code para implementar este componente em pixel-perfect usando os tokens TRDR.
+            </p>
+            <CodeBlock code={comp.code} />
           </section>
         )}
 

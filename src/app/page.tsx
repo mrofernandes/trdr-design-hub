@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Card from '@/components/ui/Card'
 import styles from './page.module.css'
 
 const cards = [
@@ -6,7 +7,7 @@ const cards = [
     href: '/para-ia/prompts',
     icon: 'auto_awesome',
     title: 'Gerar Prompt',
-    desc: 'Descreva o que você vai construir e receba um prompt com o design.md embutido.',
+    desc: 'Descreva o que você vai construir e receba um prompt com o designtokens.md embutido.',
   },
   {
     href: '/tokens',
@@ -53,11 +54,14 @@ export default function Home() {
       <section className={styles.cardsSection}>
         <div className={styles.grid}>
           {cards.map(card => (
-            <Link key={card.href} href={card.href} className={styles.card}>
-              <span className={styles.cardIcon}>{card.icon}</span>
-              <span className={styles.cardTitle}>{card.title}</span>
-              <p className={styles.cardDesc}>{card.desc}</p>
-            </Link>
+            <Card
+              key={card.href}
+              href={card.href}
+              icon={card.icon}
+              title={card.title}
+              description={card.desc}
+              className={styles.gridCard}
+            />
           ))}
         </div>
       </section>
@@ -68,7 +72,7 @@ export default function Home() {
           Veja também{' '}
           <Link href="/para-ia" className={styles.footerLink}>Guia &amp; Regras para IA</Link>
           {' '}e{' '}
-          <Link href="/design-md" className={styles.footerLink}>design.md</Link>
+          <Link href="/design-md" className={styles.footerLink}>designtokens.md</Link>
         </p>
       </div>
 

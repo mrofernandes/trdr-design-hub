@@ -57,6 +57,13 @@
   letter-spacing: 0.06em;
 }
 
+.sectionDesc {
+  font-size: 13px;
+  color: var(--content-tertiary);
+  margin: 0;
+  line-height: 1.5;
+}
+
 .values {
   display: flex;
   flex-wrap: wrap;

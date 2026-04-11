@@ -102,52 +102,9 @@
   gap: 16px;
 }
 
-.card {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+/* Overrides para os cards na grid da home */
+.gridCard {
   flex: 1 1 0;
-  min-width: 250px;
-  padding: 24px;
-  background-color: var(--surface-tertiary);
-  border: 1px solid var(--border-subtle);
-  border-radius: 12px;
-  text-decoration: none;
-  overflow: hidden;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
-}
-
-.card:hover {
-  border-color: var(--border-default);
-  background-color: var(--surface-secondary);
-}
-
-.cardIcon {
-  font-family: 'Material Symbols Outlined';
-  font-size: 44px;
-  font-weight: 100;
-  font-style: normal;
-  color: var(--content-brand);
-  line-height: 1;
-  font-variation-settings: 'FILL' 0, 'GRAD' 0;
-}
-
-.cardTitle {
-  font-family: var(--font-primary);
-  font-size: 26px;
-  font-weight: 500;
-  letter-spacing: 0px;
-  line-height: 1.1;
-  color: var(--content-secondary);
-}
-
-.cardDesc {
-  font-family: var(--font-secondary);
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--content-secondary);
-  line-height: 1.2;
-  margin: 0;
 }
 
 /* ——— Footer text + link ——— */
