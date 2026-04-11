@@ -6,12 +6,12 @@
 .card {
   display: flex;
   flex-direction: column;
-  gap: var(--scale-spacing-md);         /* 12px entre os dois containers */
+  gap: var(--spacing-md);              /* 12px entre os dois containers */
   min-width: 250px;
-  padding: var(--scale-spacing-2xl);    /* 24px */
+  padding: var(--spacing-2xl);         /* 24px */
   background: var(--surface-tertiary);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--scale-radius-md); /* 12px */
+  border-radius: var(--spacing-md);    /* 12px */
   text-decoration: none;
   overflow: hidden;
   transition: border-color 0.15s ease, background-color 0.15s ease;
@@ -35,7 +35,7 @@
 /* Quando há footer, adiciona borda inferior ao container1 */
 .hasBorder {
   border-bottom: 1px solid var(--border-subtle);
-  padding-bottom: var(--scale-spacing-md); /* 12px */
+  padding-bottom: var(--spacing-md);   /* 12px */
 }
 
 .header {
@@ -60,6 +60,7 @@
   align-items: center;
   gap: 4px;
   flex-shrink: 0;
+  margin-left: auto;                   /* sempre à direita, com ou sem ícone */
 }
 
 /* H-6: Space Grotesk Medium 500, 26px, line-height 1.1 */

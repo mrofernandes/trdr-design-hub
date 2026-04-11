@@ -120,11 +120,13 @@
 .trdr-badge {
   display: inline-flex;
   align-items: center;
-  height: 20px;
-  padding: 0 var(--spacing-sm);
-  border-radius: var(--radius-sm);
-  font-size: 11px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 5px;
+  font-family: var(--font-secondary);
+  font-size: 12px;
   font-weight: 500;
+  letter-spacing: 0.2px;
   line-height: 1;
   white-space: nowrap;
 }
@@ -132,16 +134,19 @@
 .trdr-badge-brand {
   background-color: var(--surface-brand);
   color: var(--content-brand);
+  border: 1px solid var(--border-subtle);
 }
 
 .trdr-badge-success {
   background-color: var(--surface-success);
   color: var(--content-success);
+  border: 1px solid var(--border-subtle);
 }
 
 .trdr-badge-neutral {
   background-color: var(--surface-secondary);
   color: var(--content-tertiary);
+  border: 1px solid var(--border-subtle);
 }
 
 .trdr-badge-warning {
