@@ -829,27 +829,52 @@ Altura: 56px | Padding: 16px H / 8px V`,
       { property: 'Radius', token: 'scale.radius.md', value: '12px' },
       { property: 'Padding', token: 'scale.spacing.2xl', value: '24px' },
     ],
-    anatomy: `[Icon? 44px brand]\n[Title H-6]\n[Description B-3]`,
-    notes: 'Hover: border-color passa para border.default, background para surface.secondary.',
+    anatomy: `Container 1 (borda inferior quando há footer):\n  [Header: Icon? 44px brand | Badges direita]\n  [Title H-6: Space Grotesk 500, 26px, content/secondary]\n  [Desc B-3: Inter 400, 14px, content/tertiary]\nContainer 2 (footer, opcional):\n  [Figma ID B-4: Inter 500, 12px, content/tertiary | Badges direita]`,
+    notes: 'Hover: border-color passa para border.default, background para surface.secondary. Gap entre containers: scale/spacing/md (12px). Container 1 recebe border-bottom + pb:12px quando há footer.',
     implemented: true,
     code: {
-      html: `<a href="/destino" class="card">
-  <span class="card-icon material-symbols-outlined">palette</span>
-  <span class="card-title">Tokens</span>
-  <p class="card-desc">Cores, espaçamentos e tokens semânticos do design system.</p>
+      html: `<!-- Card com footer (variante componente) — Design System TRDR (Figma: 2316:2462) -->
+<a href="/destino" class="card">
+
+  <!-- Container 1: conteúdo principal -->
+  <div class="card-container1 card-has-footer">
+    <div class="card-header">
+      <!-- Ícone (opcional) -->
+      <span class="card-icon material-symbols-outlined">palette</span>
+      <!-- Badges do header (opcional) -->
+      <div class="card-badges">
+        <span class="trdr-badge trdr-badge-neutral">Tokens</span>
+      </div>
+    </div>
+    <!-- H-6: Space Grotesk 500, 26px -->
+    <span class="card-title">Design Tokens</span>
+    <!-- B-3: Inter 400, 14px, content/tertiary -->
+    <p class="card-desc">Cores, espaçamentos e tokens semânticos do design system.</p>
+  </div>
+
+  <!-- Container 2: footer (opcional) -->
+  <div class="card-footer">
+    <code class="card-figma-id">2316:2462</code>
+    <div class="card-badges">
+      <span class="trdr-badge trdr-badge-success">Implementado</span>
+    </div>
+  </div>
+
 </a>`,
-      css: `/* Card — Design System TRDR */
+      css: `/* Card — Design System TRDR (Figma node: 2316:2462, 380×154) */
 .card {
   display: flex;
   flex-direction: column;
-  gap: var(--scale-spacing-sm);
-  padding: var(--scale-spacing-2xl);
+  gap: var(--scale-spacing-md);          /* 12px entre container1 e footer */
+  min-width: 250px;
+  padding: var(--scale-spacing-2xl);     /* 24px */
   background: var(--surface-tertiary);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--scale-radius-md);
+  border-radius: var(--scale-radius-md); /* 12px */
   text-decoration: none;
-  cursor: pointer;
+  overflow: hidden;
   transition: border-color 0.15s ease, background-color 0.15s ease;
+  cursor: pointer;
 }
 
 .card:hover {
@@ -857,87 +882,202 @@ Altura: 56px | Padding: 16px H / 8px V`,
   background: var(--surface-secondary);
 }
 
+/* Container 1 — conteúdo principal */
+.card-container1 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Borda inferior quando há footer */
+.card-has-footer {
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: var(--scale-spacing-md); /* 12px */
+}
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Material Symbols Outlined — ExtraLight (wght 100) */
 .card-icon {
-  font-size: 24px;
+  font-family: 'Material Symbols Outlined';
+  font-size: 44px;
+  font-style: normal;
   line-height: 1;
   color: var(--content-brand);
+  font-variation-settings: 'FILL' 0, 'GRAD' 0, 'wght' 100, 'opsz' 48;
 }
 
+.card-badges {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+/* H-6: Space Grotesk Medium 500, 26px */
 .card-title {
-  font-size: 16px;  /* B-2: 16px, Medium 500 */
+  font-family: var(--font-primary); /* Space Grotesk */
+  font-size: 26px;
   font-weight: 500;
-  color: var(--content-primary);
-  font-family: var(--font-inter);
+  line-height: 1.1;
+  color: var(--content-secondary);
 }
 
+/* B-3: Inter Regular 400, 14px */
 .card-desc {
-  font-size: 12px;  /* B-4: 12px, Medium 500 */
-  font-weight: 500;
+  font-family: var(--font-secondary); /* Inter */
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
   color: var(--content-tertiary);
-  line-height: 1.5;
-  font-family: var(--font-inter);
+  margin: 0;
+}
+
+/* Container 2 — footer */
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* B-4: Inter Medium 500, 12px, 0.2px tracking */
+.card-figma-id {
+  font-family: var(--font-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  color: var(--content-tertiary);
+  font-style: normal;
 }`,
-      react: `interface CardProps {
+      react: `'use client'
+import Link from 'next/link'
+import styles from './Card.module.css'
+
+interface CardBadge {
+  label: string
+  variant?: 'neutral' | 'brand' | 'success'
+}
+
+interface CardProps {
   href: string
-  icon?: string          // Material Symbol name
+  icon?: string             // Material Symbols Outlined name (ex: 'palette')
   title: string
   description: string
+  headerBadges?: CardBadge[] // badges no header (topo direito)
+  footerLeft?: string        // texto do footer (ex: Figma ID '2316:2462')
+  footerBadges?: CardBadge[] // badges do footer
+  className?: string
 }
 
-export function Card({ href, icon, title, description }: CardProps) {
+export default function Card({
+  href, icon, title, description,
+  headerBadges, footerLeft, footerBadges, className = '',
+}: CardProps) {
+  const hasFooter = footerLeft || (footerBadges && footerBadges.length > 0)
+
   return (
-    <a href={href} className={styles.card}>
-      {icon && (
-        <span className={\`\${styles.icon} material-symbols-outlined\`}>
-          {icon}
-        </span>
+    <Link href={href} className={\`\${styles.card} \${className}\`}>
+
+      {/* Container 1 — conteúdo principal */}
+      <div className={\`\${styles.container1} \${hasFooter ? styles.hasBorder : ''}\`}>
+        <div className={styles.header}>
+          {icon && (
+            <span
+              className={styles.icon}
+              style={{ fontVariationSettings: "'FILL' 0, 'GRAD' 0, 'wght' 100, 'opsz' 48" }}
+            >
+              {icon}
+            </span>
+          )}
+          {headerBadges && headerBadges.length > 0 && (
+            <div className={styles.badges}>
+              {headerBadges.map(b => (
+                <span key={b.label} className={\`trdr-badge trdr-badge-\${b.variant ?? 'neutral'}\`}>
+                  {b.label}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+        <span className={styles.title}>{title}</span>
+        <p className={styles.desc}>{description}</p>
+      </div>
+
+      {/* Container 2 — footer (opcional) */}
+      {hasFooter && (
+        <div className={styles.container2}>
+          {footerLeft && <code className={styles.footerLeft}>{footerLeft}</code>}
+          {footerBadges && footerBadges.length > 0 && (
+            <div className={styles.badges}>
+              {footerBadges.map(b => (
+                <span key={b.label} className={\`trdr-badge trdr-badge-\${b.variant ?? 'neutral'}\`}>
+                  {b.label}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
       )}
-      <span className={styles.title}>{title}</span>
-      <p className={styles.desc}>{description}</p>
-    </a>
+
+    </Link>
   )
 }
 
-/* Card.module.css:
+/* Card.module.css — estrutura dois containers */
+/*
 .card {
-  display: flex;
-  flex-direction: column;
-  gap: var(--scale-spacing-sm);
+  display: flex; flex-direction: column;
+  gap: var(--scale-spacing-md);
   padding: var(--scale-spacing-2xl);
   background: var(--surface-tertiary);
   border: 1px solid var(--border-subtle);
   border-radius: var(--scale-radius-md);
-  text-decoration: none;
+  text-decoration: none; cursor: pointer;
   transition: border-color 0.15s ease, background-color 0.15s ease;
 }
-.card:hover {
-  border-color: var(--border-default);
-  background: var(--surface-secondary);
-}
-.icon { font-size: 24px; color: var(--content-brand); }
-.title { font-size: 16px; font-weight: 500; color: var(--content-primary); }
-.desc { font-size: 12px; font-weight: 500; color: var(--content-tertiary); line-height: 1.5; }
+.card:hover { border-color: var(--border-default); background: var(--surface-secondary); }
+.container1 { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+.hasBorder { border-bottom: 1px solid var(--border-subtle); padding-bottom: var(--scale-spacing-md); }
+.header { display: flex; align-items: flex-start; justify-content: space-between; width: 100%; }
+.icon { font-family: 'Material Symbols Outlined'; font-size: 44px; color: var(--content-brand); }
+.badges { display: flex; align-items: center; gap: 4px; }
+.title { font-family: var(--font-primary); font-size: 26px; font-weight: 500; color: var(--content-secondary); }
+.desc { font-family: var(--font-secondary); font-size: 14px; font-weight: 400; color: var(--content-tertiary); margin: 0; }
+.container2 { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+.footerLeft { font-family: var(--font-secondary); font-size: 12px; font-weight: 500; letter-spacing: 0.2px; color: var(--content-tertiary); }
 */`,
       prompt: `Implemente o componente Card do Design System TRDR.
+Referência Figma: nó 2316:2462 (380×154)
 
-Estrutura: ícone (opcional, Material Symbols) + título + descrição
-Comportamento: card clicável (link), com hover state
+Estrutura de dois containers separados por borda:
+
+Container 1 (conteúdo principal):
+- Header: ícone Material Symbols Outlined 44px ExtraLight (wght 100) em var(--content-brand) à esquerda + badges à direita (opcional)
+- Título H-6: Space Grotesk Medium 500, 26px, line-height 1.1, var(--content-secondary)
+- Descrição B-3: Inter Regular 400, 14px, line-height 1.2, var(--content-tertiary)
+- Quando há footer: recebe border-bottom 1px solid var(--border-subtle) + padding-bottom 12px
+
+Container 2 (footer, opcional):
+- Esquerda: Figma ID em B-4 (Inter Medium 500, 12px, 0.2px tracking, var(--content-tertiary))
+- Direita: badges (trdr-badge-success = implementado, trdr-badge-brand = código)
 
 Tokens TRDR obrigatórios:
-- Background: var(--surface-tertiary)
-- Background hover: var(--surface-secondary)
-- Border: 1px solid var(--border-subtle)
-- Border hover: var(--border-default)
-- Border radius: var(--scale-radius-md)
-- Padding: var(--scale-spacing-2xl) (24px desktop)
-- Gap entre elementos: var(--scale-spacing-sm)
-- Ícone: font-size 24px, color var(--content-brand)
-- Título: 16px (B-2), font-weight 500, var(--content-primary)
-- Descrição: 12px (B-4), font-weight 500, var(--content-tertiary), line-height 1.5
+- Background: var(--surface-tertiary) → hover: var(--surface-secondary)
+- Border: 1px solid var(--border-subtle) → hover: var(--border-default)
+- Border radius: var(--scale-radius-md) — 12px
+- Padding: var(--scale-spacing-2xl) — 24px
+- Gap entre containers: var(--scale-spacing-md) — 12px
+- Transição: border-color e background-color em 0.15s ease
 
-Transição: border-color e background-color em 0.15s ease
-
-Implemente como componente React com CSS Module. Use CSS custom properties do TRDR. O resultado deve ser pixel-perfect em relação ao Figma.`,
+Implemente como componente React com CSS Module. Use as classes .trdr-badge e .trdr-badge-{variant} para os badges. O componente deve aceitar as props: href, icon?, title, description, headerBadges?, footerLeft?, footerBadges?.`,
     },
   },
   {

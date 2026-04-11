@@ -1,18 +1,21 @@
 /* Card — Design System TRDR
-   Baseado no componente Figma ID: 2316:2462 (380×154)
+   Figma: 2316:2462 (380×154)
+   Estrutura: Container1 (main, border-bottom) + Container2 (footer, opcional)
    ---------------------------------------------------------------- */
 
 .card {
   display: flex;
   flex-direction: column;
+  gap: var(--scale-spacing-md);         /* 12px entre os dois containers */
   min-width: 250px;
-  padding: var(--scale-spacing-2xl);      /* 24px */
+  padding: var(--scale-spacing-2xl);    /* 24px */
   background: var(--surface-tertiary);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--scale-radius-md);  /* 12px */
+  border-radius: var(--scale-radius-md); /* 12px */
   text-decoration: none;
   overflow: hidden;
   transition: border-color 0.15s ease, background-color 0.15s ease;
+  cursor: pointer;
 }
 
 .card:hover {
@@ -20,7 +23,8 @@
   background: var(--surface-secondary);
 }
 
-.container {
+/* ── Container 1: conteúdo principal ── */
+.container1 {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -28,12 +32,17 @@
   width: 100%;
 }
 
+/* Quando há footer, adiciona borda inferior ao container1 */
+.hasBorder {
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: var(--scale-spacing-md); /* 12px */
+}
+
 .header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   width: 100%;
-  min-height: 44px;
 }
 
 /* Material Symbols Outlined — ExtraLight (wght 100) */
@@ -46,11 +55,14 @@
   flex-shrink: 0;
 }
 
-.badge {
+.badges {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   flex-shrink: 0;
 }
 
-/* H-6: Space Grotesk Medium 500, 26px */
+/* H-6: Space Grotesk Medium 500, 26px, line-height 1.1 */
 .title {
   font-family: var(--font-primary);
   font-size: 26px;
@@ -59,14 +71,34 @@
   line-height: 1.1;
   color: var(--content-secondary);
   display: block;
+  width: 100%;
 }
 
-/* B-3: Inter Regular 400, 14px */
+/* B-3: Inter Regular 400, 14px, line-height 1.2, content/tertiary */
 .desc {
   font-family: var(--font-secondary);
   font-size: 14px;
   font-weight: 400;
   line-height: 1.2;
-  color: var(--content-secondary);
+  color: var(--content-tertiary);
   margin: 0;
+  width: 100%;
+}
+
+/* ── Container 2: footer ── */
+.container2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* B-4: Inter Medium 500, 12px, 0.2px tracking, content/tertiary */
+.footerLeft {
+  font-family: var(--font-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  color: var(--content-tertiary);
+  font-style: normal;
 }
