@@ -99,12 +99,11 @@ function renderPreview(slug: string) {
     case 'segmented-control':
       return (
         <div className={styles.previewInner}>
-          <div className={styles.row} style={{ flexWrap: 'wrap' }}>
-            {['Todos', 'Primitivos', 'Semânticos', 'Scale', 'Cores', 'Espaçamentos'].map((label, i) => (
+          <div className="trdr-segment-control">
+            {['Filtro 1', 'Filtro 2', 'Filtro 3', 'Filtro 4', 'Filtro 5'].map((label, i) => (
               <span
                 key={label}
-                className={`trdr-badge ${i === 0 ? 'trdr-badge-brand' : 'trdr-badge-neutral'}`}
-                style={{ cursor: 'pointer' }}
+                className={`trdr-segment ${i === 0 ? 'trdr-segment-active' : 'trdr-segment-inactive'}`}
               >
                 {label}
               </span>

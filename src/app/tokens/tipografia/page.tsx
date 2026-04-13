@@ -1,7 +1,6 @@
 import styles from '../../page-layout.module.css'
 import pageStyles from './tipografia.module.css'
 import CopyButton from '@/components/ui/CopyButton'
-import Link from 'next/link'
 
 interface TypographyStyle {
   figmaName: string
@@ -58,71 +57,68 @@ export default function TipografiaPage() {
             15 estilos tipográficos do Design System TRDR — todos vinculados às variáveis da coleção <code>typography</code> no Figma.
           </p>
         </div>
-        <div className={styles.nav}>
-          <Link href="/tokens/primitivos" className="trdr-btn trdr-btn-ghost">Primitivos</Link>
-          <Link href="/tokens/semanticos" className="trdr-btn trdr-btn-ghost">Semânticos</Link>
-        </div>
       </div>
 
       <div className={pageStyles.groups}>
         {(['heading', 'body', 'label'] as const).map(group => (
-          <section key={group} className={pageStyles.group}>
-            <h2 className={pageStyles.groupTitle}>
+          <section key={group} className={pageStyles.section}>
+            <h3 className={pageStyles.sectionTitle}>
               <span className={`trdr-badge ${groupColors[group]}`}>{groupLabels[group]}</span>
-            </h2>
-
-            {typographyStyles.filter(s => s.group === group).map(style => (
-              <div key={style.token} className={pageStyles.card}>
-                <div className={pageStyles.preview}>
-                  <span
-                    style={{
-                      fontFamily: style.family === 'Space Grotesk' ? 'var(--font-space-grotesk)' : 'var(--font-inter)',
-                      fontSize: style.size,
-                      fontWeight: style.weight,
-                      letterSpacing: style.letterSpacing.startsWith('2%') ? undefined : style.letterSpacing,
-                      color: 'var(--content-primary)',
-                      lineHeight: 1.2,
-                      display: 'block',
-                      wordBreak: 'break-word',
-                    }}
-                  >
-                    {style.example}
-                  </span>
-                </div>
-
-                <div className={pageStyles.meta}>
-                  <div className={pageStyles.tokens}>
-                    <div className={pageStyles.tokenRow}>
-                      <span className={pageStyles.tokenLabel}>Figma Style</span>
-                      <code className={pageStyles.tokenValue}>{style.figmaName}</code>
-                      <CopyButton text={style.figmaName} label="nome do style" />
-                    </div>
-                    <div className={pageStyles.tokenRow}>
-                      <span className={pageStyles.tokenLabel}>Token</span>
-                      <code className={pageStyles.tokenValue}>{style.token}</code>
-                      <CopyButton text={style.token} label="token" />
-                    </div>
-                  </div>
-
-                  <table className={pageStyles.propsTable}>
-                    <tbody>
-                      <tr>
-                        <td className={pageStyles.propName}>Tamanho</td>
-                        <td><code>{style.size}px</code></td>
-                        <td className={pageStyles.propName}>Família</td>
-                        <td><code>{style.family}</code></td>
-                      </tr>
-                      <tr>
-                        <td className={pageStyles.propName}>Peso</td>
-                        <td><code>{style.weight} ({style.weightLabel})</code></td>
-                        <td className={pageStyles.propName}>Letter Spacing</td>
-                        <td><code>{style.letterSpacing}</code></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            ))}
+            </h3>
+            <div className={pageStyles.tableWrapper}>
+              <table className="trdr-table">
+                <thead>
+                  <tr>
+                    <th style={{ width: 220 }}>Preview</th>
+                    <th>Figma Style</th>
+                    <th>Token</th>
+                    <th>Tamanho</th>
+                    <th>Peso</th>
+                    <th>Família</th>
+                    <th>Letter Spacing</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {typographyStyles.filter(s => s.group === group).map(style => (
+                    <tr key={style.token}>
+                      <td>
+                        <div className={pageStyles.previewCell}>
+                          <span
+                            style={{
+                              fontFamily: style.family === 'Space Grotesk' ? 'var(--font-space-grotesk)' : 'var(--font-inter)',
+                              fontSize: Math.min(style.size, 32),
+                              fontWeight: style.weight,
+                              letterSpacing: style.letterSpacing.startsWith('2%') ? undefined : style.letterSpacing,
+                              color: 'var(--content-primary)',
+                              lineHeight: 1.2,
+                              whiteSpace: 'nowrap',
+                            }}
+                          >
+                            {style.example}
+                          </span>
+                        </div>
+                      </td>
+                      <td>
+                        <div className={pageStyles.codeCell}>
+                          <code className={pageStyles.code}>{style.figmaName}</code>
+                          <CopyButton text={style.figmaName} label="nome do style" />
+                        </div>
+                      </td>
+                      <td>
+                        <div className={pageStyles.codeCell}>
+                          <code className={pageStyles.code}>{style.token}</code>
+                          <CopyButton text={style.token} label="token" />
+                        </div>
+                      </td>
+                      <td><code className={pageStyles.code}>{style.size}px</code></td>
+                      <td><code className={pageStyles.code}>{style.weight} ({style.weightLabel})</code></td>
+                      <td><code className={pageStyles.code}>{style.family}</code></td>
+                      <td><code className={pageStyles.code}>{style.letterSpacing}</code></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </section>
         ))}
       </div>

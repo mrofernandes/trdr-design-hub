@@ -1,110 +1,47 @@
 .groups {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-800);
+  gap: var(--spacing-3xl);
 }
 
-.group {
+.section {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-400);
+  gap: var(--spacing-md);
 }
 
-.groupTitle {
+.sectionTitle {
   margin: 0;
-  padding-bottom: var(--spacing-200);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--content-tertiary);
+  padding-bottom: var(--spacing-sm);
   border-bottom: 1px solid var(--border-subtle);
 }
 
-.card {
-  display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: var(--spacing-600);
-  padding: var(--spacing-600);
-  background: var(--bg-secondary);
+.tableWrapper {
   border: 1px solid var(--border-subtle);
-  border-radius: var(--scale-radius-md);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
 }
 
-@media (max-width: 900px) {
-  .card {
-    grid-template-columns: 1fr;
-  }
-}
-
-.preview {
-  display: flex;
-  align-items: center;
-  min-height: 80px;
-  padding: var(--spacing-400);
-  background: var(--bg-primary);
-  border-radius: var(--scale-radius-sm);
-  border: 1px solid var(--border-subtle);
+.previewCell {
   overflow: hidden;
-}
-
-.meta {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-  justify-content: center;
-}
-
-.tokens {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100);
-}
-
-.tokenRow {
+  height: 48px;
   display: flex;
   align-items: center;
-  gap: var(--spacing-200);
 }
 
-.tokenLabel {
-  font-size: 11px;
-  color: var(--content-tertiary);
-  min-width: 72px;
-  flex-shrink: 0;
+.codeCell {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
 }
 
-.tokenValue {
+.code {
+  font-family: var(--font-mono);
   font-size: 12px;
   color: var(--content-brand);
-  font-family: var(--font-mono);
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.propsTable {
-  border-collapse: collapse;
-  width: 100%;
-  font-size: 12px;
-}
-
-.propsTable td {
-  padding: 3px 6px;
-  vertical-align: middle;
-}
-
-.propsTable td:first-child,
-.propsTable td:nth-child(3) {
-  color: var(--content-tertiary);
-  padding-left: 0;
-  width: 90px;
-}
-
-.propsTable code {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--content-secondary);
-}
-
-.propName {
-  color: var(--content-tertiary);
-  font-size: 11px;
-  white-space: nowrap;
 }

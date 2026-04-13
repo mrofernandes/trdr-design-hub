@@ -27,8 +27,8 @@ export default async function ComponentesPage({ searchParams }: PageProps) {
       </div>
 
       <div className={styles.toolbar}>
-        <div className={styles.filters}>
-          <Link href="/componentes" className={`trdr-badge ${!category ? 'trdr-badge-brand' : 'trdr-badge-neutral'}`}>
+        <div className="trdr-segment-control">
+          <Link href="/componentes" className={`trdr-segment ${!category ? 'trdr-segment-active' : 'trdr-segment-inactive'}`}>
             Todos ({components.length})
           </Link>
           {categories.map(([cat, label]) => {
@@ -37,7 +37,7 @@ export default async function ComponentesPage({ searchParams }: PageProps) {
               <Link
                 key={cat}
                 href={`/componentes?cat=${cat}`}
-                className={`trdr-badge ${category === cat ? 'trdr-badge-brand' : 'trdr-badge-neutral'}`}
+                className={`trdr-segment ${category === cat ? 'trdr-segment-active' : 'trdr-segment-inactive'}`}
               >
                 {label} ({count})
               </Link>
