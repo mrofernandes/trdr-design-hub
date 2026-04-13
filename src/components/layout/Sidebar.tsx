@@ -26,16 +26,9 @@ const navGroups = [
     ],
   },
   {
-    label: 'Padrões',
-    items: [
-      { href: '/layouts', label: 'Layouts', icon: 'view_quilt' },
-    ],
-  },
-  {
     label: 'Para IA',
     items: [
       { href: '/para-ia', label: 'Guia & Regras', icon: 'smart_toy' },
-      { href: '/para-ia/prompts', label: 'Gerar Prompt', icon: 'auto_awesome' },
     ],
   },
   {

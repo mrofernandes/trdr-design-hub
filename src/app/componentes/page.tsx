@@ -1,9 +1,7 @@
-import { Suspense } from 'react'
 import Link from 'next/link'
-import ComponentCard from '@/components/components-page/ComponentCard'
+import ComponentsClient from './ComponentsClient'
 import { components, filterComponents, ComponentCategory, COMPONENT_CATEGORY_LABELS } from '@/data/components'
 import styles from '../page-layout.module.css'
-import gridStyles from './components.module.css'
 
 interface PageProps {
   searchParams: Promise<{ q?: string; cat?: string }>
@@ -46,17 +44,7 @@ export default async function ComponentesPage({ searchParams }: PageProps) {
         </div>
       </div>
 
-      <div className={gridStyles.grid}>
-        {filtered.map(comp => (
-          <ComponentCard key={comp.slug} component={comp} />
-        ))}
-      </div>
-
-      {filtered.length === 0 && (
-        <div style={{ padding: 'var(--spacing-3xl)', textAlign: 'center', color: 'var(--content-tertiary)' }}>
-          Nenhum componente encontrado.
-        </div>
-      )}
+      <ComponentsClient components={filtered} />
     </div>
   )
 }

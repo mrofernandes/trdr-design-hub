@@ -12,9 +12,6 @@ export default function ParaIAPage() {
           <h1 className={styles.title}>Guia para IA</h1>
           <p className={styles.subtitle}>Regras absolutas e referências para qualquer IA construir interfaces TRDR consistentes.</p>
         </div>
-        <Link href="/para-ia/prompts" className="trdr-btn trdr-btn-primary">
-          Gerar Prompt →
-        </Link>
       </div>
 
       {/* Regras absolutas */}

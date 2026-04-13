@@ -4,12 +4,6 @@ import styles from './page.module.css'
 
 const cards = [
   {
-    href: '/para-ia/prompts',
-    icon: 'auto_awesome',
-    title: 'Gerar Prompt',
-    desc: 'Descreva o que você vai construir e receba um prompt com o designtokens.md embutido.',
-  },
-  {
     href: '/tokens',
     icon: 'palette',
     title: 'Tokens',
@@ -22,10 +16,16 @@ const cards = [
     desc: 'Props, dimensões e tokens de cada componente Figma. Filtráveis por categoria.',
   },
   {
-    href: '/layouts',
-    icon: 'view_quilt',
-    title: 'Layouts',
-    desc: 'Plataforma de trading, site institucional e app launcher desktop.',
+    href: '/design-md',
+    icon: 'article',
+    title: 'designtokens.md',
+    desc: 'O arquivo completo de design tokens pronto para colar no contexto de qualquer IA.',
+  },
+  {
+    href: '/para-ia',
+    icon: 'smart_toy',
+    title: 'Guia para IA',
+    desc: 'Regras absolutas, hierarquia de camadas e template de CLAUDE.md para projetos TRDR.',
   },
 ]
 
@@ -41,8 +41,8 @@ export default function Home() {
           Construa qualquer interface com consistência.
         </p>
         <div className={styles.heroActions}>
-          <Link href="/para-ia/prompts" className={styles.btnPrimary}>
-            Gerar prompts
+          <Link href="/componentes" className={styles.btnPrimary}>
+            Ver componentes
           </Link>
           <Link href="/tokens" className={styles.btnSecondary}>
             Ver tokens
