@@ -8,6 +8,7 @@ import Checkbox, { CheckboxType } from './Checkbox'
 import RadioButton from './RadioButton'
 import ComboInput from './ComboInput'
 import Tooltip from './Tooltip'
+import TextInput from './TextInput'
 
 interface Props {
   slug: string
@@ -306,6 +307,9 @@ function renderPreview(slug: string) {
     case 'switch':
       return <SwitchPreview />
 
+    case 'text-input':
+      return <TextInputPreview />
+
     default:
       return null
   }
@@ -372,6 +376,59 @@ function SwitchPreview() {
       <div className={styles.col}>
         <Switch type="on" label="Sempre ativo" disabled />
         <Switch type="off" label="Indisponível" disabled />
+      </div>
+    </div>
+  )
+}
+
+function TextInputPreview() {
+  const [v1, setV1] = useState('')
+  const [v2, setV2] = useState('WINFUT')
+  const [v3, setV3] = useState('')
+  const [v4, setV4] = useState('Busca ativa')
+  const [v5, setV5] = useState('')
+  const [v6, setV6] = useState('Observações sobre o ativo...')
+
+  return (
+    <div className={styles.previewInner} style={{ maxWidth: 280 }}>
+      <PreviewLabel>Single Line — Default (24px)</PreviewLabel>
+      <div className={styles.col}>
+        <TextInput placeholder="Placeholder" value={v1} onChange={e => setV1(e.target.value)} />
+        <TextInput placeholder="Filled" value={v2} onChange={e => setV2(e.target.value)} />
+        <TextInput placeholder="Disabled" disabled value="Valor desativado" />
+        <TextInput placeholder="Read Only" readOnly value="Somente leitura" />
+      </div>
+
+      <PreviewLabel>Single Line — Large (32px)</PreviewLabel>
+      <div className={styles.col}>
+        <TextInput size="large" placeholder="Placeholder" value={v3} onChange={e => setV3(e.target.value)} />
+        <TextInput size="large" placeholder="Filled" value="Instrumento" />
+      </div>
+
+      <PreviewLabel>Com ícone esquerdo + clear</PreviewLabel>
+      <div className={styles.col}>
+        <TextInput iconLeft placeholder="Buscar..." value={v4} onChange={e => setV4(e.target.value)} onClear={() => setV4('')} />
+        <TextInput iconLeft size="large" placeholder="Buscar instrumento..." value={v5} onChange={e => setV5(e.target.value)} onClear={() => setV5('')} />
+        <TextInput iconLeft disabled placeholder="Busca desativada" />
+      </div>
+
+      <PreviewLabel>Quick Action (32px, icon obrigatório)</PreviewLabel>
+      <div className={styles.col}>
+        <TextInput variant="quick-action" placeholder="Buscar..." value={v4} onChange={e => setV4(e.target.value)} onClear={() => setV4('')} />
+        <TextInput variant="quick-action" disabled placeholder="Indisponível" />
+      </div>
+
+      <PreviewLabel>Validação</PreviewLabel>
+      <div className={styles.col}>
+        <TextInput validation="error" value="Valor inválido" placeholder="Erro" />
+        <TextInput validation="warning" value="Atenção" placeholder="Aviso" />
+        <TextInput validation="success" value="Confirmado" placeholder="Sucesso" />
+      </div>
+
+      <PreviewLabel>Multi Line (textarea)</PreviewLabel>
+      <div className={styles.col}>
+        <TextInput variant="multi-line" value={v6} onChange={e => setV6(e.target.value)} rows={3} />
+        <TextInput variant="multi-line" disabled value="Campo desativado." rows={2} />
       </div>
     </div>
   )

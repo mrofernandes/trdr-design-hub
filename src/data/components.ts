@@ -365,30 +365,235 @@ Implemente como componente React com CSS Module. Props: variant, size, iconLeft,
     name: 'Text Input',
     figmaId: '1327:17000',
     category: 'formulario',
-    description: 'Campo de texto com 3 variantes, 8 estados e 2 tamanhos.',
+    description: 'Campo de texto com 3 variantes (Single Line, Multi Line, Quick Action), estados de validação e 2 tamanhos.',
     props: [
-      { name: 'Variant', type: 'enum', values: ['Single Line', 'Multi Line', 'Quick Action'] },
-      { name: 'Size', type: 'enum', values: ['Default', 'Small'] },
-      { name: 'State', type: 'enum', values: ['Empty', 'Filled', 'Focused', 'Error', 'Warning', 'Success', 'Disabled', 'Read Only'] },
-      { name: 'Label', type: 'boolean', values: ['true', 'false'] },
-      { name: 'Helper Text', type: 'boolean', values: ['true', 'false'] },
-      { name: 'Icon Left', type: 'boolean', values: ['true', 'false'] },
-      { name: 'Icon Right', type: 'boolean', values: ['true', 'false'] },
+      { name: 'variant', type: 'enum', values: ['single-line', 'multi-line', 'quick-action'] },
+      { name: 'size', type: 'enum', values: ['default', 'large'] },
+      { name: 'validation', type: 'enum', values: ['default', 'error', 'warning', 'success'] },
+      { name: 'iconLeft', type: 'boolean', values: ['true', 'false'] },
+      { name: 'disabled', type: 'boolean', values: ['true', 'false'] },
+      { name: 'readOnly', type: 'boolean', values: ['true', 'false'] },
+      { name: 'placeholder', type: 'string', values: [] },
+      { name: 'onClear', type: 'function', values: [] },
     ],
     dimensions: [
-      { label: 'Default', height: '36px' },
-      { label: 'Small', height: '28px' },
+      { label: 'Default (Single Line)', height: '24px', width: '—' },
+      { label: 'Large (Single Line)', height: '32px', width: '—' },
+      { label: 'Quick Action', height: '32px', width: '—' },
+      { label: 'Multi Line', height: 'auto (min 56px)', width: '—' },
+      { label: 'Icon slot', height: '24px', width: '24px' },
     ],
     tokens: [
-      { property: 'Background', token: 'bg.tertiary', value: '#1A1A1A' },
-      { property: 'Border default', token: 'border.default', value: '#4A4A4A' },
-      { property: 'Border focus', token: 'border.focus', value: '#65B0FF' },
-      { property: 'Border error', token: 'content.error', value: '#F34F45' },
-      { property: 'Text', token: 'content.primary', value: '#FFFFFF' },
-      { property: 'Placeholder', token: 'content.tertiary', value: '#A4A4A4' },
+      { property: 'Background', token: 'surface-primary', value: '#4A4A4A' },
+      { property: 'Border focus', token: 'border-focus', value: '#65B0FF' },
+      { property: 'Border multi-line/disabled', token: 'border-strong', value: '#A4A4A4' },
+      { property: 'Texto preenchido', token: 'content-primary', value: '#FFFFFF' },
+      { property: 'Placeholder', token: 'content-tertiary', value: '#A4A4A4' },
+      { property: 'Texto disabled', token: 'content-disabled', value: '#4A4A4A' },
+      { property: 'Borda error', token: 'content-error', value: '#F34F45' },
+      { property: 'Borda warning', token: 'content-warning', value: '#FFCC40' },
+      { property: 'Borda success', token: 'content-success', value: '#4FE290' },
     ],
-    notes: 'Quick Action é uma variante compacta para inputs em toolbars e painéis de trading.',
+    anatomy: `[div wrapper h=24px border-radius=5px bg=surface-primary border=transparent]
+  └── [span icon-slot 24×24px, opcional] → ícone de busca 13px
+  └── [input flex=1 bg=transparent no-border]
+  └── [button clear 24×24px, opcional, aparece quando iconLeft + value]
+— Multi Line: [div wrapper padding=4px_8px border=border-strong auto-height]
+  └── [textarea flex=1 resize=none]
+— Quick Action: padding=0_4px gap=8px sempre com icon-slot`,
+    notes: 'Quick Action é uma variante compacta para inputs em toolbars e painéis de trading. Border radius fixo: 5px (não token). O botão clear só aparece quando iconLeft=true e há valor digitado.',
     implemented: true,
+    code: {
+      html: `<!-- Single Line Default -->
+<div class="trdr-text-input">
+  <input type="text" placeholder="Placeholder" />
+</div>
+
+<!-- Single Line Large -->
+<div class="trdr-text-input trdr-text-input-lg">
+  <input type="text" placeholder="Placeholder" />
+</div>
+
+<!-- Com ícone esquerdo e botão clear -->
+<div class="trdr-text-input trdr-text-input-icon">
+  <span class="trdr-text-input-icon-slot" aria-hidden="true">
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+      <circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M9 9L12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </span>
+  <input type="text" placeholder="Buscar..." value="WINFUT" />
+  <button class="trdr-text-input-clear" type="button" aria-label="Limpar campo">
+    <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true">
+      <path d="M1 1L10 10M10 1L1 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </button>
+</div>
+
+<!-- Quick Action -->
+<div class="trdr-text-input trdr-text-input-quick">
+  <span class="trdr-text-input-icon-slot" aria-hidden="true">...</span>
+  <input type="text" placeholder="Buscar..." />
+</div>
+
+<!-- Multi Line -->
+<div class="trdr-text-input trdr-text-input-multiline">
+  <textarea rows="3" placeholder="Observações..."></textarea>
+</div>
+
+<!-- Error / Warning / Success -->
+<div class="trdr-text-input trdr-text-input-error">
+  <input type="text" value="Valor inválido" />
+</div>
+
+<!-- Disabled -->
+<div class="trdr-text-input trdr-text-input-disabled">
+  <input type="text" value="Indisponível" disabled />
+</div>`,
+      css: `.trdr-text-input {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--surface-primary);   /* #4A4A4A */
+  border: 1px solid transparent;
+  border-radius: 5px;                          /* fixo, não token */
+  height: 24px;
+  padding: 0 8px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease;
+}
+
+.trdr-text-input:focus-within { border-color: var(--border-focus); /* #65B0FF */ }
+
+.trdr-text-input-lg         { height: 32px; }
+.trdr-text-input-icon       { padding: 0; }
+.trdr-text-input-lg.trdr-text-input-icon { padding: 0 4px; }
+
+.trdr-text-input-quick { height: 32px; padding: 0 4px; gap: 8px; }
+
+.trdr-text-input-multiline {
+  height: auto; min-height: 56px;
+  align-items: flex-start; padding: 4px 8px;
+  border-color: var(--border-strong);          /* #A4A4A4 */
+}
+.trdr-text-input-multiline:focus-within { border-color: var(--border-focus); }
+
+.trdr-text-input-error,   .trdr-text-input-error:focus-within   { border-color: var(--content-error); }
+.trdr-text-input-warning, .trdr-text-input-warning:focus-within { border-color: var(--content-warning); }
+.trdr-text-input-success, .trdr-text-input-success:focus-within { border-color: var(--content-success); }
+
+.trdr-text-input-disabled,
+.trdr-text-input-disabled:focus-within { border-color: var(--border-strong); cursor: not-allowed; }
+
+.trdr-text-input input,
+.trdr-text-input textarea {
+  flex: 1; min-width: 0; background: transparent;
+  border: none; outline: none;
+  color: var(--content-primary);              /* #FFFFFF */
+  font-size: 11px; font-weight: 450; letter-spacing: 0.055px; line-height: 16px;
+  padding: 0; width: 100%; resize: none;
+}
+
+.trdr-text-input input::placeholder,
+.trdr-text-input textarea::placeholder { color: var(--content-tertiary); /* #A4A4A4 */ }
+
+.trdr-text-input-lg input,
+.trdr-text-input-quick input { font-size: 12px; font-weight: 500; letter-spacing: 0.2px; }
+
+.trdr-text-input-disabled input,
+.trdr-text-input-disabled textarea { color: var(--content-disabled); cursor: not-allowed; }`,
+      react: `import TextInput from '@/components/ui/TextInput'
+
+// Single Line Default
+<TextInput placeholder="Placeholder" />
+
+// Single Line Large
+<TextInput size="large" placeholder="Placeholder" />
+
+// Com ícone e clear
+const [val, setVal] = useState('')
+<TextInput
+  iconLeft
+  placeholder="Buscar instrumento..."
+  value={val}
+  onChange={e => setVal(e.target.value)}
+  onClear={() => setVal('')}
+/>
+
+// Quick Action (toolbar)
+<TextInput
+  variant="quick-action"
+  placeholder="Filtrar..."
+  value={val}
+  onChange={e => setVal(e.target.value)}
+  onClear={() => setVal('')}
+/>
+
+// Multi Line (textarea)
+<TextInput
+  variant="multi-line"
+  rows={4}
+  placeholder="Observações..."
+  value={val}
+  onChange={e => setVal(e.target.value)}
+/>
+
+// Validação
+<TextInput validation="error" value="Valor inválido" />
+<TextInput validation="warning" value="Verifique" />
+<TextInput validation="success" value="Confirmado" />
+
+// Disabled / Read Only
+<TextInput disabled value="Indisponível" />
+<TextInput readOnly value="Somente leitura" />`,
+      prompt: `Implemente o componente TextInput do Design System TRDR.
+
+VARIANTES:
+- single-line (padrão): <input type="text"> dentro de um wrapper div
+- multi-line: <textarea> dentro do wrapper, altura auto (min 56px)
+- quick-action: como single-line mas sempre com icon-left, padding compacto
+
+TAMANHOS:
+- default: height 24px, padding 0 8px, font 11px/450
+- large:   height 32px, padding 0 8px (sem icon) / 0 4px (com icon), font 12px/500
+- Quick Action é sempre large (32px)
+
+TOKENS OBRIGATÓRIOS:
+- Background: --surface-primary (#4A4A4A)
+- Border focus: --border-focus (#65B0FF) — via :focus-within no wrapper
+- Border multi-line/disabled: --border-strong (#A4A4A4)
+- Texto: --content-primary (#FFFFFF)
+- Placeholder: --content-tertiary (#A4A4A4)
+- Texto disabled: --content-disabled (#4A4A4A)
+- Border error: --content-error (#F34F45)
+- Border warning: --content-warning (#FFCC40)
+- Border success: --content-success (#4FE290)
+
+BORDER RADIUS: 5px FIXO (não usar token de radius)
+
+ICON LEFT:
+- Container 24×24px, ícone de busca SVG 13px centralizado
+- Quick Action sempre tem icon, Single Line e Large são opcionais
+- Com icon: wrapper sem padding (0) em Default | padding 0 4px em Large
+
+BOTÃO CLEAR (X):
+- Aparece apenas quando iconLeft=true + value não vazio + não disabled
+- Container 24×24px, SVG X 11px, cor content-tertiary, hover: content-primary
+- tabIndex={-1} para não receber foco via tab
+
+MULTI LINE:
+- Border default sempre visível: var(--border-strong) — diferente do Single Line
+- padding: 4px 8px (não 0 8px)
+- Altura automática via textarea nativo (não height fixo)
+
+ESTADOS CSS:
+- :focus-within no wrapper = borda focus (não no input)
+- disabled: borda strong + cursor not-allowed em wrapper E input
+- readOnly: sem borda adicional, cursor default
+- Validação: error/warning/success sobrescreve a borda (inclusive no focus)
+
+Resultado deve ser pixel-perfect em relação ao Figma node 1327:17000.`,
+    },
   },
   {
     slug: 'dropdown',
