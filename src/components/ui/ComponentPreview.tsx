@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import styles from './ComponentPreview.module.css'
 
 interface Props {
@@ -13,6 +14,21 @@ const ICON_STYLE: React.CSSProperties = {
   fontSize: 20,
   lineHeight: '20px',
   fontVariationSettings: "'FILL' 0, 'GRAD' 0",
+}
+
+function PreviewLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <span style={{
+      fontFamily: 'var(--font-secondary)',
+      fontSize: 11,
+      fontWeight: 500,
+      color: 'var(--content-tertiary)',
+      textTransform: 'uppercase' as const,
+      letterSpacing: '0.08em',
+    }}>
+      {children}
+    </span>
+  )
 }
 
 export default function ComponentPreview({ slug }: Props) {
@@ -32,15 +48,37 @@ function renderPreview(slug: string) {
     case 'button':
       return (
         <div className={styles.previewInner}>
+          <PreviewLabel>Default (24px)</PreviewLabel>
           <div className={styles.row}>
             <button className="trdr-btn trdr-btn-primary">Primary</button>
             <button className="trdr-btn trdr-btn-secondary">Secondary</button>
             <button className="trdr-btn trdr-btn-ghost">Ghost</button>
-            <button className="trdr-btn trdr-btn-primary" disabled>Disabled</button>
+            <button className="trdr-btn trdr-btn-destructive">Destructive</button>
+            <button className="trdr-btn trdr-btn-inverse">Inverse</button>
           </div>
           <div className={styles.row}>
-            <button className="trdr-btn trdr-btn-primary trdr-btn-lg">Primary Large</button>
-            <button className="trdr-btn trdr-btn-secondary trdr-btn-lg">Secondary Large</button>
+            <button className="trdr-btn trdr-btn-link">Link</button>
+            <button className="trdr-btn trdr-btn-link-danger">Link Danger</button>
+            <button className="trdr-btn trdr-btn-secondary-destruct">Secondary Destruct</button>
+          </div>
+          <PreviewLabel>Large (32px)</PreviewLabel>
+          <div className={styles.row}>
+            <button className="trdr-btn trdr-btn-primary trdr-btn-lg">Primary</button>
+            <button className="trdr-btn trdr-btn-secondary trdr-btn-lg">Secondary</button>
+            <button className="trdr-btn trdr-btn-ghost trdr-btn-lg">Ghost</button>
+          </div>
+          <PreviewLabel>Trading</PreviewLabel>
+          <div className={styles.row}>
+            <button className="trdr-btn trdr-btn-long">Long</button>
+            <button className="trdr-btn trdr-btn-short">Short</button>
+            <button className="trdr-btn trdr-btn-long trdr-btn-lg">Long</button>
+            <button className="trdr-btn trdr-btn-short trdr-btn-lg">Short</button>
+          </div>
+          <PreviewLabel>Disabled</PreviewLabel>
+          <div className={styles.row}>
+            <button className="trdr-btn trdr-btn-primary" disabled>Primary</button>
+            <button className="trdr-btn trdr-btn-secondary" disabled>Secondary</button>
+            <button className="trdr-btn trdr-btn-ghost" disabled>Ghost</button>
           </div>
         </div>
       )

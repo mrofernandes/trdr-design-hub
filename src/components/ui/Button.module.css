@@ -1,0 +1,133 @@
+/* Button — Figma node 1318:749 | TRDR Design System */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  height: 24px;
+  padding: 0 var(--spacing-sm);
+  border-radius: var(--radius-md);
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+
+.lg {
+  height: 32px;
+  padding: 0 var(--spacing-md);
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Material Symbols Outlined';
+  font-size: 16px;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings: 'FILL' 0, 'GRAD' 0;
+  line-height: 1;
+}
+
+/* Primary */
+.primary {
+  background-color: var(--action-brand-inverse-default);
+  color: var(--content-primary);
+  border: 0.5px solid var(--action-brand-inverse-default);
+}
+.primary:hover:not(:disabled)  { background-color: var(--action-brand-inverse-hover); border-color: var(--action-brand-inverse-hover); }
+.primary:active:not(:disabled) { background-color: var(--action-brand-inverse-active); border-color: var(--action-brand-inverse-active); }
+
+/* Secondary */
+.secondary {
+  background-color: var(--action-secondary-default);
+  color: var(--content-primary);
+}
+.secondary:hover:not(:disabled)  { background-color: var(--action-secondary-hover); }
+.secondary:active:not(:disabled) { background-color: var(--action-secondary-active); }
+
+/* Ghost */
+.ghost {
+  background-color: transparent;
+  color: var(--content-secondary);
+  border: 1px solid var(--border-default);
+}
+.ghost:hover:not(:disabled)  { background-color: var(--surface-secondary); border-color: var(--border-strong); color: var(--content-primary); }
+.ghost:active:not(:disabled) { background-color: var(--surface-primary); }
+
+/* Destructive */
+.destructive {
+  background-color: var(--action-destructive-default);
+  color: var(--content-primary);
+}
+.destructive:hover:not(:disabled)  { background-color: var(--action-destructive-hover); }
+.destructive:active:not(:disabled) { background-color: var(--action-destructive-active); }
+
+/* Inverse */
+.inverse {
+  background-color: var(--bg-inverse);
+  color: var(--content-inverse);
+  border: 0.5px solid var(--bg-inverse);
+}
+.inverse:hover:not(:disabled)  { background-color: var(--color-neutral-100); }
+.inverse:active:not(:disabled) { background-color: var(--color-neutral-200); }
+
+/* Link */
+.link {
+  background-color: transparent;
+  color: var(--content-brand);
+  padding-left: 0;
+  padding-right: 0;
+}
+.link:hover:not(:disabled)  { color: var(--action-brand-hover); text-decoration: underline; }
+.link:active:not(:disabled) { color: var(--action-brand-active); }
+
+/* Link Danger */
+.linkDanger {
+  background-color: transparent;
+  color: var(--content-error);
+  padding-left: 0;
+  padding-right: 0;
+}
+.linkDanger:hover:not(:disabled)  { color: var(--action-destructive-hover); text-decoration: underline; }
+.linkDanger:active:not(:disabled) { color: var(--action-destructive-active); }
+
+/* Secondary Destruct */
+.secondaryDestruct {
+  background-color: transparent;
+  color: var(--action-destructive-default);
+  border: 1px solid var(--action-destructive-default);
+}
+.secondaryDestruct:hover:not(:disabled)  { background-color: var(--action-destructive-disabled); }
+.secondaryDestruct:active:not(:disabled) { background-color: var(--context-trading-stop-default); }
+
+/* Long — Trading compra (verde) */
+.long {
+  background-color: var(--context-trading-long-default);
+  color: var(--context-trading-long-text);
+  min-width: 80px;
+}
+.long:hover:not(:disabled)  { background-color: var(--context-trading-long-hover); }
+.long:active:not(:disabled) { background-color: var(--context-trading-long-active); }
+
+/* Short — Trading venda (vermelho) */
+.short {
+  background-color: var(--context-trading-short-default);
+  color: var(--context-trading-short-text);
+  min-width: 80px;
+}
+.short:hover:not(:disabled)  { background-color: var(--context-trading-short-hover); }
+.short:active:not(:disabled) { background-color: var(--context-trading-short-active); }
+
+/* Disabled (global) */
+.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}

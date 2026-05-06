@@ -86,131 +86,278 @@ export const components: DesignComponent[] = [
       { label: 'Large', height: '32px' },
     ],
     tokens: [
-      { property: 'BG Primary', token: 'action.brand.default', value: '#3D99FF' },
+      { property: 'BG Primary', token: 'action.brand-inverse.default', value: '#0066FF' },
+      { property: 'BG Primary Hover', token: 'action.brand-inverse.hover', value: '#1E82FF' },
+      { property: 'BG Primary Active', token: 'action.brand-inverse.active', value: '#0052CC' },
       { property: 'BG Secondary', token: 'action.secondary.default', value: '#4A4A4A' },
-      { property: 'Text Primary', token: 'content.inverse', value: '#1A1A1A' },
-      { property: 'Text Secondary', token: 'content.primary', value: '#FFFFFF' },
+      { property: 'Text sobre Primary/Secondary', token: 'content.primary', value: '#FFFFFF' },
+      { property: 'Text Ghost', token: 'content.secondary', value: '#E8E8E8' },
       { property: 'BG Destructive', token: 'action.destructive.default', value: '#F57C00' },
+      { property: 'BG Long (trading)', token: 'context.trading.long.default', value: 'rgba(79,226,144,0.08)' },
+      { property: 'Text Long (trading)', token: 'context.trading.long.text', value: '#4FE290' },
+      { property: 'BG Short (trading)', token: 'context.trading.short.default', value: 'rgba(243,79,69,0.08)' },
+      { property: 'Text Short (trading)', token: 'context.trading.short.text', value: '#F34F45' },
+      { property: 'Border radius', token: 'scale.radius.md', value: '8px' },
+      { property: 'Border Ghost', token: 'border.default', value: '#4A4A4A' },
+      { property: 'Font family', token: 'font.secondary', value: 'Inter' },
+      { property: 'Font size Default', token: 'font-size-100', value: '14px' },
+      { property: 'Font weight', token: 'text.label.sm.weight', value: '600 (SemiBold)' },
     ],
-    anatomy: `[Icon?] [Label] [Icon?]
-Padding: 8px horizontal (Default) / 12px (Large)`,
-    notes: 'Variante "Long" e "Short" são botões de largura fixa pré-definida para contextos de formulário de trading.',
+    anatomy: `[Icon Left?] [Label] [Icon Right?]
+Gap: 4px | Padding: 8px H (Default) / 12px H (Large)
+Height: 24px (Default) / 32px (Large) | Border-radius: 8px`,
+    notes: 'Variantes "Long" e "Short" são botões para contextos de trading (compra/venda). "Secondary Destruct" é Ghost com cor destrutiva. "Inverse" é usado sobre fundos claros.',
     implemented: true,
     code: {
-      html: `<button class="btn btn-primary">Label</button>
-<button class="btn btn-primary btn-lg">Label Large</button>
-<button class="btn btn-secondary">Secundário</button>
-<button class="btn btn-ghost">Ghost</button>
-<button class="btn btn-destructive">Destructive</button>`,
-      css: `/* Button — Design System TRDR */
-.btn {
+      html: `<!-- Primary -->
+<button class="trdr-btn trdr-btn-primary">Confirmar</button>
+<button class="trdr-btn trdr-btn-primary trdr-btn-lg">Confirmar (Large)</button>
+<button class="trdr-btn trdr-btn-primary" disabled>Desabilitado</button>
+
+<!-- Secondary -->
+<button class="trdr-btn trdr-btn-secondary">Cancelar</button>
+
+<!-- Ghost -->
+<button class="trdr-btn trdr-btn-ghost">Ghost</button>
+
+<!-- Destructive -->
+<button class="trdr-btn trdr-btn-destructive">Excluir</button>
+
+<!-- Inverse -->
+<button class="trdr-btn trdr-btn-inverse">Inverse</button>
+
+<!-- Link -->
+<button class="trdr-btn trdr-btn-link">Ver mais</button>
+
+<!-- Link Danger -->
+<button class="trdr-btn trdr-btn-link-danger">Remover</button>
+
+<!-- Secondary Destruct -->
+<button class="trdr-btn trdr-btn-secondary-destruct">Cancelar operação</button>
+
+<!-- Long / Short — Trading -->
+<button class="trdr-btn trdr-btn-long">Long</button>
+<button class="trdr-btn trdr-btn-short">Short</button>`,
+      css: `/* Button — Design System TRDR | Figma: 1318:749 */
+.trdr-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  padding: 0 8px;
+  gap: var(--spacing-xs);       /* 4px */
   height: 24px;
-  border: none;
-  border-radius: var(--scale-radius-sm);
-  font-size: 12px;
-  font-weight: 500;
-  font-family: var(--font-inter);
-  cursor: pointer;
-  transition: background-color 0.15s ease;
-  white-space: nowrap;
-}
-
-.btn:disabled {
-  cursor: not-allowed;
-  opacity: 1;
-}
-
-/* Large */
-.btn-lg {
-  height: 32px;
-  padding: 0 12px;
+  padding: 0 var(--spacing-sm); /* 0 8px */
+  border-radius: var(--radius-md); /* 8px */
+  font-family: var(--font-secondary);
   font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+
+.trdr-btn-lg {
+  height: 32px;
+  padding: 0 var(--spacing-md); /* 0 12px */
 }
 
 /* Primary */
-.btn-primary {
-  background: var(--action-brand-default);
-  color: var(--content-inverse);
+.trdr-btn-primary {
+  background-color: var(--action-brand-inverse-default); /* #0066FF */
+  color: var(--content-primary);
+  border: 0.5px solid var(--action-brand-inverse-default);
 }
-.btn-primary:hover  { background: var(--action-brand-hover); }
-.btn-primary:active { background: var(--action-brand-active); }
-.btn-primary:disabled { background: var(--action-brand-disabled); }
+.trdr-btn-primary:hover  { background-color: var(--action-brand-inverse-hover); border-color: var(--action-brand-inverse-hover); }
+.trdr-btn-primary:active { background-color: var(--action-brand-inverse-active); border-color: var(--action-brand-inverse-active); }
+.trdr-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
 
 /* Secondary */
-.btn-secondary {
-  background: var(--action-secondary-default);
+.trdr-btn-secondary {
+  background-color: var(--action-secondary-default); /* #4A4A4A */
   color: var(--content-primary);
 }
-.btn-secondary:hover  { background: var(--action-secondary-hover); }
-.btn-secondary:active { background: var(--action-secondary-active); }
-.btn-secondary:disabled { background: var(--action-secondary-disabled); }
+.trdr-btn-secondary:hover  { background-color: var(--action-secondary-hover); }
+.trdr-btn-secondary:active { background-color: var(--action-secondary-active); }
+.trdr-btn-secondary:disabled { background-color: var(--action-secondary-disabled); color: var(--content-disabled); cursor: not-allowed; }
 
 /* Ghost */
-.btn-ghost {
-  background: transparent;
-  color: var(--content-secondary);
-  border: 1px solid var(--border-subtle);
+.trdr-btn-ghost {
+  background-color: transparent;
+  color: var(--content-secondary); /* #E8E8E8 */
+  border: 1px solid var(--border-default); /* #4A4A4A */
 }
-.btn-ghost:hover { background: var(--surface-secondary); border-color: var(--border-default); }
+.trdr-btn-ghost:hover  { background-color: var(--surface-secondary); border-color: var(--border-strong); color: var(--content-primary); }
+.trdr-btn-ghost:active { background-color: var(--surface-primary); }
+.trdr-btn-ghost:disabled { color: var(--content-disabled); border-color: var(--border-disabled); opacity: 0.5; cursor: not-allowed; }
 
 /* Destructive */
-.btn-destructive {
-  background: var(--action-destructive-default);
-  color: var(--content-inverse);
+.trdr-btn-destructive {
+  background-color: var(--action-destructive-default); /* #F57C00 */
+  color: var(--content-primary);
 }
-.btn-destructive:hover  { background: var(--action-destructive-hover); }
-.btn-destructive:active { background: var(--action-destructive-active); }
-.btn-destructive:disabled { background: var(--action-destructive-disabled); }`,
-      react: `interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'ghost' | 'destructive'
-  size?: 'default' | 'lg'
-  children: React.ReactNode
-}
+.trdr-btn-destructive:hover  { background-color: var(--action-destructive-hover); }
+.trdr-btn-destructive:active { background-color: var(--action-destructive-active); }
 
-export function Button({
-  variant = 'primary',
-  size = 'default',
-  children,
-  className = '',
-  ...props
-}: ButtonProps) {
-  return (
-    <button
-      className={\`btn btn-\${variant}\${size === 'lg' ? ' btn-lg' : ''} \${className}\`}
-      {...props}
-    >
-      {children}
-    </button>
-  )
+/* Inverse */
+.trdr-btn-inverse {
+  background-color: var(--bg-inverse); /* #FFFFFF */
+  color: var(--content-inverse);       /* #1A1A1A */
+  border: 0.5px solid var(--bg-inverse);
 }
+.trdr-btn-inverse:hover { background-color: var(--color-neutral-100); }
 
-/* Uso:
+/* Link */
+.trdr-btn-link {
+  background-color: transparent;
+  color: var(--content-brand); /* #3D99FF */
+  padding-left: 0;
+  padding-right: 0;
+}
+.trdr-btn-link:hover { color: var(--action-brand-hover); text-decoration: underline; }
+
+/* Link Danger */
+.trdr-btn-link-danger {
+  background-color: transparent;
+  color: var(--content-error); /* #F34F45 */
+  padding-left: 0;
+  padding-right: 0;
+}
+.trdr-btn-link-danger:hover { color: var(--action-destructive-hover); text-decoration: underline; }
+
+/* Secondary Destruct */
+.trdr-btn-secondary-destruct {
+  background-color: transparent;
+  color: var(--action-destructive-default);
+  border: 1px solid var(--action-destructive-default);
+}
+.trdr-btn-secondary-destruct:hover { background-color: var(--action-destructive-disabled); }
+
+/* Long — Trading compra (verde) */
+.trdr-btn-long {
+  background-color: var(--context-trading-long-default);
+  color: var(--context-trading-long-text);
+  min-width: 80px;
+}
+.trdr-btn-long:hover { background-color: var(--context-trading-long-hover); }
+
+/* Short — Trading venda (vermelho) */
+.trdr-btn-short {
+  background-color: var(--context-trading-short-default);
+  color: var(--context-trading-short-text);
+  min-width: 80px;
+}
+.trdr-btn-short:hover { background-color: var(--context-trading-short-hover); }`,
+      react: `import Button from '@/components/ui/Button'
+
+// Variantes principais
 <Button variant="primary">Confirmar</Button>
-<Button variant="secondary" size="lg">Cancelar</Button>
-<Button variant="ghost" disabled>Desabilitado</Button>
-*/`,
-      prompt: `Implemente o componente Button do Design System TRDR.
+<Button variant="secondary">Cancelar</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="destructive">Excluir</Button>
 
-Variantes: Primary, Secondary, Ghost, Destructive
-Tamanhos: Default (height: 24px, padding: 0 8px), Large (height: 32px, padding: 0 12px)
-Estados: Default, Hover, Pressed, Disabled
+// Tamanho Large
+<Button variant="primary" size="lg">Confirmar (Large)</Button>
 
-Tokens TRDR obrigatórios:
-- Primary BG: var(--action-brand-default) | hover: var(--action-brand-hover) | active: var(--action-brand-active) | disabled: var(--action-brand-disabled)
-- Secondary BG: var(--action-secondary-default) | hover: var(--action-secondary-hover)
-- Destructive BG: var(--action-destructive-default) | hover: var(--action-destructive-hover)
-- Ghost: background transparent, border: 1px solid var(--border-subtle), hover BG: var(--surface-secondary)
-- Text Primary: var(--content-inverse)
-- Text Secondary/Ghost: var(--content-primary) ou var(--content-secondary)
-- Border radius: var(--scale-radius-sm)
-- Font: 12px (default) / 14px (large), weight 500, var(--font-inter)
+// Com ícone (Material Symbols)
+<Button
+  variant="primary"
+  iconLeft={<span style={{ fontFamily: 'Material Symbols Outlined', fontSize: 16 }}>add</span>}
+>
+  Nova posição
+</Button>
 
-Implemente como componente React com CSS Module. Use CSS custom properties do TRDR. O resultado deve ser pixel-perfect em relação ao Figma (Figma ID: 1318:749).`,
+// Disabled
+<Button variant="primary" disabled>Processando...</Button>
+
+// Variantes de link
+<Button variant="link">Ver mais</Button>
+<Button variant="link-danger">Remover</Button>
+
+// Inverse (sobre fundo claro)
+<Button variant="inverse">Ação</Button>
+
+// Secondary Destruct
+<Button variant="secondary-destruct">Cancelar operação</Button>
+
+// Trading
+<Button variant="long">Long</Button>
+<Button variant="short">Short</Button>
+
+// Interface de Props:
+// variant?: 'primary' | 'secondary' | 'ghost' | 'destructive' | 'inverse'
+//         | 'link' | 'link-danger' | 'secondary-destruct' | 'long' | 'short'
+// size?: 'default' | 'lg'
+// iconLeft?: React.ReactNode
+// iconRight?: React.ReactNode
+// + todos os atributos nativos do <button>`,
+      prompt: `Implemente o componente Button do Design System TRDR. Figma ID: 1318:749.
+
+DIMENSÕES:
+- Default: height 24px, padding 0 8px, gap 4px
+- Large: height 32px, padding 0 12px, gap 4px
+- Border-radius: var(--radius-md) — 8px (OBRIGATÓRIO, não usar --radius-sm)
+
+TIPOGRAFIA:
+- font-family: var(--font-secondary) — Inter
+- font-size: 14px (ambos os tamanhos)
+- font-weight: 600 (SemiBold)
+
+10 VARIANTES com tokens obrigatórios:
+
+Primary:
+  BG: var(--action-brand-inverse-default) /* #0066FF */
+  Color: var(--content-primary)
+  Border: 0.5px solid var(--action-brand-inverse-default)
+  Hover: var(--action-brand-inverse-hover) | Active: var(--action-brand-inverse-active)
+
+Secondary:
+  BG: var(--action-secondary-default) /* #4A4A4A */
+  Color: var(--content-primary)
+  Hover: var(--action-secondary-hover) | Active: var(--action-secondary-active)
+
+Ghost:
+  BG: transparent | Color: var(--content-secondary) /* #E8E8E8 */
+  Border: 1px solid var(--border-default)
+  Hover: BG var(--surface-secondary), border var(--border-strong), color var(--content-primary)
+
+Destructive:
+  BG: var(--action-destructive-default) /* #F57C00 */
+  Color: var(--content-primary)
+  Hover: var(--action-destructive-hover) | Active: var(--action-destructive-active)
+
+Inverse:
+  BG: var(--bg-inverse) /* #FFFFFF */
+  Color: var(--content-inverse) /* #1A1A1A */
+  Border: 0.5px solid var(--bg-inverse)
+
+Link:
+  BG: transparent | Color: var(--content-brand) | padding-x: 0
+  Hover: color var(--action-brand-hover), text-decoration underline
+
+Link Danger:
+  BG: transparent | Color: var(--content-error) | padding-x: 0
+  Hover: color var(--action-destructive-hover), text-decoration underline
+
+Secondary Destruct:
+  BG: transparent | Color: var(--action-destructive-default)
+  Border: 1px solid var(--action-destructive-default)
+  Hover: BG var(--action-destructive-disabled)
+
+Long (trading compra):
+  BG: var(--context-trading-long-default) | Color: var(--context-trading-long-text)
+  min-width: 80px
+  Hover: var(--context-trading-long-hover) | Active: var(--context-trading-long-active)
+
+Short (trading venda):
+  BG: var(--context-trading-short-default) | Color: var(--context-trading-short-text)
+  min-width: 80px
+  Hover: var(--context-trading-short-hover) | Active: var(--context-trading-short-active)
+
+Disabled (global): opacity 0.4, cursor not-allowed
+
+Implemente como componente React com CSS Module. Props: variant, size, iconLeft, iconRight + atributos nativos do button. Resultado deve ser pixel-perfect em relação ao Figma.`,
     },
   },
   {

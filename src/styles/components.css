@@ -56,8 +56,8 @@
 }
 
 /* ==========================================================================
-   Botões — specs design.md seção 8.2
-   Default: 24px altura, 8px padding H, Inter SemiBold 14px
+   Botões — Figma node 1318:749
+   Default: 24px altura, 8px padding H, Inter SemiBold 14px, radius 8px
    Large:   32px altura, 12px padding H
    ========================================================================== */
 .trdr-btn {
@@ -67,7 +67,7 @@
   gap: var(--spacing-xs);
   height: 24px;
   padding: 0 var(--spacing-sm);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   font-family: var(--font-secondary);
   font-size: 14px;
   font-weight: 600;
@@ -85,34 +85,100 @@
   font-size: 14px;
 }
 
+/* Primary */
 .trdr-btn-primary {
-  background-color: var(--action-brand-default);
-  color: var(--content-inverse);
+  background-color: var(--action-brand-inverse-default);
+  color: var(--content-primary);
+  border: 0.5px solid var(--action-brand-inverse-default);
 }
+.trdr-btn-primary:hover  { background-color: var(--action-brand-inverse-hover); border-color: var(--action-brand-inverse-hover); }
+.trdr-btn-primary:active { background-color: var(--action-brand-inverse-active); border-color: var(--action-brand-inverse-active); }
+.trdr-btn-primary:disabled { background-color: var(--action-brand-disabled); border-color: transparent; opacity: 0.5; cursor: not-allowed; }
 
-.trdr-btn-primary:hover {
-  background-color: var(--action-brand-hover);
-}
-
+/* Secondary */
 .trdr-btn-secondary {
   background-color: var(--action-secondary-default);
   color: var(--content-primary);
 }
+.trdr-btn-secondary:hover  { background-color: var(--action-secondary-hover); }
+.trdr-btn-secondary:active { background-color: var(--action-secondary-active); }
+.trdr-btn-secondary:disabled { background-color: var(--action-secondary-disabled); color: var(--content-disabled); cursor: not-allowed; }
 
-.trdr-btn-secondary:hover {
-  background-color: var(--action-secondary-hover);
-}
-
+/* Ghost */
 .trdr-btn-ghost {
   background-color: transparent;
-  color: var(--content-tertiary);
+  color: var(--content-secondary);
   border: 1px solid var(--border-default);
 }
+.trdr-btn-ghost:hover  { background-color: var(--surface-secondary); border-color: var(--border-strong); color: var(--content-primary); }
+.trdr-btn-ghost:active { background-color: var(--surface-primary); }
+.trdr-btn-ghost:disabled { color: var(--content-disabled); border-color: var(--border-disabled); cursor: not-allowed; opacity: 0.5; }
 
-.trdr-btn-ghost:hover {
+/* Destructive */
+.trdr-btn-destructive {
+  background-color: var(--action-destructive-default);
   color: var(--content-primary);
-  border-color: var(--border-strong);
 }
+.trdr-btn-destructive:hover  { background-color: var(--action-destructive-hover); }
+.trdr-btn-destructive:active { background-color: var(--action-destructive-active); }
+.trdr-btn-destructive:disabled { background-color: var(--action-destructive-disabled); opacity: 0.5; cursor: not-allowed; }
+
+/* Inverse */
+.trdr-btn-inverse {
+  background-color: var(--bg-inverse);
+  color: var(--content-inverse);
+  border: 0.5px solid var(--bg-inverse);
+}
+.trdr-btn-inverse:hover  { background-color: var(--color-neutral-100); }
+.trdr-btn-inverse:active { background-color: var(--color-neutral-200); }
+
+/* Link */
+.trdr-btn-link {
+  background-color: transparent;
+  color: var(--content-brand);
+  padding-left: 0;
+  padding-right: 0;
+}
+.trdr-btn-link:hover  { color: var(--action-brand-hover); text-decoration: underline; }
+.trdr-btn-link:active { color: var(--action-brand-active); }
+.trdr-btn-link:disabled { color: var(--content-disabled); cursor: not-allowed; }
+
+/* Link Danger */
+.trdr-btn-link-danger {
+  background-color: transparent;
+  color: var(--content-error);
+  padding-left: 0;
+  padding-right: 0;
+}
+.trdr-btn-link-danger:hover  { color: var(--action-destructive-hover); text-decoration: underline; }
+.trdr-btn-link-danger:active { color: var(--action-destructive-active); }
+
+/* Secondary Destruct */
+.trdr-btn-secondary-destruct {
+  background-color: transparent;
+  color: var(--action-destructive-default);
+  border: 1px solid var(--action-destructive-default);
+}
+.trdr-btn-secondary-destruct:hover  { background-color: var(--action-destructive-disabled); }
+.trdr-btn-secondary-destruct:active { background-color: var(--context-trading-stop-default); }
+
+/* Long — Trading (compra/verde) */
+.trdr-btn-long {
+  background-color: var(--context-trading-long-default);
+  color: var(--context-trading-long-text);
+  min-width: 80px;
+}
+.trdr-btn-long:hover  { background-color: var(--context-trading-long-hover); }
+.trdr-btn-long:active { background-color: var(--context-trading-long-active); }
+
+/* Short — Trading (venda/vermelho) */
+.trdr-btn-short {
+  background-color: var(--context-trading-short-default);
+  color: var(--context-trading-short-text);
+  min-width: 80px;
+}
+.trdr-btn-short:hover  { background-color: var(--context-trading-short-hover); }
+.trdr-btn-short:active { background-color: var(--context-trading-short-active); }
 
 /* ==========================================================================
    Badge
