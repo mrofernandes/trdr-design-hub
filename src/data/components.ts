@@ -1336,6 +1336,91 @@ COMPORTAMENTO:
   └── [Tab 1] [Tab 2] [Tab N...]
       Padding: 2px no container`,
     implemented: true,
+    code: {
+      html: `<!-- 2 tabs -->
+<div class="trdr-segment-control">
+  <span class="trdr-segment trdr-segment-active">Avançado</span>
+  <span class="trdr-segment trdr-segment-inactive">Simples</span>
+</div>
+
+<!-- 5 tabs -->
+<div class="trdr-segment-control">
+  <span class="trdr-segment trdr-segment-active">Filtro 1</span>
+  <span class="trdr-segment trdr-segment-inactive">Filtro 2</span>
+  <span class="trdr-segment trdr-segment-inactive">Filtro 3</span>
+  <span class="trdr-segment trdr-segment-inactive">Filtro 4</span>
+  <span class="trdr-segment trdr-segment-inactive">Filtro 5</span>
+</div>`,
+      css: `.trdr-segment-control {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);         /* 8px */
+  flex-wrap: wrap;
+}
+
+.trdr-segment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-sm) var(--spacing-md);  /* 8px 12px */
+  border-radius: var(--spacing-lg);              /* 16px — pill */
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.trdr-segment-active {
+  background-color: var(--action-brand-inverse-default);  /* #0066FF */
+  color: var(--content-primary);                          /* #FFFFFF */
+}
+
+.trdr-segment-inactive {
+  background-color: var(--surface-secondary);  /* #222222 */
+  color: var(--content-tertiary);              /* #A4A4A4 */
+}
+
+.trdr-segment-inactive:hover {
+  color: var(--content-secondary);  /* #E8E8E8 */
+}`,
+      react: `import { useState } from 'react'
+
+export default function Example() {
+  const [active, setActive] = useState('avancado')
+  const tabs = [
+    { id: 'avancado', label: 'Avançado' },
+    { id: 'simples', label: 'Simples' },
+  ]
+
+  return (
+    <div className="trdr-segment-control">
+      {tabs.map(tab => (
+        <span
+          key={tab.id}
+          className={\`trdr-segment \${active === tab.id ? 'trdr-segment-active' : 'trdr-segment-inactive'}\`}
+          onClick={() => setActive(tab.id)}
+        >
+          {tab.label}
+        </span>
+      ))}
+    </div>
+  )
+}`,
+      prompt: `Implemente o componente Segmented Control do Design System TRDR.
+
+ESPECIFICAÇÕES:
+- Container (.trdr-segment-control): display inline-flex, gap 8px (--spacing-sm), flex-wrap wrap
+- Segment (.trdr-segment): padding 8px 12px (--spacing-sm/--spacing-md), border-radius 16px (pill), font 14px/400 Inter
+- Ativo (.trdr-segment-active): bg --action-brand-inverse-default (#0066FF), color --content-primary (#FFFFFF)
+- Inativo (.trdr-segment-inactive): bg --surface-secondary (#222222), color --content-tertiary (#A4A4A4)
+- Hover inativo: color --content-secondary (#E8E8E8)
+- Transição: 0.15s ease em background-color e color
+
+Use classes CSS globais. Gerencie o estado ativo via useState no React.`,
+    },
   },
   {
     slug: 'tooltip',
@@ -1455,172 +1540,10 @@ SETAS CSS POR DIREÇÃO:
 - Alinhamentos: center=50%+translateX, left=8px, right=8px`,
     },
   },
-  {
-    slug: 'labels',
-    name: 'Labels',
-    figmaId: '1318:722',
-    category: 'formulario',
-    description: 'Labels de campo para inputs e controles de formulário.',
-    props: [
-      { name: 'Required', type: 'boolean', values: ['true', 'false'] },
-      { name: 'Helper', type: 'boolean', values: ['true', 'false'] },
-    ],
-    dimensions: [{ label: 'Default', height: 'auto' }],
-    tokens: [
-      { property: 'Label text', token: 'content.secondary', value: '#E8E8E8' },
-      { property: 'Required marker', token: 'content.error', value: '#F34F45' },
-      { property: 'Helper text', token: 'content.tertiary', value: '#A4A4A4' },
-    ],
-  },
-  {
-    slug: 'labeled-combo-input',
-    name: 'LabeledComboInput',
-    figmaId: '1973:94124',
-    category: 'formulario',
-    description: 'Combo input com label integrado. Usado em formulários de configuração de ordens.',
-    props: [],
-    dimensions: [{ label: 'Default', height: '52px' }],
-    tokens: [
-      { property: 'Background', token: 'surface.secondary', value: '#222222' },
-    ],
-  },
-  {
-    slug: 'color-picker-row',
-    name: 'ColorPickerRow',
-    figmaId: '1973:94117',
-    category: 'formulario',
-    description: 'Linha de seleção de cor para painéis de configuração de gráficos.',
-    props: [],
-    dimensions: [{ label: 'Default', height: '32px' }],
-    tokens: [
-      { property: 'Background', token: 'surface.secondary', value: '#222222' },
-    ],
-  },
-
-  // =========================================================================
-  // MODAIS / OVERLAYS
-  // =========================================================================
-  {
-    slug: 'modal',
-    name: 'Modal',
-    figmaId: '1959:70722',
-    category: 'modal',
-    description: 'Modal com footer Standard ou Destructive. Suporta abas opcionais. 480px de largura.',
-    props: [
-      { name: 'Footer', type: 'enum', values: ['Standard', 'Destructive'] },
-      { name: 'Tabs', type: 'boolean', values: ['true', 'false'] },
-    ],
-    dimensions: [
-      { label: 'Default', width: '480px', height: 'auto' },
-    ],
-    tokens: [
-      { property: 'Background', token: 'bg.secondary', value: '#141519' },
-      { property: 'Header height', token: '—', value: '44px' },
-      { property: 'Footer height', token: '—', value: '48px' },
-      { property: 'Border', token: 'border.subtle', value: '#222222' },
-      { property: 'CTA destrutiva', token: 'action.destructive.default', value: '#F57C00' },
-    ],
-    anatomy: `[Header 44px] ← título + fechar
-[Content flex-grow]
-[Footer 48px] ← ações`,
-  },
-  {
-    slug: 'notifications',
-    name: 'Notifications',
-    figmaId: '1926:58501',
-    category: 'modal',
-    description: 'Painel de notificações do sistema.',
-    props: [],
-    dimensions: [{ label: 'Default', height: 'auto' }],
-    tokens: [
-      { property: 'Background', token: 'bg.secondary', value: '#141519' },
-    ],
-  },
-  {
-    slug: 'confirmacoes-execucao',
-    name: 'Confirmações de Execução',
-    figmaId: '2161:35731',
-    category: 'modal',
-    description: 'Modal de confirmação de ordens executadas. Exibe detalhes da operação.',
-    props: [],
-    dimensions: [{ label: 'Default', height: 'auto' }],
-    tokens: [
-      { property: 'Long', token: 'context.trading.long.text', value: '#4FE290' },
-      { property: 'Short', token: 'context.trading.short.text', value: '#F34F45' },
-    ],
-  },
-  {
-    slug: 'tp-sl-config',
-    name: 'TP/SL Config',
-    figmaId: '2161:35783',
-    category: 'modal',
-    description: 'Painel de configuração de Take Profit e Stop Loss.',
-    props: [],
-    dimensions: [{ label: 'Default', height: 'auto' }],
-    tokens: [
-      { property: 'TP color', token: 'context.trading.up', value: '#4FE290' },
-      { property: 'SL color', token: 'context.trading.stop.default', value: 'rgba(255,100,0,0.16)' },
-    ],
-  },
 
   // =========================================================================
   // NAVEGAÇÃO
   // =========================================================================
-  {
-    slug: 'header-window',
-    name: 'Header Window',
-    figmaId: '243:3344',
-    category: 'navegacao',
-    description: 'Header interno de janela da plataforma de trading. Contém abas e ações.',
-    props: [
-      { name: 'Tabs', type: 'boolean', values: ['true', 'false'] },
-    ],
-    dimensions: [
-      { label: 'Default', width: '476px', height: '41px' },
-    ],
-    tokens: [
-      { property: 'Background', token: 'bg.secondary', value: '#141519' },
-      { property: 'Tab ativa — indicador', token: 'action.brand.default', value: '#3D99FF' },
-      { property: 'Tab ativa — texto', token: 'content.primary', value: '#FFFFFF' },
-      { property: 'Tab inativa — texto', token: 'content.tertiary', value: '#A4A4A4' },
-      { property: 'Border bottom', token: 'border.subtle', value: '#222222' },
-    ],
-    anatomy: `[Tab 1 ▼ 2px azul] [Tab 2] [Tab N] → → → [Ações]
-Indicador: border-bottom 2px action.brand.default na tab ativa`,
-    notes: 'Estilo 1 de abas: bottom-border indicator. Diferente das pill tabs e do componente abas.',
-  },
-  {
-    slug: 'hellobar',
-    name: 'Hellobar',
-    figmaId: '3:773',
-    category: 'navegacao',
-    description: 'Barra superior global de 1920×46px.',
-    props: [],
-    dimensions: [
-      { label: 'Default', width: '1920px', height: '46px' },
-    ],
-    tokens: [
-      { property: 'Background', token: 'bg.primary', value: '#0E0E0E' },
-    ],
-  },
-  {
-    slug: 'header-desktop',
-    name: 'Header Desktop',
-    figmaId: '1921:55292',
-    category: 'navegacao',
-    description: 'Header principal da plataforma desktop e do app launcher.',
-    props: [],
-    dimensions: [
-      { label: 'Default', width: '390px', height: '56px' },
-    ],
-    tokens: [
-      { property: 'Background', token: 'bg.primary', value: '#0E0E0E' },
-      { property: 'Nav text', token: 'content.tertiary', value: '#A4A4A4' },
-      { property: 'Divider', token: 'border.subtle', value: '#222222' },
-    ],
-    anatomy: `[Logo] | [Nav items gap-16px] → → → [Conexões btn] | [Win controls]
-Altura: 56px | Padding: 16px H / 8px V`,
-  },
   {
     slug: 'abas',
     name: 'Abas',
@@ -1637,23 +1560,92 @@ Altura: 56px | Padding: 16px H / 8px V`,
     ],
     notes: 'Estilo 2 de abas: fundo na tab ativa. Diferente do header-window (bottom-border) e pill tabs.',
     implemented: true,
-  },
-  {
-    slug: 'sidebar-icon',
-    name: 'SidebarIcon',
-    figmaId: '1630:24282',
-    category: 'navegacao',
-    description: 'Ícone de sidebar com 3 estados: Default, Hover e Active.',
-    props: [
-      { name: 'State', type: 'enum', values: ['Default', 'Hover', 'Active'] },
-    ],
-    dimensions: [
-      { label: 'Default', width: '64px', height: '24px' },
-    ],
-    tokens: [
-      { property: 'Active', token: 'action.brand.default', value: '#3D99FF' },
-      { property: 'Default', token: 'content.tertiary', value: '#A4A4A4' },
-    ],
+    code: {
+      html: `<div class="trdr-abas">
+  <div class="trdr-abas-item trdr-abas-item-active">
+    <span>Todos os tokens</span>
+  </div>
+  <div class="trdr-abas-item">
+    <span>Primitivos</span>
+  </div>
+  <div class="trdr-abas-item">
+    <span>Semânticos</span>
+  </div>
+  <div class="trdr-abas-item">
+    <span>Scale</span>
+  </div>
+  <div class="trdr-abas-item">
+    <span>Tipografia</span>
+  </div>
+</div>`,
+      css: `.trdr-abas {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid var(--border-subtle);  /* #222222 */
+  overflow-x: auto;
+  height: 45px;
+}
+
+.trdr-abas-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 0 12px;
+  cursor: pointer;
+  font-family: var(--font-secondary);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--content-tertiary);      /* #A4A4A4 */
+  white-space: nowrap;
+  transition: color 0.15s ease;
+}
+
+.trdr-abas-item:hover { color: var(--content-secondary); }
+
+.trdr-abas-item-active {
+  color: var(--content-primary);       /* #FFFFFF */
+}
+
+.trdr-abas-item-active::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background-color: var(--action-brand-active);  /* #3D99FF */
+}`,
+      react: `import { useState } from 'react'
+
+const tabs = ['Todos os tokens', 'Primitivos', 'Semânticos', 'Scale', 'Tipografia']
+
+export default function Example() {
+  const [active, setActive] = useState(0)
+
+  return (
+    <div className="trdr-abas">
+      {tabs.map((tab, i) => (
+        <div
+          key={tab}
+          className={\`trdr-abas-item \${i === active ? 'trdr-abas-item-active' : ''}\`}
+          onClick={() => setActive(i)}
+        >
+          {tab}
+        </div>
+      ))}
+    </div>
+  )
+}`,
+      prompt: `Implemente o componente Abas do Design System TRDR.
+
+ESPECIFICAÇÕES PIXEL-PERFECT:
+- Container (.trdr-abas): flex, align-items stretch, border-bottom 1px --border-subtle (#222222), height 45px, overflow-x auto
+- Item (.trdr-abas-item): position relative, padding 0 12px, flex col centered, font 16px/500 Inter
+- Tab inativa: color --content-tertiary (#A4A4A4), hover: --content-secondary (#E8E8E8)
+- Tab ativa (.trdr-abas-item-active): color --content-primary (#FFFFFF)
+- Indicador ativo: ::after position absolute, bottom 0, left 0, right 0, height 2px, bg --action-brand-active (#3D99FF)
+- Largura total: 476px | Transição: color 0.15s ease`,
+    },
   },
   {
     slug: 'sub-menu-item',
@@ -1672,99 +1664,98 @@ Altura: 56px | Padding: 16px H / 8px V`,
       { property: 'Text', token: 'content.secondary', value: '#E8E8E8' },
     ],
     implemented: true,
-  },
-  {
-    slug: 'menu-lateral',
-    name: 'Menu Lateral',
-    figmaId: '1875:20372',
-    category: 'navegacao',
-    description: 'Menu lateral completo da plataforma de trading. 48px de largura, 5 variantes.',
-    props: [
-      { name: 'Variant', type: 'enum', values: ['Gráfico', 'Análises', 'Mercado', 'Ferramentas', 'Configurações'] },
-    ],
-    dimensions: [
-      { label: 'Default', width: '48px', height: '974px' },
-    ],
-    tokens: [
-      { property: 'Background', token: 'bg.secondary', value: '#141519' },
-      { property: 'Border', token: 'border.subtle', value: '#222222' },
-      { property: 'Icon ativo', token: 'content.brand', value: '#3D99FF' },
-      { property: 'Icon inativo', token: 'content.tertiary', value: '#A4A4A4' },
-    ],
-  },
-  {
-    slug: 'link',
-    name: 'Link',
-    figmaId: '2161:33773',
-    category: 'navegacao',
-    description: 'Link padrão e ativo. 24×24px.',
-    props: [
-      { name: 'State', type: 'enum', values: ['Default', 'Active'] },
-    ],
-    dimensions: [
-      { label: 'Default', width: '24px', height: '24px' },
-    ],
-    tokens: [
-      { property: 'Default', token: 'content.tertiary', value: '#A4A4A4' },
-      { property: 'Active', token: 'content.brand', value: '#3D99FF' },
-    ],
-  },
-  {
-    slug: 'janela',
-    name: 'Janela',
-    figmaId: '1909:41600',
-    category: 'navegacao',
-    description: 'Container de janela flutuante completa da plataforma de trading.',
-    props: [],
-    dimensions: [
-      { label: 'Default', width: '1709px', height: '1168px' },
-    ],
-    tokens: [
-      { property: 'Background', token: 'bg.secondary', value: '#141519' },
-      { property: 'Border', token: 'border.default', value: '#4A4A4A' },
-      { property: 'Radius', token: 'scale.radius.sm', value: '4px' },
-    ],
-    anatomy: `[header-window 41px] ← tabs + ações
-────────────────────────────
-[Conteúdo flex-grow]`,
-    notes: 'Container universal da plataforma. Todo painel é uma janela.',
-  },
+    code: {
+      html: `<div class="trdr-sub-menu">
+  <div class="trdr-sub-menu-item trdr-sub-menu-item-active">
+    <span class="material-symbols-outlined" style="font-size:20px;color:var(--content-tertiary)">palette</span>
+    <span>Todos os tokens</span>
+  </div>
+  <div class="trdr-sub-menu-item">
+    <span class="material-symbols-outlined" style="font-size:20px;color:var(--content-tertiary)">widgets</span>
+    <span>Catálogo</span>
+  </div>
+  <div class="trdr-sub-menu-item">
+    <span class="material-symbols-outlined" style="font-size:20px;color:var(--content-tertiary)">smart_toy</span>
+    <span>Guia &amp; Regras</span>
+  </div>
+</div>`,
+      css: `.trdr-sub-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 236px;
+  background-color: var(--bg-secondary);     /* #141519 */
+  border: 1px solid var(--border-subtle);    /* #222222 */
+  border-radius: var(--radius-sm);           /* 4px */
+  padding: 8px;
+}
 
-  // =========================================================================
-  // FLOATING MENUS
-  // =========================================================================
-  { slug: 'floating-menu-open-itens', name: 'Floating Menu Open Itens', figmaId: '2147:24092', category: 'floating-menu', description: 'Menu flutuante de itens abertos.', props: [], dimensions: [{ label: 'Default', width: '163px', height: '120px' }], tokens: [{ property: 'Background', token: 'bg.primary', value: '#0E0E0E' }, { property: 'Radius', token: 'scale.radius.md', value: '8px' }] },
-  { slug: 'floating-menu-color-picker', name: 'Floating Menu Color Picker', figmaId: '2147:24091', category: 'floating-menu', description: 'Seletor de cor flutuante.', props: [], dimensions: [{ label: 'Default', width: '160px', height: '175px' }], tokens: [{ property: 'Background', token: 'bg.primary', value: '#0E0E0E' }] },
-  { slug: 'floating-menu-mercados', name: 'Floating Menu Mercados', figmaId: '2147:24090', category: 'floating-menu', description: 'Seletor de mercados/ativos flutuante.', props: [], dimensions: [{ label: 'Default', width: '147px', height: '207px' }], tokens: [{ property: 'Background', token: 'bg.primary', value: '#0E0E0E' }] },
-  { slug: 'floating-menu-more-horiz', name: 'Floating Menu More Horiz', figmaId: '2147:24089', category: 'floating-menu', description: 'Menu de mais opções (…) horizontal.', props: [], dimensions: [{ label: 'Default', width: '172px', height: '192px' }], tokens: [{ property: 'Background', token: 'bg.primary', value: '#0E0E0E' }] },
-  { slug: 'floating-menu-conexoes', name: 'Floating Menu Conexões', figmaId: '1921:55384', category: 'floating-menu', description: 'Painel de gerenciamento de conexões.', props: [], dimensions: [{ label: 'Default', width: '260px', height: '305px' }], tokens: [{ property: 'Background', token: 'bg.primary', value: '#0E0E0E' }] },
-  { slug: 'floating-menu-configuracoes', name: 'Floating Menu Configurações', figmaId: '1921:55382', category: 'floating-menu', description: 'Painel de configurações rápidas.', props: [], dimensions: [{ label: 'Default', width: '260px', height: '239px' }], tokens: [{ property: 'Background', token: 'bg.primary', value: '#0E0E0E' }] },
-  { slug: 'floating-menu-tipo-grafico', name: 'Floating Menu Tipo de Gráfico', figmaId: '1923:56275', category: 'floating-menu', description: 'Seletor de tipo de gráfico (candle, linha, etc).', props: [], dimensions: [{ label: 'Default', width: '200px', height: '210px' }], tokens: [{ property: 'Background', token: 'bg.primary', value: '#0E0E0E' }] },
-  { slug: 'floating-menu-layouts', name: 'Floating Menu Layouts', figmaId: '1921:55383', category: 'floating-menu', description: 'Seletor de layouts de gráfico.', props: [], dimensions: [{ label: 'Default', width: '240px', height: '215px' }], tokens: [{ property: 'Background', token: 'bg.primary', value: '#0E0E0E' }] },
-  { slug: 'floating-menu-indicadores', name: 'Floating Menu Indicadores', figmaId: '1923:56276', category: 'floating-menu', description: 'Seletor de indicadores técnicos.', props: [], dimensions: [{ label: 'Default', width: '240px', height: '323px' }], tokens: [{ property: 'Background', token: 'bg.primary', value: '#0E0E0E' }] },
-  { slug: 'floating-menu-boleta', name: 'Floating Menu Boleta', figmaId: '1916:47379', category: 'floating-menu', description: 'Menu contextual da boleta de ordens.', props: [], dimensions: [{ label: 'Default', height: 'auto' }], tokens: [{ property: 'Background', token: 'bg.primary', value: '#0E0E0E' }] },
-  { slug: 'floating-menu-seletor-ativo', name: 'Floating Menu Seletor Ativo', figmaId: '1916:47380', category: 'floating-menu', description: 'Seletor de ativo/instrumento financeiro.', props: [], dimensions: [{ label: 'Default', height: 'auto' }], tokens: [{ property: 'Background', token: 'bg.primary', value: '#0E0E0E' }] },
-  { slug: 'floating-menu-tp-sl', name: 'Floating Menu TP/SL', figmaId: '1916:47381', category: 'floating-menu', description: 'Configuração rápida de TP/SL.', props: [], dimensions: [{ label: 'Default', height: 'auto' }], tokens: [{ property: 'Background', token: 'bg.primary', value: '#0E0E0E' }] },
-  { slug: 'floating-menu-ordem', name: 'Floating Menu Ordem', figmaId: '1916:47382', category: 'floating-menu', description: 'Opções de ordem.', props: [], dimensions: [{ label: 'Default', height: 'auto' }], tokens: [{ property: 'Background', token: 'bg.primary', value: '#0E0E0E' }] },
-  { slug: 'floating-menu-posicao', name: 'Floating Menu Posição', figmaId: '1916:47383', category: 'floating-menu', description: 'Opções de posição aberta.', props: [], dimensions: [{ label: 'Default', height: 'auto' }], tokens: [{ property: 'Background', token: 'bg.primary', value: '#0E0E0E' }] },
+.trdr-sub-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--content-secondary);           /* #E8E8E8 */
+  transition: background-color 0.1s;
+}
+
+.trdr-sub-menu-item:hover,
+.trdr-sub-menu-item-active {
+  background-color: var(--surface-secondary);  /* #222222 */
+}`,
+      react: `import { useState } from 'react'
+
+const items = [
+  { icon: 'palette', label: 'Todos os tokens' },
+  { icon: 'widgets', label: 'Catálogo' },
+  { icon: 'smart_toy', label: 'Guia & Regras' },
+]
+
+export default function Example() {
+  const [active, setActive] = useState(0)
+
+  return (
+    <div className="trdr-sub-menu">
+      {items.map(({ icon, label }, i) => (
+        <div
+          key={label}
+          className={\`trdr-sub-menu-item \${i === active ? 'trdr-sub-menu-item-active' : ''}\`}
+          onClick={() => setActive(i)}
+        >
+          <span
+            className="material-symbols-outlined"
+            style={{ fontSize: 20, color: 'var(--content-tertiary)' }}
+          >
+            {icon}
+          </span>
+          <span>{label}</span>
+        </div>
+      ))}
+    </div>
+  )
+}`,
+      prompt: `Implemente o componente Sub-menu Item do Design System TRDR.
+
+ESPECIFICAÇÕES:
+- Container (.trdr-sub-menu): flex-col, gap 4px, width 236px, bg --bg-secondary (#141519), border 1px --border-subtle (#222222), radius --radius-sm (4px), padding 8px
+- Item (.trdr-sub-menu-item): flex, gap 8px, height 32px, padding 0 8px, radius 4px, font 14px/400 Inter, color --content-secondary (#E8E8E8)
+- Hover / Ativo (.trdr-sub-menu-item-active): bg --surface-secondary (#222222)
+- Ícone: Material Symbols Outlined, font-size 20px, color --content-tertiary (#A4A4A4)
+- Transição: background-color 0.1s
+
+Implemente com estado ativo via useState.`,
+    },
+  },
 
   // =========================================================================
   // TRADING
   // =========================================================================
-  {
-    slug: 'grafico',
-    name: 'Gráfico',
-    figmaId: '1923:56349',
-    category: 'trading',
-    description: 'Área principal do gráfico de preços com candlesticks. Integra floating menus.',
-    props: [],
-    dimensions: [{ label: 'Default', height: 'flex-grow' }],
-    tokens: [
-      { property: 'Candle alta', token: 'context.chart.candles.up', value: '#31DD7E' },
-      { property: 'Candle baixa', token: 'context.chart.candles.down', value: '#F34F45' },
-      { property: 'Background', token: 'bg.secondary', value: '#141519' },
-    ],
-  },
   {
     slug: 'boleta',
     name: 'Painel de Negociações (Boleta)',
@@ -1962,106 +1953,10 @@ Hover states: long-hover rgba(79,226,144,0.12), short-hover rgba(243,79,69,0.12)
 Resultado pixel-perfect com exatamente 283px de largura.`,
     },
   },
-  { slug: 'volume', name: 'Volume', figmaId: '266:7525', category: 'trading', description: 'Exibição do volume negociado em histograma.', props: [], dimensions: [{ label: 'Default', height: 'auto' }], tokens: [{ property: 'Barras', token: 'content.tertiary', value: '#A4A4A4' }] },
-  {
-    slug: 'ordens',
-    name: 'Ordens',
-    figmaId: '336:3114',
-    category: 'trading',
-    description: 'Lista de ordens abertas e executadas. Usa DataTable + DataTableRow.',
-    props: [],
-    dimensions: [{ label: 'Default', height: 'auto' }],
-    tokens: [
-      { property: 'Header', token: 'content.tertiary', value: '#A4A4A4' },
-      { property: 'Row hover', token: 'surface.secondary', value: '#222222' },
-    ],
-  },
-  { slug: 'resultado-row', name: 'Resultado Row', figmaId: '2168:50415', category: 'trading', description: 'Linha de resultado do dia.', props: [], dimensions: [{ label: 'Default', height: '32px' }], tokens: [{ property: 'Positivo', token: 'context.trading.up', value: '#4FE290' }, { property: 'Negativo', token: 'context.trading.down', value: '#F34F45' }] },
-  { slug: 'dropdown-resultado', name: 'Dropdown Resultado do Dia', figmaId: '2168:50482', category: 'trading', description: 'Dropdown de resultado do dia com variantes positivo/negativo.', props: [{ name: 'Resultado', type: 'enum', values: ['Positivo', 'Negativo'] }], dimensions: [{ label: 'Default', height: '32px' }], tokens: [{ property: 'Positivo', token: 'context.trading.up', value: '#4FE290' }, { property: 'Negativo', token: 'context.trading.down', value: '#F34F45' }] },
-  { slug: 'list', name: 'List', figmaId: '2150:28676', category: 'trading', description: 'Lista de itens da plataforma.', props: [], dimensions: [{ label: 'Default', height: 'auto' }], tokens: [] },
-  { slug: 'data-table', name: 'DataTable', figmaId: '1973:94151', category: 'trading', description: 'Tabela de dados da plataforma de trading.', props: [], dimensions: [{ label: 'Default', height: 'auto' }], tokens: [{ property: 'Header BG', token: 'surface.secondary', value: '#222222' }, { property: 'Row border', token: 'border.subtle', value: '#222222' }] },
-  { slug: 'data-table-row', name: 'DataTableRow', figmaId: '1973:94150', category: 'trading', description: 'Linha da DataTable.', props: [{ name: 'Side', type: 'enum', values: ['Long', 'Short', 'Neutral'] }], dimensions: [{ label: 'Default', height: '32px' }], tokens: [{ property: 'Long', token: 'context.trading.long.default', value: 'rgba(79,226,144,0.08)' }, { property: 'Short', token: 'context.trading.short.default', value: 'rgba(243,79,69,0.08)' }] },
-  { slug: 'grid-saida-row', name: 'GridSaidaRow', figmaId: '1973:95100', category: 'trading', description: 'Linha do grid de saída de posições.', props: [], dimensions: [{ label: 'Default', height: '32px' }], tokens: [] },
-  { slug: 'section-header', name: 'SectionHeader', figmaId: '1973:94119', category: 'trading', description: 'Header de seção dentro de painéis de trading.', props: [], dimensions: [{ label: 'Default', height: '32px' }], tokens: [{ property: 'Background', token: 'surface.secondary', value: '#222222' }, { property: 'Text', token: 'content.tertiary', value: '#A4A4A4' }] },
-  { slug: 'container', name: 'Container', figmaId: '856:20717', category: 'trading', description: 'Container genérico de painel.', props: [], dimensions: [{ label: 'Default', height: 'auto' }], tokens: [] },
-  { slug: 'conjunto', name: 'Conjunto', figmaId: '856:20709', category: 'trading', description: 'Agrupador de múltiplos painéis.', props: [], dimensions: [{ label: 'Default', height: 'auto' }], tokens: [] },
-
-  // =========================================================================
-  // CONFIGURAÇÃO
-  // =========================================================================
-  { slug: 'content-grafico-geral', name: 'Content GráficoGeral', figmaId: '1973:94390', category: 'configuracao', description: 'Painel de configuração geral do gráfico.', props: [], dimensions: [{ label: 'Default', height: 'auto' }], tokens: [{ property: 'Background', token: 'bg.secondary', value: '#141519' }] },
-  { slug: 'content-estrategias', name: 'Content Estratégias', figmaId: '1973:95266', category: 'configuracao', description: 'Painel de configuração de estratégias.', props: [], dimensions: [{ label: 'Default', height: 'auto' }], tokens: [] },
-  { slug: 'content-grafico-trade', name: 'Content GráficoTrade', figmaId: '1973:94706', category: 'configuracao', description: 'Configuração visual de trade no gráfico.', props: [], dimensions: [{ label: 'Default', height: 'auto' }], tokens: [] },
-  { slug: 'content-cores-painel', name: 'Content CoresPainel', figmaId: '1973:94177', category: 'configuracao', description: 'Configuração de cores do painel.', props: [], dimensions: [{ label: 'Default', height: 'auto' }], tokens: [] },
-  { slug: 'content-propriedades', name: 'Content Propriedades', figmaId: '1973:94957', category: 'configuracao', description: 'Painel de propriedades do instrumento.', props: [], dimensions: [{ label: 'Default', height: 'auto' }], tokens: [] },
-  { slug: 'content-cores-livro', name: 'Content CoresLivro', figmaId: '1973:94188', category: 'configuracao', description: 'Configuração de cores do livro de ordens.', props: [], dimensions: [{ label: 'Default', height: 'auto' }], tokens: [] },
-  { slug: 'content-grafico-legenda', name: 'Content GráficoLegenda', figmaId: '1973:94206', category: 'configuracao', description: 'Configuração da legenda do gráfico.', props: [], dimensions: [{ label: 'Default', height: 'auto' }], tokens: [] },
-
-  // =========================================================================
-  // IA
-  // =========================================================================
-  {
-    slug: 'chat-ia',
-    name: 'Chat IA',
-    figmaId: '473:33085',
-    category: 'ia',
-    description: 'Interface de chat com assistente IA integrado à plataforma de trading.',
-    props: [],
-    dimensions: [{ label: 'Default', height: 'auto' }],
-    tokens: [
-      { property: 'Background', token: 'bg.secondary', value: '#141519' },
-      { property: 'Input', token: 'surface.secondary', value: '#222222' },
-      { property: 'Mensagem IA', token: 'surface.brand', value: 'rgba(0,82,204,0.16)' },
-    ],
-  },
-  {
-    slug: 'copiloto',
-    name: 'Copiloto',
-    figmaId: '2025:195768',
-    category: 'ia',
-    description: 'Painel copiloto que analisa e sugere ações de trading em tempo real.',
-    props: [],
-    dimensions: [{ label: 'Default', height: 'auto' }],
-    tokens: [
-      { property: 'Background', token: 'bg.secondary', value: '#141519' },
-      { property: 'Sugestão positiva', token: 'context.trading.up', value: '#4FE290' },
-      { property: 'Sugestão negativa', token: 'context.trading.down', value: '#F34F45' },
-    ],
-  },
 
   // =========================================================================
   // OUTROS
   // =========================================================================
-  {
-    slug: 'painel-cotacoes',
-    name: 'Painel de Cotações',
-    figmaId: '77:3681',
-    category: 'outros',
-    description: 'Exibe cotações em tempo real dos ativos. Coluna 1 da plataforma (358px).',
-    props: [],
-    dimensions: [
-      { label: 'Default', width: '358px', height: 'auto' },
-    ],
-    tokens: [
-      { property: 'Background', token: 'bg.secondary', value: '#141519' },
-      { property: 'Ask (alta)', token: 'context.trading.up', value: '#4FE290' },
-      { property: 'Bid (baixa)', token: 'context.trading.down', value: '#F34F45' },
-    ],
-  },
-  {
-    slug: 'noticias',
-    name: 'Notícias',
-    figmaId: '66:2464',
-    category: 'outros',
-    description: 'Feed de notícias do mercado financeiro.',
-    props: [],
-    dimensions: [{ label: 'Default', height: 'auto' }],
-    tokens: [
-      { property: 'Background', token: 'bg.secondary', value: '#141519' },
-      { property: 'Título', token: 'content.primary', value: '#FFFFFF' },
-      { property: 'Meta info', token: 'content.tertiary', value: '#A4A4A4' },
-    ],
-  },
   {
     slug: 'card',
     name: 'Card',
@@ -2328,16 +2223,6 @@ Tokens TRDR obrigatórios:
 
 Implemente como componente React com CSS Module. Use as classes .trdr-badge e .trdr-badge-{variant} para os badges. O componente deve aceitar as props: href, icon?, title, description, headerBadges?, footerLeft?, footerBadges?.`,
     },
-  },
-  {
-    slug: 'componente-coringa',
-    name: 'Componente Coringa',
-    figmaId: '366:11277',
-    category: 'outros',
-    description: 'Componente placeholder genérico para áreas em desenvolvimento.',
-    props: [],
-    dimensions: [{ label: 'Default', height: 'auto' }],
-    tokens: [],
   },
 ]
 
