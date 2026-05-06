@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Space_Grotesk, Roboto_Mono } from 'next/font/google'
+import { Inter, JetBrains_Mono, Roboto_Mono } from 'next/font/google'
 import AppShell from '@/components/layout/AppShell'
 import '@/styles/globals.css'
 import '@/styles/components.css'
@@ -10,9 +10,9 @@ const inter = Inter({
   display: 'swap',
 })
 
-const spaceGrotesk = Space_Grotesk({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
-  variable: '--font-space-grotesk',
+  variable: '--font-jetbrains-mono',
   display: 'swap',
 })
 
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" data-theme="dark" className={`${inter.variable} ${spaceGrotesk.variable} ${robotoMono.variable}`}>
+    <html lang="pt-BR" data-theme="dark" className={`${inter.variable} ${jetbrainsMono.variable} ${robotoMono.variable}`}>
       <head>
         <link
           rel="stylesheet"

@@ -20,7 +20,7 @@ export const absoluteRules: AbsoluteRule[] = [
     id: 1,
     rule: 'Nunca use primitivos diretamente na UI',
     rationale: 'Primitivos são valores brutos (ex: color.blue.600). A UI deve usar tokens semânticos (ex: action.brand.default) para garantir que o tema dark/light funcione corretamente.',
-    example: '❌ background: #3D99FF\n✅ background: var(--action-brand-default)',
+    example: '❌ background: #00A8CC\n✅ background: var(--action-brand-default)',
   },
   {
     id: 2,
@@ -36,8 +36,8 @@ export const absoluteRules: AbsoluteRule[] = [
   },
   {
     id: 4,
-    rule: 'Títulos de página e headings → Space Grotesk',
-    rationale: 'Space Grotesk é a fonte primária da marca. Usada para display, headings e impacto visual.',
+    rule: 'Títulos de página e headings → JetBrains Mono',
+    rationale: 'JetBrains Mono é a fonte primária da marca. Usada para display, headings e impacto visual técnico e financeiro.',
     example: 'font-family: var(--font-primary)',
   },
   {
@@ -97,29 +97,29 @@ export const contextTokenMap: Record<string, ContextTokenGroup[]> = {
   ],
   'marketing': [
     { label: 'Backgrounds', tokens: ['bg.primary → #0E0E0E', 'bg.secondary → #141519'] },
-    { label: 'Tipografia site', tokens: ['site.heading.h1 → Space Grotesk 80px 500', 'site.heading.h2 → Space Grotesk 56px 500', 'site.body.lg → Inter 18px 400'] },
-    { label: 'Gradientes', tokens: ['gradient.text.brand → linear-gradient(90deg, #3D99FF 0%, #FFFFFF 100%)', 'gradient.bg.hero → linear-gradient(180deg, #0052CC 0%, #0E0E0E 40%)'] },
-    { label: 'Ações site', tokens: ['action.brand.default → #3D99FF', 'action.brand-inverse.default → #FFFFFF'] },
+    { label: 'Tipografia site', tokens: ['site.heading.h1 → JetBrains Mono 80px 500', 'site.heading.h2 → JetBrains Mono 56px 500', 'site.body.lg → Inter 18px 400'] },
+    { label: 'Gradientes', tokens: ['gradient.text.brand → linear-gradient(90deg, #00A8CC 0%, #FFFFFF 100%)', 'gradient.bg.hero → linear-gradient(180deg, #002933 0%, #0E0E0E 40%)'] },
+    { label: 'Ações site', tokens: ['action.brand.default → #00A8CC', 'action.brand-inverse.default → #005266'] },
   ],
   'configuracao': [
     { label: 'Backgrounds', tokens: ['bg.primary → #0E0E0E', 'bg.secondary → #141519'] },
-    { label: 'Formulários', tokens: ['surface.secondary → #222222', 'border.default → #4A4A4A', 'border.focus → #65B0FF'] },
+    { label: 'Formulários', tokens: ['surface.secondary → #222222', 'border.default → #4A4A4A', 'border.focus → #00D4FF'] },
     { label: 'Texto', tokens: ['content.primary → #FFFFFF', 'content.secondary → #E8E8E8', 'content.tertiary → #A4A4A4'] },
   ],
   'formulario': [
-    { label: 'Inputs', tokens: ['bg.tertiary → #1A1A1A', 'border.default → #4A4A4A', 'border.focus → #65B0FF'] },
+    { label: 'Inputs', tokens: ['bg.tertiary → #1A1A1A', 'border.default → #4A4A4A', 'border.focus → #00D4FF'] },
     { label: 'Estados', tokens: ['content.error → #F34F45', 'content.success → #4FE290', 'content.warning → #FFCC40'] },
     { label: 'Texto', tokens: ['content.primary → #FFFFFF', 'content.tertiary → #A4A4A4 (placeholder)'] },
   ],
   'dashboard': [
     { label: 'Containers', tokens: ['bg.secondary → #141519', 'surface.secondary → #222222'] },
-    { label: 'Dados', tokens: ['content.primary → #FFFFFF', 'content.brand → #3D99FF'] },
+    { label: 'Dados', tokens: ['content.primary → #FFFFFF', 'content.brand → #00A8CC'] },
     { label: 'Positivo/Negativo', tokens: ['context.trading.up → #4FE290', 'context.trading.down → #F34F45'] },
   ],
   'app-desktop': [
     { label: 'Shell', tokens: ['bg.tertiary → #1A1A1A', 'bg.primary → #0E0E0E (header/footer)'] },
     { label: 'Cards', tokens: ['surface.secondary → #222222', 'border.subtle → #222222'] },
-    { label: 'Status badges', tokens: ['surface.success → rgba(79,226,144,0.08)', 'content.success → #4FE290', 'surface.brand → rgba(0,82,204,0.16)', 'content.brand → #3D99FF'] },
+    { label: 'Status badges', tokens: ['surface.success → rgba(79,226,144,0.08)', 'content.success → #4FE290', 'surface.brand → #00D4FF29', 'content.brand → #00A8CC'] },
   ],
 }
 
@@ -134,25 +134,26 @@ Referência completa: https://trdr.mrocontent.com.br
 1. NUNCA use tokens primitivos diretamente (--color-*, --space-*) — use sempre tokens semânticos
 2. Backgrounds: --bg-primary (#0E0E0E), --bg-secondary (#141519), --bg-tertiary (#1A1A1A)
 3. Texto: --content-primary (branco), --content-secondary (#E8E8E8), --content-tertiary (#A4A4A4)
-4. CTA principal: --action-brand-inverse-default (#0066FF) para botões preenchidos
-5. Fontes: --font-primary = Space Grotesk (headings) | --font-secondary = Inter (body) | --font-mono = Roboto Mono (números)
+4. CTA principal: --action-brand-inverse-default (#005266) para botões preenchidos
+5. Fontes: --font-primary = JetBrains Mono (headings) | --font-secondary = Inter (body) | --font-mono = Roboto Mono (números)
 6. Espaçamento: sempre var(--spacing-xs/sm/md/lg/xl/2xl/3xl) — nunca px hardcoded
 7. Border radius: sempre var(--radius-sm/md/lg/full) — nunca px hardcoded
 
 ## Arquivos de tokens
-- Tokens: src/styles/tokens.css (292 CSS custom properties — dark + light mode)
+- Tokens: src/styles/tokens.css (300+ CSS custom properties — dark + light mode)
 - Componentes: src/styles/components.css (classes utilitárias .trdr-*)
 
 ## Referência rápida — tokens mais usados
-| Token | CSS Variable | Valor |
+| Token | CSS Variable | Valor (dark) |
 |-------|-------------|-------|
 | Background | --bg-primary | #0E0E0E |
 | Surface | --surface-secondary | #222222 |
 | Texto principal | --content-primary | #FFFFFF |
 | Texto secundário | --content-tertiary | #A4A4A4 |
-| Botão primário | --action-brand-inverse-default | #0066FF |
+| Brand (texto/ícone) | --content-brand | #00A8CC |
+| Botão primário (bg) | --action-brand-inverse-default | #005266 |
 | Borda | --border-default | #4A4A4A |
-| Foco | --border-focus | #65B0FF |
+| Foco | --border-focus | #00D4FF |
 | Sucesso | --content-success | #4FE290 |
 | Erro | --content-error | #F34F45 |
 | Aviso | --content-warning | #FFCC40 |

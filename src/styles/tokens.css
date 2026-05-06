@@ -1,6 +1,6 @@
 /* ==========================================================================
    TRDR Design System — CSS Variables
-   Fonte: design.md v1.4 | Gerado em: 2026-04-07
+   Fonte: Figma Variables | Atualizado: 2026-05-06
    ========================================================================== */
 
 :root {
@@ -10,20 +10,20 @@
      Nunca use diretamente na UI. Use tokens semânticos.
      ========================================================================= */
 
-  /* Azul */
-  --color-blue-50: #F0F7FF;
-  --color-blue-100: #E0EEFF;
-  --color-blue-200: #C1DDFF;
-  --color-blue-300: #A2CDFF;
-  --color-blue-400: #84BFFF;
-  --color-blue-500: #65B0FF;
-  --color-blue-600: #3D99FF;
-  --color-blue-700: #1E82FF;
-  --color-blue-800: #0066FF;
-  --color-blue-900: #0052CC;
-  --color-blue-alpha-08: #0052CC14;
-  --color-blue-alpha-16: #0052CC29;
-  --color-blue-alpha-32: #0052CC52;
+  /* Brand Cyan (renomeado de Azul — escala brand principal) */
+  --color-blue-50: #E6FEFF;
+  --color-blue-100: #CCFDFF;
+  --color-blue-200: #99F9FF;
+  --color-blue-300: #5CF3FF;
+  --color-blue-400: #29ECFF;
+  --color-blue-500: #00D4FF;
+  --color-blue-600: #00A8CC;
+  --color-blue-700: #007D99;
+  --color-blue-800: #005266;
+  --color-blue-900: #002933;
+  --color-blue-alpha-08: #00D4FF14;
+  --color-blue-alpha-16: #00D4FF29;
+  --color-blue-alpha-32: #00D4FF52;
 
   /* Neutro */
   --color-neutral-0: #FFFFFF;
@@ -109,19 +109,19 @@
   --color-orange-alpha-32: #FF640052;
 
   /* Roxo */
-  --color-purple-50: #F5F0FF;
-  --color-purple-100: #E0CCFF;
-  --color-purple-200: #C199FF;
-  --color-purple-300: #A266FF;
-  --color-purple-400: #8333FF;
-  --color-purple-500: #7C4DFF;
-  --color-purple-600: #6200EA;
-  --color-purple-700: #5000CC;
-  --color-purple-800: #3C0099;
-  --color-purple-900: #280066;
-  --color-purple-alpha-08: #7C4DFF14;
-  --color-purple-alpha-16: #7C4DFF29;
-  --color-purple-alpha-32: #7C4DFF52;
+  --color-purple-50: #F1EFF5;
+  --color-purple-100: #D6D3E5;
+  --color-purple-200: #BBB4D6;
+  --color-purple-300: #9E94C9;
+  --color-purple-400: #8072BE;
+  --color-purple-500: #6350B3;
+  --color-purple-600: #50418E;
+  --color-purple-700: #3E3467;
+  --color-purple-800: #2A2542;
+  --color-purple-900: #161320;
+  --color-purple-alpha-08: #6350B314;
+  --color-purple-alpha-16: #6350B329;
+  --color-purple-alpha-32: #6350B352;
 
   /* =========================================================================
      PRIMITIVOS — ESPAÇAMENTOS
@@ -188,11 +188,12 @@
   --bg-tertiary: #1A1A1A;
   --bg-inverse: #FFFFFF;
   --bg-overlay: #FFFFFF29;
-  --bg-brand: #3D99FF;
+  --bg-brand: #00A8CC;
+  --bg-brand2: #6350B3;
   --bg-warning: #FFCC40;
   --bg-danger: #F34F45;
   --bg-success: #31DD7E;
-  --bg-base-alpha-0: rgba(14, 14, 14, 0);
+  --bg-base-alpha-0: #0E0E0E00;
 
   /* =========================================================================
      SEMÂNTICOS — SURFACES
@@ -200,13 +201,13 @@
   --surface-primary: #4A4A4A;
   --surface-secondary: #222222;
   --surface-tertiary: #1A1A1A;
-  --surface-interactive: #0052CC;
+  --surface-interactive: #002933;
   --surface-disabled: #1A1A1A;
-  --surface-info: rgba(61, 153, 255, 0.08);
+  --surface-info: #00D4FF14;
   --surface-error: rgba(243, 79, 69, 0.08);
   --surface-warning: rgba(255, 204, 64, 0.08);
   --surface-success: rgba(79, 226, 144, 0.08);
-  --surface-brand: rgba(0, 82, 204, 0.16);
+  --surface-brand: #00D4FF29;
 
   /* =========================================================================
      SEMÂNTICOS — CONTEÚDO (TEXTO)
@@ -214,13 +215,14 @@
   --content-primary: #FFFFFF;
   --content-secondary: #E8E8E8;
   --content-tertiary: #A4A4A4;
+  --content-placeholder: #777777;
   --content-disabled: #4A4A4A;
   --content-inverse: #1A1A1A;
-  --content-info: #65B0FF;
+  --content-info: #00D4FF;
   --content-warning: #FFCC40;
   --content-error: #F34F45;
   --content-success: #4FE290;
-  --content-brand: #3D99FF;
+  --content-brand: #00A8CC;
   --content-on-brand: #FFFFFF;
 
   /* =========================================================================
@@ -229,43 +231,47 @@
   --border-default: #4A4A4A;
   --border-subtle: #222222;
   --border-strong: #A4A4A4;
-  --border-focus: #65B0FF;
+  --border-focus: #00D4FF;
   --border-disabled: #777777;
 
   /* =========================================================================
      SEMÂNTICOS — AÇÕES
      ========================================================================= */
 
-  /* Brand (Azul — primário) */
-  --action-brand-default: #3D99FF;
-  --action-brand-hover: #1E82FF;
-  --action-brand-active: #0066FF;
-  --action-brand-disabled: #0052CC29;
-  --action-brand-alpha: rgba(61, 153, 255, 0.16);
+  /* Brand (Ciano — primário) */
+  --action-brand-default: #00A8CC;
+  --action-brand-hover: #007D99;
+  --action-brand-active: #005266;
+  --action-brand-disabled: #777777;
+  --action-brand-alpha: #00D4FF14;
 
-  /* Brand Inverse (botão primário sólido azul) */
-  --action-brand-inverse-default: #0066FF;
-  --action-brand-inverse-hover: #1E82FF;
-  --action-brand-inverse-active: #0052CC;
+  /* Brand Inverse (botão CTA primário sólido) */
+  --action-brand-inverse-default: #005266;
+  --action-brand-inverse-hover: #007D99;
+  --action-brand-inverse-active: #002933;
+  --action-brand-inverse-alpha: #00D4FF14;
+  --action-brand-inverse-disabled: #777777;
 
   /* Secondary (Neutro) */
   --action-secondary-default: #4A4A4A;
   --action-secondary-hover: #777777;
   --action-secondary-active: #A4A4A4;
   --action-secondary-disabled: #1A1A1A;
-  --action-secondary-alpha: rgba(74, 74, 74, 0.16);
+  --action-secondary-alpha: #4A4A4A29;
 
   /* Tertiary (Roxo) */
-  --action-tertiary-default: #7C4DFF;
-  --action-tertiary-hover: #6200EA;
-  --action-tertiary-active: #5000CC;
-  --action-tertiary-disabled: #7C4DFF29;
+  --action-tertiary-default: #6350B3;
+  --action-tertiary-hover: #50418E;
+  --action-tertiary-active: #3E3467;
+  --action-tertiary-disabled: #6350B314;
+  --action-tertiary-alpha: #6350B329;
 
   /* Destructive (Laranja) */
   --action-destructive-default: #F57C00;
   --action-destructive-hover: #FF6400;
   --action-destructive-active: #CC5000;
   --action-destructive-disabled: #FF640014;
+  --action-destructive-alpha: rgba(245, 124, 0, 0.16);
 
   /* =========================================================================
      SEMÂNTICOS — CONTEXTO DE TRADING
@@ -277,7 +283,9 @@
 
   /* Preço */
   --context-trading-up: #4FE290;
+  --context-trading-up-alpha: rgba(79, 226, 144, 0.08);
   --context-trading-down: #F34F45;
+  --context-trading-down-alpha: rgba(243, 79, 69, 0.08);
 
   /* Long (Compra) */
   --context-trading-long-text: #4FE290;
@@ -292,10 +300,10 @@
   --context-trading-short-active: rgba(243, 79, 69, 0.16);
 
   /* Stop Loss */
-  --context-trading-stop-default: rgba(255, 100, 0, 0.16);
-  --context-trading-stop-hover: rgba(255, 100, 0, 0.24);
-  --context-trading-stop-active: rgba(255, 100, 0, 0.32);
-  --context-trading-stop-alpha: rgba(255, 100, 0, 0.08);
+  --context-trading-stop-default: #F97316;
+  --context-trading-stop-hover: rgba(249, 115, 22, 0.24);
+  --context-trading-stop-active: rgba(249, 115, 22, 0.32);
+  --context-trading-stop-alpha: rgba(249, 115, 22, 0.08);
 
   /* =========================================================================
      SCALE — ESPAÇAMENTOS RESPONSIVOS (Desktop padrão)
@@ -328,16 +336,16 @@
   /* =========================================================================
      FONTES
      ========================================================================= */
-  --font-primary: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
+  --font-primary: var(--font-jetbrains-mono), 'JetBrains Mono', monospace;
   --font-secondary: var(--font-inter), 'Inter', sans-serif;
   --font-mono: var(--font-roboto-mono), 'Roboto Mono', monospace;
 
   /* =========================================================================
      GRADIENTES DE BRANDING (Site)
      ========================================================================= */
-  --gradient-text-brand: linear-gradient(90deg, #3D99FF 0%, #FFFFFF 100%);
-  --gradient-text-brand-hero: linear-gradient(90deg, #3D99FF 30%, #FFFFFF 100%);
-  --gradient-bg-hero: linear-gradient(180deg, #0052CC 0%, #0E0E0E 40%);
+  --gradient-text-brand: linear-gradient(90deg, #00A8CC 0%, #FFFFFF 100%);
+  --gradient-text-brand-hero: linear-gradient(90deg, #00A8CC 30%, #FFFFFF 100%);
+  --gradient-bg-hero: linear-gradient(180deg, #002933 0%, #0E0E0E 40%);
   --gradient-bg-fade: linear-gradient(180deg, rgba(14,14,14,0) 0%, #0E0E0E 47%);
 }
 
@@ -350,26 +358,33 @@
   --bg-tertiary: #FAFAFA;
   --bg-inverse: #1A1A1A;
   --bg-overlay: #00000029;
+  --bg-base-alpha-0: #FFFFFF00;
 
   --surface-primary: #D2D2D2;
   --surface-secondary: #E8E8E8;
   --surface-tertiary: #EEEEEE;
-  --surface-interactive: #84BFFF;
+  --surface-interactive: #29ECFF;
   --surface-disabled: #FAFAFA;
+  --surface-brand: #00D4FF29;
 
   --content-primary: #1A1A1A;
   --content-secondary: #222222;
   --content-tertiary: #4A4A4A;
   --content-disabled: #777777;
   --content-inverse: #FFFFFF;
-  --content-brand: #0066FF;
+  --content-brand: #005266;
+  --content-info: #00A8CC;
 
   --border-default: #A4A4A4;
   --border-subtle: #E8E8E8;
   --border-strong: #D2D2D2;
   --border-disabled: #E8E8E8;
+  --border-focus: #00D4FF;
 
-  --action-brand-default: #0066FF;
-  --action-brand-hover: #1E82FF;
-  --action-brand-active: #3D99FF;
+  --action-brand-default: #007D99;
+  --action-brand-hover: #005266;
+  --action-brand-active: #002933;
+  --action-brand-inverse-default: #00A8CC;
+  --action-brand-inverse-hover: #007D99;
+  --action-brand-inverse-active: #005266;
 }

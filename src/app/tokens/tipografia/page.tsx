@@ -9,19 +9,19 @@ interface TypographyStyle {
   size: number
   weight: number
   weightLabel: string
-  family: 'Space Grotesk' | 'Inter'
+  family: 'JetBrains Mono' | 'Inter'
   letterSpacing: string
   example: string
 }
 
 const typographyStyles: TypographyStyle[] = [
   // Headings
-  { figmaName: 'Typograph/Headings/H-1', token: 'text/heading/h1', group: 'heading', size: 80, weight: 500, weightLabel: 'Medium', family: 'Space Grotesk', letterSpacing: '0px', example: 'Construa com consistência' },
-  { figmaName: 'Typograph/Headings/H-2', token: 'text/heading/h2', group: 'heading', size: 56, weight: 500, weightLabel: 'Medium', family: 'Space Grotesk', letterSpacing: '0px', example: 'Design System TRDR' },
-  { figmaName: 'Typograph/Headings/H-3', token: 'text/heading/h3', group: 'heading', size: 46, weight: 700, weightLabel: 'Bold', family: 'Space Grotesk', letterSpacing: '0px', example: 'Tokens e Componentes' },
-  { figmaName: 'Typograph/Headings/H-4', token: 'text/heading/h4', group: 'heading', size: 38, weight: 500, weightLabel: 'Medium', family: 'Space Grotesk', letterSpacing: '0px', example: 'Visão Geral do Sistema' },
-  { figmaName: 'Typograph/Headings/H-5', token: 'text/heading/h5', group: 'heading', size: 32, weight: 500, weightLabel: 'Medium', family: 'Space Grotesk', letterSpacing: '0px', example: 'Plataforma de Trading' },
-  { figmaName: 'Typograph/Headings/H-6', token: 'text/heading/h6', group: 'heading', size: 26, weight: 500, weightLabel: 'Medium', family: 'Space Grotesk', letterSpacing: '0px', example: 'Análise de Mercado' },
+  { figmaName: 'Typograph/Headings/H-1', token: 'text/heading/h1', group: 'heading', size: 80, weight: 500, weightLabel: 'Medium', family: 'JetBrains Mono', letterSpacing: '0px', example: 'Construa com consistência' },
+  { figmaName: 'Typograph/Headings/H-2', token: 'text/heading/h2', group: 'heading', size: 56, weight: 500, weightLabel: 'Medium', family: 'JetBrains Mono', letterSpacing: '0px', example: 'Design System TRDR' },
+  { figmaName: 'Typograph/Headings/H-3', token: 'text/heading/h3', group: 'heading', size: 46, weight: 700, weightLabel: 'Bold', family: 'JetBrains Mono', letterSpacing: '0px', example: 'Tokens e Componentes' },
+  { figmaName: 'Typograph/Headings/H-4', token: 'text/heading/h4', group: 'heading', size: 38, weight: 500, weightLabel: 'Medium', family: 'JetBrains Mono', letterSpacing: '0px', example: 'Visão Geral do Sistema' },
+  { figmaName: 'Typograph/Headings/H-5', token: 'text/heading/h5', group: 'heading', size: 32, weight: 500, weightLabel: 'Medium', family: 'JetBrains Mono', letterSpacing: '0px', example: 'Plataforma de Trading' },
+  { figmaName: 'Typograph/Headings/H-6', token: 'text/heading/h6', group: 'heading', size: 26, weight: 500, weightLabel: 'Medium', family: 'JetBrains Mono', letterSpacing: '0px', example: 'Análise de Mercado' },
   { figmaName: 'Typograph/Headings/H-7', token: 'text/heading/h7', group: 'heading', size: 22, weight: 600, weightLabel: 'Semi Bold', family: 'Inter', letterSpacing: '0px', example: 'Resumo de Posições' },
   // Body
   { figmaName: 'Typograph/Body/B-1', token: 'text/body/b1', group: 'body', size: 18, weight: 400, weightLabel: 'Regular', family: 'Inter', letterSpacing: '0px', example: 'Texto de corpo principal, usado em parágrafos e descrições.' },
@@ -85,7 +85,7 @@ export default function TipografiaPage() {
                         <div className={pageStyles.previewCell}>
                           <span
                             style={{
-                              fontFamily: style.family === 'Space Grotesk' ? 'var(--font-space-grotesk)' : 'var(--font-inter)',
+                              fontFamily: style.family === 'JetBrains Mono' ? 'var(--font-jetbrains-mono)' : 'var(--font-inter)',
                               fontSize: Math.min(style.size, 32),
                               fontWeight: style.weight,
                               letterSpacing: style.letterSpacing.startsWith('2%') ? undefined : style.letterSpacing,
