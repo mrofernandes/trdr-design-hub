@@ -382,53 +382,76 @@ function SwitchPreview() {
 }
 
 function TextInputPreview() {
-  const [v1, setV1] = useState('')
-  const [v2, setV2] = useState('WINFUT')
-  const [v3, setV3] = useState('')
-  const [v4, setV4] = useState('Busca ativa')
-  const [v5, setV5] = useState('')
-  const [v6, setV6] = useState('Observações sobre o ativo...')
+  const [search, setSearch] = useState('WINFUT')
+  const [searchLg, setSearchLg] = useState('')
+  const [quickVal, setQuickVal] = useState('Busca ativa')
+  const [multiVal, setMultiVal] = useState('Observações sobre o ativo...')
 
   return (
     <div className={styles.previewInner} style={{ maxWidth: 280 }}>
       <PreviewLabel>Single Line — Default (24px)</PreviewLabel>
       <div className={styles.col}>
-        <TextInput placeholder="Placeholder" value={v1} onChange={e => setV1(e.target.value)} />
-        <TextInput placeholder="Filled" value={v2} onChange={e => setV2(e.target.value)} />
-        <TextInput placeholder="Disabled" disabled value="Valor desativado" />
-        <TextInput placeholder="Read Only" readOnly value="Somente leitura" />
+        <TextInput placeholder="Placeholder vazio" />
+        <TextInput defaultValue="Filled — editável" placeholder="Filled" />
+        <TextInput disabled defaultValue="Desativado" />
+        <TextInput readOnly defaultValue="Somente leitura" />
       </div>
 
       <PreviewLabel>Single Line — Large (32px)</PreviewLabel>
       <div className={styles.col}>
-        <TextInput size="large" placeholder="Placeholder" value={v3} onChange={e => setV3(e.target.value)} />
-        <TextInput size="large" placeholder="Filled" value="Instrumento" />
+        <TextInput size="large" placeholder="Placeholder" />
+        <TextInput size="large" defaultValue="Large filled" />
+        <TextInput size="large" disabled defaultValue="Desativado" />
       </div>
 
-      <PreviewLabel>Com ícone esquerdo + clear</PreviewLabel>
+      <PreviewLabel>Com ícone + clear</PreviewLabel>
       <div className={styles.col}>
-        <TextInput iconLeft placeholder="Buscar..." value={v4} onChange={e => setV4(e.target.value)} onClear={() => setV4('')} />
-        <TextInput iconLeft size="large" placeholder="Buscar instrumento..." value={v5} onChange={e => setV5(e.target.value)} onClear={() => setV5('')} />
-        <TextInput iconLeft disabled placeholder="Busca desativada" />
+        <TextInput
+          iconLeft
+          placeholder="Buscar instrumento..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          onClear={() => setSearch('')}
+        />
+        <TextInput
+          iconLeft
+          size="large"
+          placeholder="Buscar (large)..."
+          value={searchLg}
+          onChange={e => setSearchLg(e.target.value)}
+          onClear={() => setSearchLg('')}
+        />
+        <TextInput iconLeft disabled defaultValue="Busca desativada" />
       </div>
 
-      <PreviewLabel>Quick Action (32px, icon obrigatório)</PreviewLabel>
+      <PreviewLabel>Quick Action (32px)</PreviewLabel>
       <div className={styles.col}>
-        <TextInput variant="quick-action" placeholder="Buscar..." value={v4} onChange={e => setV4(e.target.value)} onClear={() => setV4('')} />
-        <TextInput variant="quick-action" disabled placeholder="Indisponível" />
+        <TextInput
+          variant="quick-action"
+          placeholder="Filtrar..."
+          value={quickVal}
+          onChange={e => setQuickVal(e.target.value)}
+          onClear={() => setQuickVal('')}
+        />
+        <TextInput variant="quick-action" disabled defaultValue="Indisponível" />
       </div>
 
       <PreviewLabel>Validação</PreviewLabel>
       <div className={styles.col}>
-        <TextInput validation="error" value="Valor inválido" placeholder="Erro" />
-        <TextInput validation="warning" value="Atenção" placeholder="Aviso" />
-        <TextInput validation="success" value="Confirmado" placeholder="Sucesso" />
+        <TextInput validation="error" defaultValue="Valor inválido" />
+        <TextInput validation="warning" defaultValue="Verificar dado" />
+        <TextInput validation="success" defaultValue="Confirmado" />
       </div>
 
       <PreviewLabel>Multi Line (textarea)</PreviewLabel>
       <div className={styles.col}>
-        <TextInput variant="multi-line" value={v6} onChange={e => setV6(e.target.value)} rows={3} />
-        <TextInput variant="multi-line" disabled value="Campo desativado." rows={2} />
+        <TextInput
+          variant="multi-line"
+          value={multiVal}
+          onChange={e => setMultiVal(e.target.value)}
+          rows={3}
+        />
+        <TextInput variant="multi-line" disabled defaultValue="Campo desativado." rows={2} />
       </div>
     </div>
   )
