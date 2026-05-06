@@ -47,7 +47,7 @@ export default function Sidebar() {
       <div className={styles.header}>
         <Link href="/" className={styles.logo}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-trdr.svg" alt="TRDR Design Hub" width={115} height={68} />
+          <img src="/logo-trdr-design-hub.svg" alt="TRDR Design Hub" width={113} height={44} />
         </Link>
       </div>
 
