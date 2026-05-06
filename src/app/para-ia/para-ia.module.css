@@ -181,3 +181,289 @@
   font-size: 13px;
   color: var(--content-brand);
 }
+
+/* ── Sub-sections ─────────────────────────────────────────── */
+.subSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.subSectionTitle {
+  font-family: var(--font-secondary);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--content-primary);
+  margin: 0;
+}
+
+/* ── Installation commands ────────────────────────────────── */
+.commandGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+}
+
+.commandCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-lg);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.commandBadge {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--content-brand);
+}
+
+.commandNote {
+  font-size: 12px;
+  color: var(--content-tertiary);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.note {
+  font-size: 12px;
+  color: var(--content-tertiary);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--surface-brand);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  line-height: 1.4;
+}
+
+/* ── Trigger phrases ──────────────────────────────────────── */
+.triggerGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+.triggerPrimary {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 var(--spacing-md);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  background-color: var(--action-brand-inverse-default);
+  color: var(--content-primary);
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 var(--spacing-md);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-secondary);
+  font-size: 12px;
+  background-color: var(--surface-secondary);
+  color: var(--content-tertiary);
+  border: 1px solid var(--border-subtle);
+}
+
+/* ── Phase header ─────────────────────────────────────────── */
+.phaseHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.phaseBadge {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background-color: var(--surface-brand);
+  color: var(--content-brand);
+  flex-shrink: 0;
+}
+
+.phaseBadge2 {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background-color: var(--surface-success);
+  color: var(--content-success);
+  flex-shrink: 0;
+}
+
+/* ── Phase steps ──────────────────────────────────────────── */
+.phaseStepList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.phaseStepItem {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: flex-start;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.phaseStepNum {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  background-color: var(--surface-brand);
+  color: var(--content-brand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.phaseStepContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.phaseStepLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--content-primary);
+}
+
+.phaseStepDesc {
+  font-size: 12px;
+  color: var(--content-tertiary);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* ── Response commands ────────────────────────────────────── */
+.responseGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-sm);
+}
+
+.responseCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.responseCmd {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--content-brand);
+  font-weight: 500;
+}
+
+.responseDesc {
+  font-size: 12px;
+  color: var(--content-tertiary);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* ── Files created ────────────────────────────────────────── */
+.fileList {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.fileItem {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.fileItem:last-child {
+  border-bottom: none;
+}
+
+.fileItem:hover {
+  background-color: var(--bg-tertiary);
+}
+
+.fileName {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--content-brand);
+  min-width: 170px;
+  flex-shrink: 0;
+}
+
+.fileDesc {
+  font-size: 12px;
+  color: var(--content-tertiary);
+  line-height: 1.4;
+}
+
+/* ── Usage examples ───────────────────────────────────────── */
+.examples {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.example {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.exampleLabel {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--content-tertiary);
+}
+
+.exampleCode {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--content-secondary);
+  background-color: var(--bg-secondary);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  white-space: pre;
+  overflow-x: auto;
+  margin: 0;
+  line-height: 1.6;
+}

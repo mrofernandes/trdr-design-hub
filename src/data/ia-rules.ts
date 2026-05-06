@@ -123,24 +123,54 @@ export const contextTokenMap: Record<string, ContextTokenGroup[]> = {
   ],
 }
 
-// Templates de CLAUDE.md para novos projetos TRDR
-export const claudeMdTemplate = `# [Nome do Projeto] — Contexto para Claude
+// Template de CLAUDE.md gerado pela skill /trdr-ds
+export const claudeMdTemplate = `# [Nome do Projeto] — Context for Claude Code
 
 ## Design System
 Este projeto usa o TRDR Design System.
+Referência completa: https://trdr.mrocontent.com.br
 
-## Regras Absolutas
-1. NUNCA use primitivos diretamente (color.*, space.*) — use tokens semânticos
-2. Backgrounds: bg.primary (#0E0E0E), bg.secondary (#141519), bg.tertiary (#1A1A1A)
-3. Texto: content.primary (branco), content.secondary (#E8E8E8), content.tertiary (#A4A4A4)
-4. Ações: action.brand.default (#3D99FF) = botão primário
-5. Fontes: Space Grotesk (headings) | Inter (body/labels) | Roboto Mono (números)
-6. Espaçamento via CSS vars: --spacing-sm (8px), --spacing-md (12px), --spacing-lg (16px)
-7. Radius via CSS vars: --radius-sm (4px), --radius-md (8px), --radius-lg (16px)
+## Regras Absolutas (nunca quebre estas)
+1. NUNCA use tokens primitivos diretamente (--color-*, --space-*) — use sempre tokens semânticos
+2. Backgrounds: --bg-primary (#0E0E0E), --bg-secondary (#141519), --bg-tertiary (#1A1A1A)
+3. Texto: --content-primary (branco), --content-secondary (#E8E8E8), --content-tertiary (#A4A4A4)
+4. CTA principal: --action-brand-inverse-default (#0066FF) para botões preenchidos
+5. Fontes: --font-primary = Space Grotesk (headings) | --font-secondary = Inter (body) | --font-mono = Roboto Mono (números)
+6. Espaçamento: sempre var(--spacing-xs/sm/md/lg/xl/2xl/3xl) — nunca px hardcoded
+7. Border radius: sempre var(--radius-sm/md/lg/full) — nunca px hardcoded
 
-## Tokens CSS Disponíveis
-Todos os tokens estão em: src/styles/tokens.css
+## Arquivos de tokens
+- Tokens: src/styles/tokens.css (292 CSS custom properties — dark + light mode)
+- Componentes: src/styles/components.css (classes utilitárias .trdr-*)
 
-## Consultar Design System Completo
-Ver: https://[URL-DA-PLATAFORMA]/design-md
+## Referência rápida — tokens mais usados
+| Token | CSS Variable | Valor |
+|-------|-------------|-------|
+| Background | --bg-primary | #0E0E0E |
+| Surface | --surface-secondary | #222222 |
+| Texto principal | --content-primary | #FFFFFF |
+| Texto secundário | --content-tertiary | #A4A4A4 |
+| Botão primário | --action-brand-inverse-default | #0066FF |
+| Borda | --border-default | #4A4A4A |
+| Foco | --border-focus | #65B0FF |
+| Sucesso | --content-success | #4FE290 |
+| Erro | --content-error | #F34F45 |
+| Aviso | --content-warning | #FFCC40 |
+
+## Classes de componentes disponíveis
+.trdr-btn, .trdr-btn-primary, .trdr-btn-secondary, .trdr-btn-ghost, .trdr-btn-destructive
+.trdr-btn-long (compra), .trdr-btn-short (venda)
+.trdr-badge, .trdr-badge-brand, .trdr-badge-success, .trdr-badge-neutral
+.trdr-card, .trdr-card-hover
+.trdr-input, .trdr-table
+.trdr-segment-control, .trdr-segment-active, .trdr-segment-inactive
+
+## Código de componentes
+Para qualquer componente: https://trdr.mrocontent.com.br/componentes/[slug]
+Disponíveis: button, text-input, switch, dropdown, checkbox, radio-button, combo-input, tooltip, boleta
+(Verifique o Hub — novos componentes são adicionados regularmente)
+
+## Hierarquia de camadas
+bg.primary (base) → bg.secondary/tertiary (áreas de conteúdo) → surface.* (cards, painéis)
+→ componentes interativos → overlays/modais/tooltips
 `
