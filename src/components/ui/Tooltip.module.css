@@ -1,0 +1,58 @@
+.tooltip {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 200px;
+  background-color: var(--bg-primary);
+  border-radius: 5px;
+  filter: drop-shadow(0px 0px 0.25px rgba(0,0,0,0.15)) drop-shadow(0px 5px 6px rgba(0,0,0,0.13)) drop-shadow(0px 1px 1.5px rgba(0,0,0,0.1));
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-family: var(--font-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--content-primary);
+  letter-spacing: 0.2px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.text {
+  flex: 1;
+  min-width: 0;
+}
+
+.hotkey {
+  flex-shrink: 0;
+  color: var(--content-secondary);
+}
+
+/* Arrow (caret) */
+.arrow {
+  position: absolute;
+  width: 12px;
+  height: 6px;
+  background-color: var(--bg-primary);
+}
+
+/* Vertical arrows via clip-path */
+.arrowUp    { clip-path: polygon(50% 0%, 0% 100%, 100% 100%); }
+.arrowDown  { clip-path: polygon(0% 0%, 100% 0%, 50% 100%); }
+.arrowLeft  { width: 6px; height: 12px; clip-path: polygon(0% 50%, 100% 0%, 100% 100%); }
+.arrowRight { width: 6px; height: 12px; clip-path: polygon(0% 0%, 100% 50%, 0% 100%); }
+
+/* Arrow positions by direction */
+.topCenter    .arrow { top: -6px;    left: 50%;  transform: translateX(-50%); }
+.topLeft      .arrow { top: -6px;    left: 8px;  }
+.topRight     .arrow { top: -6px;    right: 8px; }
+.bottomCenter .arrow { bottom: -6px; left: 50%;  transform: translateX(-50%); }
+.bottomLeft   .arrow { bottom: -6px; left: 8px;  }
+.bottomRight  .arrow { bottom: -6px; right: 8px; }
+.right        .arrow { top: 50%;     right: -6px; transform: translateY(-50%); }
+.left         .arrow { top: 50%;     left: -6px;  transform: translateY(-50%); }

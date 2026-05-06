@@ -395,101 +395,719 @@ Implemente como componente React com CSS Module. Props: variant, size, iconLeft,
     name: 'Dropdown',
     figmaId: '1462:16743',
     category: 'formulario',
-    description: 'Seletor com chevron, 2 tamanhos e 3 estados. Abre um floating menu com opções.',
+    description: 'Seletor com chevron, 2 tamanhos (Default 24px / Large 32px) e 3 estados. Suporta stroke, sem stroke e icon lead. Abre um floating menu com opções.',
     props: [
-      { name: 'Size', type: 'enum', values: ['Default', 'Small'] },
-      { name: 'State', type: 'enum', values: ['Default', 'Hover', 'Disabled'] },
+      { name: 'Size', type: 'enum', values: ['Default', 'Large'] },
+      { name: 'State', type: 'enum', values: ['Default', 'Focused', 'Active', 'Disabled'] },
       { name: 'Stroke', type: 'boolean', values: ['true', 'false'] },
+      { name: 'Icon Lead', type: 'boolean', values: ['true', 'false'] },
     ],
     dimensions: [
-      { label: 'Default', height: '32px' },
-      { label: 'Small', height: '24px' },
+      { label: 'Default', height: '24px' },
+      { label: 'Large', height: '32px' },
     ],
     tokens: [
-      { property: 'Background', token: 'surface.secondary', value: '#222222' },
-      { property: 'Border', token: 'border.default', value: '#4A4A4A' },
-      { property: 'Text', token: 'content.primary', value: '#FFFFFF' },
-      { property: 'Chevron', token: 'content.tertiary', value: '#A4A4A4' },
+      { property: 'Background', token: 'surface-primary', value: '#4A4A4A' },
+      { property: 'Border padrão', token: 'border-strong', value: '#A4A4A4' },
+      { property: 'Border focused/active', token: 'border-focus', value: '#65B0FF' },
+      { property: 'Texto', token: 'content-primary', value: '#FFFFFF' },
+      { property: 'Texto disabled', token: 'content-tertiary', value: '#A4A4A4' },
+      { property: 'Chevron', token: 'content-tertiary', value: '#A4A4A4' },
     ],
+    anatomy: `[button display=inline-flex border-radius=5px]
+  └── [Icon Lead 24×24px opcional]
+  └── [Label flex=1 overflow=ellipsis]
+  └── [Chevron Down 24×24px]`,
+    implemented: true,
+    code: {
+      html: `<!-- Default -->
+<button class="trdr-dropdown">
+  <span class="trdr-dropdown-label">Mercado</span>
+  <span class="trdr-dropdown-chevron">
+    <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
+      <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </span>
+</button>
+
+<!-- Large -->
+<button class="trdr-dropdown trdr-dropdown-lg">
+  <span class="trdr-dropdown-label">Instrumento</span>
+  <span class="trdr-dropdown-chevron">...</span>
+</button>
+
+<!-- Disabled -->
+<button class="trdr-dropdown" disabled>
+  <span class="trdr-dropdown-label">Indisponível</span>
+  <span class="trdr-dropdown-chevron">...</span>
+</button>`,
+      css: `.trdr-dropdown {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--surface-primary);   /* #4A4A4A */
+  border: 1px solid var(--border-strong);      /* #A4A4A4 */
+  border-radius: 5px;
+  height: 24px;
+  padding: 0 4px 0 var(--spacing-sm);         /* right=4px, left=8px */
+  font-family: var(--font-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--content-primary);              /* #FFFFFF */
+  cursor: pointer;
+  min-width: 80px;
+  transition: border-color 0.15s ease;
+}
+
+.trdr-dropdown-lg       { height: 32px; }
+.trdr-dropdown-no-stroke { border-color: transparent; }
+.trdr-dropdown-active   { border-color: var(--border-focus); } /* #65B0FF */
+
+.trdr-dropdown:hover:not(:disabled) { border-color: var(--border-focus); }
+.trdr-dropdown:focus-visible        { outline: none; border-color: var(--border-focus); }
+.trdr-dropdown:disabled             { color: var(--content-tertiary); cursor: not-allowed; }
+
+.trdr-dropdown-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trdr-dropdown-chevron {
+  flex-shrink: 0;
+  width: 24px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--content-tertiary);
+}`,
+      react: `import Dropdown from '@/components/ui/Dropdown'
+import { useState } from 'react'
+
+export default function Example() {
+  const [value, setValue] = useState('WINQ25')
+
+  return (
+    <>
+      {/* Default size */}
+      <Dropdown value={value} size="default" />
+
+      {/* Large size */}
+      <Dropdown value="WINFUT" size="lg" />
+
+      {/* Sem borda */}
+      <Dropdown value="Mercado" stroke={false} />
+
+      {/* Disabled */}
+      <Dropdown value="Indisponível" disabled />
+
+      {/* Active (aberto) */}
+      <Dropdown value={value} state="active" />
+    </>
+  )
+}`,
+      prompt: `Implemente o componente Dropdown do Design System TRDR.
+
+ESPECIFICAÇÕES PIXEL-PERFECT:
+- Default: 24px altura | Large: 32px altura
+- Padding: left=8px (--spacing-sm), right=4px
+- Border-radius: 5px (não é --radius-sm, é 5px fixo)
+- Font: 12px / 500 / --font-secondary
+
+TOKENS OBRIGATÓRIOS:
+- Background: --surface-primary (#4A4A4A)
+- Border padrão: --border-strong (#A4A4A4)
+- Border focused/active: --border-focus (#65B0FF)
+- Texto: --content-primary (#FFFFFF)
+- Texto disabled: --content-tertiary (#A4A4A4)
+- Chevron: --content-tertiary (#A4A4A4)
+
+ESTRUTURA:
+- Container: button com flex, border, bg
+- Label: flex=1 com text-overflow ellipsis
+- Chevron: 24×24px, SVG path chevron-down
+
+COMPORTAMENTO:
+- :hover → border-color: --border-focus
+- :focus-visible → outline: none, border-color: --border-focus
+- .trdr-dropdown-active → border-color: --border-focus
+- :disabled → content-tertiary, cursor not-allowed
+- Variante sem-stroke: border-color transparent`,
+    },
   },
   {
     slug: 'combo-input',
     name: 'Combo Input',
     figmaId: '1551:11643',
     category: 'formulario',
-    description: 'Input dividido com chevron de seleção integrado. Altura fixa de 24px.',
+    description: 'Input numérico split: área de valor (flex-1) + botão chevron (24×24px) separados por 1px gap. Altura 24px.',
     props: [
-      { name: 'State', type: 'enum', values: ['Default', 'Hover', 'Focused', 'Disabled'] },
+      { name: 'State', type: 'enum', values: ['Default', 'Hover', 'Selected Input', 'Selected Chevron'] },
+      { name: 'Icon Lead', type: 'boolean', values: ['true', 'false'] },
     ],
     dimensions: [
-      { label: 'Default', height: '24px' },
+      { label: 'Altura', height: '24px' },
+      { label: 'Chevron', width: '24px', height: '24px' },
     ],
     tokens: [
-      { property: 'Background', token: 'surface.secondary', value: '#222222' },
-      { property: 'Border', token: 'border.default', value: '#4A4A4A' },
-      { property: 'Text', token: 'content.primary', value: '#FFFFFF' },
+      { property: 'BG value', token: 'surface-primary', value: '#4A4A4A' },
+      { property: 'BG chevron default', token: 'surface-primary', value: '#4A4A4A' },
+      { property: 'Chevron border', token: 'border-focus', value: '#65B0FF' },
+      { property: 'Border hover', token: 'border-strong', value: '#A4A4A4' },
+      { property: 'Selected chevron bg', token: 'surface-brand', value: 'rgba(0,82,204,0.16)' },
+      { property: 'Texto', token: 'content-primary', value: '#FFFFFF' },
     ],
-    anatomy: `[Input area] | [Chevron btn]
-Split visual com divider vertical interno`,
+    anatomy: `[div display=flex gap=1px height=24px]
+  └── [Input Value: flex=1, radius=5px 0 0 5px, bg=surface-primary]
+        └── [Icon Lead 24×24px opcional]
+        └── [Valor numérico 12px/500]
+  └── [Chevron: 24×24px, radius=0 5px 5px 0, border=border-focus]
+        └── [ChevronDown SVG]`,
+    implemented: true,
+    code: {
+      html: `<!-- Default -->
+<div class="trdr-combo-input">
+  <div class="trdr-combo-input-value">16</div>
+  <button class="trdr-combo-input-chevron" aria-label="Abrir opções">
+    <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
+      <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+</div>
+
+<!-- Hover -->
+<div class="trdr-combo-input trdr-combo-input-hover">
+  <div class="trdr-combo-input-value">16</div>
+  <button class="trdr-combo-input-chevron">...</button>
+</div>
+
+<!-- Selected Input -->
+<div class="trdr-combo-input trdr-combo-input-selected-input">
+  <div class="trdr-combo-input-value">16</div>
+  <button class="trdr-combo-input-chevron">...</button>
+</div>`,
+      css: `.trdr-combo-input {
+  display: inline-flex;
+  align-items: stretch;
+  gap: 1px;                        /* Split visual */
+  height: 24px;
+  font-family: var(--font-secondary);
+  font-size: 12px; font-weight: 500;
+  color: var(--content-primary);
+}
+
+.trdr-combo-input-value {
+  flex: 1;
+  display: flex; align-items: center;
+  background-color: var(--surface-primary);  /* #4A4A4A */
+  border: 1px solid transparent;
+  border-right: none;
+  border-radius: 5px 0 0 5px;
+  padding: 0 0 0 var(--spacing-sm);
+  transition: border-color 0.12s ease;
+}
+
+.trdr-combo-input-chevron {
+  width: 24px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+  background-color: var(--surface-primary);
+  border: 1px solid var(--border-focus);   /* Sempre com borda focus */
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  color: var(--content-tertiary);
+}
+
+.trdr-combo-input-hover .trdr-combo-input-value { border-color: var(--border-strong); }
+.trdr-combo-input-selected-input .trdr-combo-input-value { border-color: var(--border-focus); }
+.trdr-combo-input-selected-input .trdr-combo-input-chevron { border-color: transparent; }
+.trdr-combo-input-selected-chevron .trdr-combo-input-chevron { background: var(--surface-brand); }`,
+      react: `import ComboInput from '@/components/ui/ComboInput'
+import { useState } from 'react'
+
+export default function Example() {
+  const [value, setValue] = useState('16')
+
+  return (
+    <>
+      <ComboInput value={value} />
+      <ComboInput value="32" state="hover" />
+      <ComboInput value="8" state="selected-input" />
+      <ComboInput value="16" state="selected-chevron" onChevronClick={() => console.log('abrir menu')} />
+    </>
+  )
+}`,
+      prompt: `Implemente o componente ComboInput do Design System TRDR.
+
+ESPECIFICAÇÕES PIXEL-PERFECT:
+- Container: display=flex, gap=1px, height=24px
+- Input Value: flex=1, padding-left=8px, border-radius=5px 0 0 5px
+- Chevron: width=24px, height=24px, border-radius=0 5px 5px 0
+
+TOKENS OBRIGATÓRIOS:
+- BG ambas as seções: --surface-primary (#4A4A4A)
+- Chevron border PADRÃO: --border-focus (#65B0FF) — SEMPRE azul por padrão
+- Border hover: --border-strong (#A4A4A4) na seção input
+- Selected Input: border-focus na seção input, chevron sem borda
+- Selected Chevron: --surface-brand (rgba(0,82,204,0.16)) no chevron
+
+COMPORTAMENTO:
+- O gap de 1px entre seções cria o "split" visual
+- O chevron sempre tem borda focus no estado default (design TRDR)
+- Selecionar o input ativa borda focus na seção esquerda`,
+    },
   },
   {
     slug: 'checkbox',
     name: 'Checkbox',
     figmaId: '1462:18059',
     category: 'formulario',
-    description: 'Caixa de seleção com estado indeterminado (mixed).',
+    description: 'Caixa de seleção com 3 estados: Checked, Unchecked e Mixed (indeterminado). 16×16px, border-radius 5px.',
     props: [
       { name: 'Type', type: 'enum', values: ['Checked', 'Unchecked', 'Mixed'] },
       { name: 'State', type: 'enum', values: ['Default', 'Focused'] },
+      { name: 'Disabled', type: 'boolean', values: ['true', 'false'] },
     ],
     dimensions: [
-      { label: 'Default', width: '16px', height: '16px' },
+      { label: 'Box', width: '16px', height: '16px' },
     ],
     tokens: [
-      { property: 'BG checked', token: 'action.brand.default', value: '#3D99FF' },
-      { property: 'BG unchecked', token: 'surface.secondary', value: '#222222' },
-      { property: 'Border', token: 'border.default', value: '#4A4A4A' },
-      { property: 'Check icon', token: 'content.inverse', value: '#1A1A1A' },
+      { property: 'BG Checked / Mixed', token: 'action-brand-default', value: '#3D99FF' },
+      { property: 'BG Unchecked', token: 'surface-secondary', value: '#222222' },
+      { property: 'Border padrão', token: 'border-default', value: '#4A4A4A' },
+      { property: 'Border hover', token: 'border-strong', value: '#A4A4A4' },
+      { property: 'Focus ring', token: 'border-focus', value: '#65B0FF' },
+      { property: 'Check / Dash', token: '—', value: '#FFFFFF' },
     ],
+    anatomy: `[label cursor=pointer gap=8px]
+  └── [input type=checkbox hidden]
+  └── [Box 16×16px border-radius=5px]
+        └── [Checkmark SVG 8×7px | Dash SVG 8×2px (mixed)]
+  └── [Label 12px/500]`,
+    implemented: true,
+    code: {
+      html: `<!-- Checked -->
+<label class="trdr-checkbox">
+  <input type="checkbox" checked />
+  <span class="trdr-checkbox-box trdr-checkbox-checked">
+    <svg width="8" height="7" viewBox="0 0 8 7" fill="none">
+      <path d="M1 3L3 5.5L7 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </span>
+  <span>Aceitar termos</span>
+</label>
+
+<!-- Unchecked -->
+<label class="trdr-checkbox">
+  <input type="checkbox" />
+  <span class="trdr-checkbox-box"></span>
+  <span>Receber atualizações</span>
+</label>
+
+<!-- Mixed (indeterminado) -->
+<label class="trdr-checkbox">
+  <input type="checkbox" />
+  <span class="trdr-checkbox-box trdr-checkbox-checked trdr-checkbox-mixed">
+    <svg width="8" height="2" viewBox="0 0 8 2" fill="none">
+      <path d="M1 1H7" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </span>
+  <span>Selecionar todos</span>
+</label>`,
+      css: `.trdr-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.trdr-checkbox-box {
+  flex-shrink: 0;
+  width: 16px; height: 16px;
+  border-radius: 5px;                        /* Não é --radius-sm */
+  border: 1px solid var(--border-default);   /* #4A4A4A */
+  background: var(--surface-secondary);      /* #222222 */
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+
+.trdr-checkbox:hover .trdr-checkbox-box { border-color: var(--border-strong); }
+
+.trdr-checkbox-box.trdr-checkbox-checked {
+  background: var(--action-brand-default);   /* #3D99FF */
+  border-color: var(--action-brand-default);
+}
+
+.trdr-checkbox input:focus-visible ~ .trdr-checkbox-box {
+  outline: 2px solid var(--border-focus);    /* #65B0FF */
+  outline-offset: 2px;
+}`,
+      react: `import Checkbox from '@/components/ui/Checkbox'
+import { useState } from 'react'
+
+export default function Example() {
+  const [terms, setTerms] = useState(false)
+  const [updates, setUpdates] = useState<boolean | 'mixed'>('mixed')
+
+  return (
+    <>
+      <Checkbox checked={terms} onChange={setTerms} label="Aceitar termos" />
+      <Checkbox checked={updates} onChange={(v) => setUpdates(v)} label="Selecionar todos" />
+      <Checkbox checked={false} onChange={() => {}} label="Desativado" disabled />
+    </>
+  )
+}`,
+      prompt: `Implemente o componente Checkbox do Design System TRDR.
+
+ESPECIFICAÇÕES PIXEL-PERFECT:
+- Box: 16×16px, border-radius: 5px (fixo, não token)
+- Gap label: 8px
+- Checkmark SVG: 8×7px, traço branco (stroke 1.5)
+- Mixed (indeterminado): traço horizontal 8×2px branco
+
+TOKENS OBRIGATÓRIOS:
+- BG Checked/Mixed: --action-brand-default (#3D99FF)
+- BG Unchecked: --surface-secondary (#222222)
+- Border padrão: --border-default (#4A4A4A)
+- Border hover: --border-strong (#A4A4A4)
+- Focus ring: outline 2px --border-focus (#65B0FF) offset 2px
+- Check/Dash: #FFFFFF
+
+ESTADOS:
+- checked=true: bg + border = action-brand-default, checkmark SVG visível
+- checked='mixed': mesmo visual de checked + dash horizontal
+- :hover → border-strong
+- :focus-visible → outline border-focus
+- disabled: opacity 0.5, cursor not-allowed`,
+    },
   },
   {
     slug: 'radio-button',
     name: 'Radio Button',
     figmaId: '1916:46361',
     category: 'formulario',
-    description: 'Botão de seleção única. Duas variantes: Input (circular) e Button (retangular).',
+    description: 'Seleção única com 2 variantes: Input (círculo 16×16px) e Button (pill 24px). Estados: Default, Active, Focused, Disabled.',
     props: [
       { name: 'Variant', type: 'enum', values: ['Input', 'Button'] },
-      { name: 'State', type: 'enum', values: ['Default', 'Hover', 'Checked', 'Disabled'] },
+      { name: 'State', type: 'enum', values: ['Default', 'Active', 'Focused', 'Disabled'] },
+      { name: 'Label', type: 'boolean', values: ['true', 'false'] },
     ],
     dimensions: [
-      { label: 'Input', width: '16px', height: '16px' },
+      { label: 'Input circle', width: '16px', height: '16px' },
+      { label: 'Button pill', height: '24px' },
     ],
     tokens: [
-      { property: 'BG checked', token: 'action.brand.default', value: '#3D99FF' },
-      { property: 'Border', token: 'border.default', value: '#4A4A4A' },
+      { property: 'Circle On bg', token: 'action-brand-default', value: '#3D99FF' },
+      { property: 'Circle Off bg', token: 'surface-secondary', value: '#222222' },
+      { property: 'Circle border', token: 'border-default', value: '#4A4A4A' },
+      { property: 'Dot (On)', token: '—', value: '#FFFFFF' },
+      { property: 'Focus ring', token: 'border-focus', value: '#65B0FF' },
+      { property: 'Button border default', token: 'border-subtle', value: '#222222' },
+      { property: 'Button border active', token: 'border-default', value: '#4A4A4A' },
+      { property: 'Button bg active', token: 'surface-brand', value: 'rgba(0,82,204,0.16)' },
     ],
+    anatomy: `[Input] → label > input[type=radio] hidden + círculo 16×16px + label text
+[Button] → button pill 24px height | border varia por estado`,
+    implemented: true,
+    code: {
+      html: `<!-- Input On -->
+<label class="trdr-radio-input">
+  <input type="radio" name="mercado" checked />
+  <span class="trdr-radio-circle trdr-radio-circle-on"></span>
+  <span>WINQ25</span>
+</label>
+
+<!-- Input Off -->
+<label class="trdr-radio-input">
+  <input type="radio" name="mercado" />
+  <span class="trdr-radio-circle"></span>
+  <span>WINFUT</span>
+</label>
+
+<!-- Button Default -->
+<button class="trdr-radio-button">Label</button>
+
+<!-- Button Active -->
+<button class="trdr-radio-button trdr-radio-button-active">Label</button>`,
+      css: `.trdr-radio-input {
+  display: inline-flex; align-items: center;
+  gap: var(--spacing-sm); cursor: pointer;
+  font-family: var(--font-secondary); font-size: 12px; font-weight: 500;
+  color: var(--content-primary);
+}
+
+.trdr-radio-circle {
+  flex-shrink: 0; width: 16px; height: 16px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-default);   /* #4A4A4A */
+  background: var(--surface-secondary);       /* #222222 */
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+
+.trdr-radio-circle-on {
+  background: var(--action-brand-default);
+  border-color: var(--action-brand-default);
+}
+
+.trdr-radio-circle-on::after {
+  content: ''; width: 6px; height: 6px;
+  border-radius: var(--radius-full);
+  background: #ffffff;
+}
+
+.trdr-radio-button {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 24px; padding: 0 var(--spacing-sm); border-radius: 5px;
+  border: 1px solid var(--border-subtle);    /* #222222 */
+  font-family: var(--font-secondary); font-size: 12px; font-weight: 500;
+  color: var(--content-primary); cursor: pointer;
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+
+.trdr-radio-button-active {
+  background: var(--surface-brand);          /* rgba(0,82,204,0.16) */
+  border-color: var(--border-default);
+}
+
+.trdr-radio-button:focus-visible { outline: none; border-color: var(--border-focus); }`,
+      react: `import RadioButton from '@/components/ui/RadioButton'
+import { useState } from 'react'
+
+export default function Example() {
+  const [selected, setSelected] = useState('winq25')
+
+  return (
+    <>
+      {/* Input variant */}
+      <RadioButton
+        variant="input"
+        checked={selected === 'winq25'}
+        label="WINQ25"
+        onChange={() => setSelected('winq25')}
+        name="mercado"
+      />
+      <RadioButton
+        variant="input"
+        checked={selected === 'winfut'}
+        label="WINFUT"
+        onChange={() => setSelected('winfut')}
+        name="mercado"
+      />
+
+      {/* Button variant */}
+      <RadioButton variant="button" label="Boleta" state="active" />
+      <RadioButton variant="button" label="Gráfico" />
+      <RadioButton variant="button" label="Desativado" state="disabled" />
+    </>
+  )
+}`,
+      prompt: `Implemente o componente RadioButton do Design System TRDR com 2 variantes.
+
+VARIANTE INPUT (círculo):
+- Círculo: 16×16px, border-radius: 9999px (radius-full)
+- Off: bg=--surface-secondary (#222222), border=--border-default (#4A4A4A)
+- On: bg=--action-brand-default (#3D99FF), border=action-brand-default
+  → Dot interno: 6×6px branco via ::after
+- Hover Off: border=--border-strong (#A4A4A4)
+- Focus: outline 2px --border-focus (#65B0FF) offset 2px
+
+VARIANTE BUTTON (pill):
+- Height: 24px, border-radius: 5px, padding: 0 8px
+- Default: border=--border-subtle (#222222)
+- Active: bg=--surface-brand (rgba(0,82,204,0.16)), border=--border-default
+- Focused: border=--border-focus (#65B0FF)
+- Disabled: opacity 0.6, cursor not-allowed
+
+FONT: 12px / 500 / --font-secondary / --content-primary`,
+    },
   },
   {
     slug: 'switch',
     name: 'Switch',
     figmaId: '1359:1740',
     category: 'formulario',
-    description: 'Toggle on/off/mixed. Track de 32×16px com knob de 14px.',
+    description: 'Toggle on/off/mixed. Track de 32×16px com knob de 14px. Suporta estado indeterminado (mixed) com ícone de traço.',
     props: [
-      { name: 'State', type: 'enum', values: ['On', 'Off', 'Mixed'] },
+      { name: 'Type', type: 'enum', values: ['On', 'Off', 'Mixed'] },
+      { name: 'Disabled', type: 'boolean', values: ['true', 'false'] },
     ],
     dimensions: [
       { label: 'Track', width: '32px', height: '16px' },
+      { label: 'Knob', width: '14px', height: '14px' },
+      { label: 'Componente total', height: '24px' },
     ],
     tokens: [
-      { property: 'Track ON', token: 'action.brand.default', value: '#3D99FF' },
-      { property: 'Track OFF', token: 'surface.secondary', value: '#222222' },
-      { property: 'Knob', token: 'content.primary', value: '#FFFFFF' },
+      { property: 'Track On / Mixed', token: 'action-brand-default', value: '#3D99FF' },
+      { property: 'Track Off', token: 'surface-primary', value: '#4A4A4A' },
+      { property: 'Track Disabled', token: 'surface-secondary', value: '#222222' },
+      { property: 'Knob', token: '—', value: '#FFFFFF' },
+      { property: 'Focus border', token: 'border-focus', value: '#65B0FF' },
+      { property: 'Label padrão', token: 'content-primary', value: '#FFFFFF' },
+      { property: 'Label disabled', token: 'content-tertiary', value: '#A4A4A4' },
     ],
-    anatomy: `[Track 32×16px radius-full]
-  └── [Knob 14×14px radius-full]`,
-    notes: 'Border radius: radius.full (9999px) no track e no knob.',
+    anatomy: `[button role=switch height=24px gap=8px]
+  └── [Track 32×16px radius-full bg=action-brand-default|surface-primary]
+        └── [Knob 14×14px radius-full white, esquerda=Off, direita=On]
+        └── [Mixed: traço horizontal 8×1.5px branco centralizado]
+  └── [Label 12px/500 font-secondary]`,
+    notes: 'Knob: top=1px, left=1px (Off) ou right=1px (On). Foco via :focus-visible com outline border-focus.',
+    implemented: true,
+    code: {
+      html: `<!-- On -->
+<button class="trdr-switch" role="switch" aria-checked="true">
+  <span class="trdr-switch-track trdr-switch-track-on">
+    <span class="trdr-switch-knob"></span>
+  </span>
+  <span>Ativar notificações</span>
+</button>
+
+<!-- Off -->
+<button class="trdr-switch" role="switch" aria-checked="false">
+  <span class="trdr-switch-track">
+    <span class="trdr-switch-knob"></span>
+  </span>
+  <span>Ativar notificações</span>
+</button>
+
+<!-- Mixed -->
+<button class="trdr-switch" role="switch" aria-checked="mixed">
+  <span class="trdr-switch-track trdr-switch-track-mixed">
+    <span class="trdr-switch-mixed-icon">
+      <span class="trdr-switch-mixed-dash"></span>
+    </span>
+  </span>
+  <span>Ativar notificações</span>
+</button>
+
+<!-- Disabled -->
+<button class="trdr-switch" role="switch" aria-checked="false" disabled>
+  <span class="trdr-switch-track">
+    <span class="trdr-switch-knob"></span>
+  </span>
+  <span>Desativado</span>
+</button>`,
+      css: `.trdr-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);         /* 8px */
+  height: 24px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--content-primary);  /* #FFFFFF */
+  letter-spacing: 0.2px;
+  transition: color 0.15s ease;
+}
+
+.trdr-switch:disabled {
+  cursor: not-allowed;
+  color: var(--content-tertiary); /* #A4A4A4 */
+}
+
+.trdr-switch-track {
+  position: relative;
+  width: 32px;
+  height: 16px;
+  border-radius: var(--radius-full); /* 9999px */
+  background-color: var(--surface-primary); /* #4A4A4A — Off */
+  flex-shrink: 0;
+  transition: background-color 0.15s ease;
+}
+
+.trdr-switch-track-on,
+.trdr-switch-track-mixed {
+  background-color: var(--action-brand-default); /* #3D99FF */
+}
+
+.trdr-switch:disabled .trdr-switch-track {
+  background-color: var(--surface-secondary); /* #222222 */
+}
+
+.trdr-switch:focus-visible .trdr-switch-track {
+  outline: 1px solid var(--border-focus); /* #65B0FF */
+  outline-offset: 2px;
+}
+
+.trdr-switch-knob {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+  background-color: #ffffff;
+  top: 1px;
+  left: 1px;
+  transition: left 0.15s ease, right 0.15s ease;
+}
+
+.trdr-switch-track-on .trdr-switch-knob {
+  left: auto;
+  right: 1px;
+}
+
+.trdr-switch-mixed-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trdr-switch-mixed-dash {
+  width: 8px;
+  height: 1.5px;
+  background-color: #ffffff;
+  border-radius: 1px;
+}`,
+      react: `import Switch from '@/components/ui/Switch'
+import { useState } from 'react'
+
+export default function Example() {
+  const [type, setType] = useState<'on' | 'off' | 'mixed'>('off')
+
+  return (
+    <Switch
+      type={type}
+      label="Ativar notificações"
+      onChange={setType}
+    />
+  )
+}
+
+// Disabled
+<Switch type="on" label="Sempre ativo" disabled />
+
+// Mixed (indeterminado)
+<Switch type="mixed" label="Configuração parcial" onChange={setType} />`,
+      prompt: `Implemente o componente Switch do Design System TRDR.
+
+ESPECIFICAÇÕES PIXEL-PERFECT:
+- Track: 32×16px, border-radius: 9999px (--radius-full)
+- Knob: 14×14px, border-radius: 9999px, cor #FFFFFF
+- Knob Off: top=1px, left=1px | Knob On: top=1px, right=1px
+- Gap track→label: 8px (--spacing-sm)
+- Altura total: 24px
+- Label: 12px, weight 500, font-secondary
+
+TOKENS OBRIGATÓRIOS:
+- Track On/Mixed: --action-brand-default (#3D99FF)
+- Track Off: --surface-primary (#4A4A4A)
+- Track Disabled: --surface-secondary (#222222)
+- Knob: #FFFFFF (não tem token, é sempre branco)
+- Focus outline: --border-focus (#65B0FF)
+- Label padrão: --content-primary (#FFFFFF)
+- Label disabled: --content-tertiary (#A4A4A4)
+
+COMPORTAMENTO:
+- role="switch", aria-checked="true"|"false"|"mixed"
+- Estado Mixed: traço horizontal 8×1.5px branco centralizado no track
+- Transição suave 0.15s no knob e background do track
+- :focus-visible com outline no track (não no botão inteiro)
+- :disabled: cursor not-allowed, label muted, track escurecido`,
+    },
   },
   {
     slug: 'segmented-control',
@@ -519,18 +1137,118 @@ Split visual com divider vertical interno`,
     name: 'Tooltip',
     figmaId: '1618:23706',
     category: 'formulario',
-    description: 'Balão de ajuda contextual. 8 direções de posicionamento.',
+    description: 'Balão de ajuda contextual com seta direcional. 8 direções. Padding 12×8px, bg-primary, max-width 200px.',
     props: [
-      { name: 'Direction', type: 'enum', values: ['Top', 'Bottom', 'Left', 'Right', 'Top Left', 'Top Right', 'Bottom Left', 'Bottom Right'] },
+      { name: 'Direction', type: 'enum', values: ['TopCenter', 'TopLeft', 'TopRight', 'BottomCenter', 'BottomLeft', 'BottomRight', 'Right', 'Left'] },
+      { name: 'Hotkey', type: 'boolean', values: ['true', 'false'] },
     ],
     dimensions: [
-      { label: 'Default', height: 'auto' },
+      { label: 'Padding H', width: '12px', height: '—' },
+      { label: 'Padding V', height: '8px' },
+      { label: 'Seta (caret)', width: '12px', height: '6px' },
+      { label: 'Max width', width: '200px', height: '—' },
     ],
     tokens: [
-      { property: 'Background', token: 'bg.primary', value: '#0E0E0E' },
-      { property: 'Shadow', token: 'elevation-300', value: 'shadow md' },
-      { property: 'Text', token: 'content.secondary', value: '#E8E8E8' },
+      { property: 'Background', token: 'bg-primary', value: '#0E0E0E' },
+      { property: 'Texto', token: 'content-primary', value: '#FFFFFF' },
+      { property: 'Hotkey', token: 'content-secondary', value: '#E8E8E8' },
+      { property: 'Seta', token: 'bg-primary', value: '#0E0E0E' },
+      { property: 'Shadow', token: '—', value: 'drop-shadow 0.25px + 1.5px + 6px' },
     ],
+    anatomy: `[div role=tooltip position=relative border-radius=5px]
+  └── [Content: flex gap=4px padding=8px/12px]
+        └── [Texto flex=1]
+        └── [Hotkey opcional]
+  └── [Seta 12×6px CSS clip-path absolute]`,
+    implemented: true,
+    code: {
+      html: `<!-- TopCenter -->
+<div class="trdr-tooltip trdr-tooltip-top-center" role="tooltip">
+  <div class="trdr-tooltip-content">
+    <span>Tooltip text</span>
+    <span class="trdr-tooltip-hotkey">⌘V</span>
+  </div>
+  <span class="trdr-tooltip-arrow trdr-tooltip-arrow-up" aria-hidden="true"></span>
+</div>
+
+<!-- BottomLeft -->
+<div class="trdr-tooltip trdr-tooltip-bottom-left" role="tooltip">
+  <div class="trdr-tooltip-content">
+    <span>Alinhar à esquerda</span>
+  </div>
+  <span class="trdr-tooltip-arrow trdr-tooltip-arrow-down" aria-hidden="true"></span>
+</div>`,
+      css: `.trdr-tooltip {
+  position: relative;
+  display: inline-flex; flex-direction: column; align-items: center;
+  max-width: 200px;
+  background-color: var(--bg-primary);  /* #0E0E0E */
+  border-radius: 5px;
+  filter: drop-shadow(0px 0px 0.25px rgba(0,0,0,0.15)) drop-shadow(0px 5px 6px rgba(0,0,0,0.13));
+}
+
+.trdr-tooltip-content {
+  display: flex; align-items: center; gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);  /* 8px / 12px */
+  font-family: var(--font-secondary); font-size: 12px; font-weight: 500;
+  color: var(--content-primary); white-space: nowrap;
+}
+
+.trdr-tooltip-hotkey { color: var(--content-secondary); }
+
+.trdr-tooltip-arrow {
+  position: absolute;
+  width: 12px; height: 6px;
+  background-color: var(--bg-primary);
+}
+
+.trdr-tooltip-arrow-up    { clip-path: polygon(50% 0%, 0% 100%, 100% 100%); }
+.trdr-tooltip-arrow-down  { clip-path: polygon(0% 0%, 100% 0%, 50% 100%); }
+.trdr-tooltip-arrow-left  { width: 6px; height: 12px; clip-path: polygon(0% 50%, 100% 0%, 100% 100%); }
+.trdr-tooltip-arrow-right { width: 6px; height: 12px; clip-path: polygon(0% 0%, 100% 50%, 0% 100%); }
+
+.trdr-tooltip-top-center    .trdr-tooltip-arrow { top: -6px; left: 50%; transform: translateX(-50%); }
+.trdr-tooltip-top-left      .trdr-tooltip-arrow { top: -6px; left: 8px; }
+.trdr-tooltip-top-right     .trdr-tooltip-arrow { top: -6px; right: 8px; }
+.trdr-tooltip-bottom-center .trdr-tooltip-arrow { bottom: -6px; left: 50%; transform: translateX(-50%); }
+.trdr-tooltip-bottom-left   .trdr-tooltip-arrow { bottom: -6px; left: 8px; }
+.trdr-tooltip-bottom-right  .trdr-tooltip-arrow { bottom: -6px; right: 8px; }
+.trdr-tooltip-right         .trdr-tooltip-arrow { top: 50%; right: -6px; transform: translateY(-50%); }
+.trdr-tooltip-left          .trdr-tooltip-arrow { top: 50%; left: -6px; transform: translateY(-50%); }`,
+      react: `import Tooltip from '@/components/ui/Tooltip'
+
+export default function Example() {
+  return (
+    <>
+      <Tooltip text="Salvar" hotkey="⌘S" direction="top-center" />
+      <Tooltip text="Alinhar à esquerda" direction="bottom-left" />
+      <Tooltip text="Mais opções" direction="right" />
+      <Tooltip text="Voltar" direction="left" />
+    </>
+  )
+}`,
+      prompt: `Implemente o componente Tooltip do Design System TRDR.
+
+ESPECIFICAÇÕES PIXEL-PERFECT:
+- Background: --bg-primary (#0E0E0E)
+- Border-radius: 5px
+- Padding: 8px vertical, 12px horizontal (--spacing-sm / --spacing-md)
+- Max-width: 200px
+- Font: 12px / 500 / --font-secondary
+- Seta (caret): 12×6px via CSS clip-path, bg = --bg-primary
+
+TOKENS OBRIGATÓRIOS:
+- Background + seta: --bg-primary (#0E0E0E)
+- Texto: --content-primary (#FFFFFF)
+- Hotkey: --content-secondary (#E8E8E8)
+- Shadow: filter drop-shadow multicamadas
+
+SETAS CSS POR DIREÇÃO:
+- top-*: seta acima, clip-path polygon(50% 0%, 0% 100%, 100% 100%), top=-6px
+- bottom-*: seta abaixo, clip-path polygon(0% 0%, 100% 0%, 50% 100%), bottom=-6px
+- left/right: seta lateral 6×12px, posicionada em top=50%
+- Alinhamentos: center=50%+translateX, left=8px, right=8px`,
+    },
   },
   {
     slug: 'labels',

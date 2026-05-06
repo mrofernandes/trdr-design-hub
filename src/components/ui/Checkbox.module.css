@@ -41,6 +41,11 @@
   border-color: var(--action-brand-default);
 }
 
+.box.mixed {
+  background: var(--action-brand-default);
+  border-color: var(--action-brand-default);
+}
+
 .wrapper:not(.disabled):hover .box.checked {
   background: var(--action-brand-hover);
   border-color: var(--action-brand-hover);

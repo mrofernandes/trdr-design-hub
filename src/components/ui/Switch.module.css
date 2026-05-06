@@ -1,0 +1,88 @@
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  height: 24px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--content-primary);
+  letter-spacing: 0.2px;
+  transition: color 0.15s ease;
+}
+
+.wrapper:disabled,
+.wrapper.disabled {
+  cursor: not-allowed;
+  color: var(--content-tertiary);
+}
+
+.track {
+  position: relative;
+  width: 32px;
+  height: 16px;
+  border-radius: var(--radius-full);
+  background-color: var(--surface-primary);
+  flex-shrink: 0;
+  transition: background-color 0.15s ease;
+}
+
+.trackOn {
+  background-color: var(--action-brand-default);
+}
+
+.trackMixed {
+  background-color: var(--action-brand-default);
+}
+
+.wrapper:disabled .track,
+.wrapper.disabled .track {
+  background-color: var(--surface-secondary);
+}
+
+.wrapper:focus-visible .track {
+  outline: 1px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+.knob {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+  background-color: #ffffff;
+  top: 1px;
+  left: 1px;
+  transition: left 0.15s ease;
+}
+
+.knobOn {
+  left: auto;
+  right: 1px;
+}
+
+.mixedIcon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mixedDash {
+  width: 8px;
+  height: 1.5px;
+  background-color: #ffffff;
+  border-radius: 1px;
+}
+
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.2;
+}

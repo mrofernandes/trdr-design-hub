@@ -1,7 +1,13 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './ComponentPreview.module.css'
+import Switch, { SwitchType } from './Switch'
+import Dropdown from './Dropdown'
+import Checkbox, { CheckboxType } from './Checkbox'
+import RadioButton from './RadioButton'
+import ComboInput from './ComboInput'
+import Tooltip from './Tooltip'
 
 interface Props {
   slug: string
@@ -223,7 +229,150 @@ function renderPreview(slug: string) {
         </div>
       )
 
+    case 'combo-input':
+      return (
+        <div className={styles.previewInner}>
+          <PreviewLabel>Estados</PreviewLabel>
+          <div className={styles.col}>
+            <ComboInput value="16" state="default" />
+            <ComboInput value="32" state="hover" />
+            <ComboInput value="8" state="selected-input" />
+            <ComboInput value="16" state="selected-chevron" />
+          </div>
+          <PreviewLabel>Com ícone</PreviewLabel>
+          <div className={styles.col}>
+            <ComboInput value="16" iconLead state="default" />
+            <ComboInput value="16" iconLead state="selected-chevron" />
+          </div>
+        </div>
+      )
+
+    case 'tooltip':
+      return (
+        <div className={styles.previewInner}>
+          <PreviewLabel>Direções (Top)</PreviewLabel>
+          <div className={styles.row} style={{ flexWrap: 'wrap', gap: 16, paddingTop: 12 }}>
+            <Tooltip text="Tooltip text" hotkey="⌘V" direction="top-center" />
+            <Tooltip text="Tooltip text" direction="top-left" />
+            <Tooltip text="Tooltip text" direction="top-right" />
+          </div>
+          <PreviewLabel>Bottom</PreviewLabel>
+          <div className={styles.row} style={{ flexWrap: 'wrap', gap: 16, paddingTop: 12 }}>
+            <Tooltip text="Tooltip text" hotkey="⌘V" direction="bottom-center" />
+            <Tooltip text="Tooltip text" direction="bottom-left" />
+            <Tooltip text="Tooltip text" direction="bottom-right" />
+          </div>
+          <PreviewLabel>Laterais</PreviewLabel>
+          <div className={styles.row} style={{ gap: 24, paddingTop: 12 }}>
+            <Tooltip text="Tooltip text" direction="right" />
+            <Tooltip text="Tooltip text" direction="left" />
+          </div>
+        </div>
+      )
+
+    case 'checkbox':
+      return <CheckboxPreview />
+
+    case 'radio-button':
+      return <RadioButtonPreview />
+
+    case 'dropdown':
+      return (
+        <div className={styles.previewInner}>
+          <PreviewLabel>Default (24px)</PreviewLabel>
+          <div className={styles.row}>
+            <Dropdown value="WINQ25" />
+            <Dropdown value="WINQ25" state="focused" />
+            <Dropdown value="WINQ25" state="active" />
+          </div>
+          <div className={styles.row}>
+            <Dropdown placeholder="Selecione" />
+            <Dropdown value="Desativado" disabled />
+          </div>
+          <PreviewLabel>Large (32px)</PreviewLabel>
+          <div className={styles.row}>
+            <Dropdown value="WINFUT" size="lg" />
+            <Dropdown value="WINFUT" size="lg" state="focused" />
+            <Dropdown value="Desativado" size="lg" disabled />
+          </div>
+          <PreviewLabel>Sem stroke</PreviewLabel>
+          <div className={styles.row}>
+            <Dropdown value="WINQ25" stroke={false} />
+            <Dropdown value="WINFUT" size="lg" stroke={false} />
+          </div>
+        </div>
+      )
+
+    case 'switch':
+      return <SwitchPreview />
+
     default:
       return null
   }
+}
+
+function CheckboxPreview() {
+  const [c1, setC1] = useState(true)
+  const [c2, setC2] = useState(false)
+  const [c3, setC3] = useState<CheckboxType>('mixed')
+  return (
+    <div className={styles.previewInner}>
+      <PreviewLabel>Estados</PreviewLabel>
+      <div className={styles.col}>
+        <Checkbox checked={c1} onChange={setC1} label="Aceitar termos" />
+        <Checkbox checked={c2} onChange={setC2} label="Receber novidades" />
+        <Checkbox checked={c3} onChange={v => setC3(v)} label="Selecionar todos (mixed)" />
+      </div>
+      <PreviewLabel>Disabled</PreviewLabel>
+      <div className={styles.col}>
+        <Checkbox checked={true} onChange={() => {}} label="Checked desativado" disabled />
+        <Checkbox checked={false} onChange={() => {}} label="Desativado" disabled />
+      </div>
+    </div>
+  )
+}
+
+function RadioButtonPreview() {
+  const [sel, setSel] = useState('winq25')
+  return (
+    <div className={styles.previewInner}>
+      <PreviewLabel>Input variant</PreviewLabel>
+      <div className={styles.col}>
+        <RadioButton variant="input" checked={sel === 'winq25'} label="WINQ25" onChange={() => setSel('winq25')} name="mercado" />
+        <RadioButton variant="input" checked={sel === 'winfut'} label="WINFUT" onChange={() => setSel('winfut')} name="mercado" />
+        <RadioButton variant="input" checked={false} label="Desativado" disabled />
+      </div>
+      <PreviewLabel>Button variant</PreviewLabel>
+      <div className={styles.row}>
+        <RadioButton variant="button" label="Boleta" state="active" />
+        <RadioButton variant="button" label="Gráfico" />
+        <RadioButton variant="button" label="Book" state="focused" />
+        <RadioButton variant="button" label="Inativo" state="disabled" />
+      </div>
+    </div>
+  )
+}
+
+function SwitchPreview() {
+  const [t1, setT1] = useState<SwitchType>('on')
+  const [t2, setT2] = useState<SwitchType>('off')
+  const [t3, setT3] = useState<SwitchType>('mixed')
+  return (
+    <div className={styles.previewInner}>
+      <PreviewLabel>On / Off</PreviewLabel>
+      <div className={styles.col}>
+        <Switch type={t1} label="Ativar notificações" onChange={setT1} />
+        <Switch type={t2} label="Modo escuro" onChange={setT2} />
+      </div>
+      <PreviewLabel>Mixed (indeterminado)</PreviewLabel>
+      <div className={styles.col}>
+        <Switch type={t3} label="Configuração parcial" onChange={setT3} />
+      </div>
+      <PreviewLabel>Disabled</PreviewLabel>
+      <div className={styles.col}>
+        <Switch type="on" label="Sempre ativo" disabled />
+        <Switch type="off" label="Indisponível" disabled />
+      </div>
+    </div>
+  )
 }
