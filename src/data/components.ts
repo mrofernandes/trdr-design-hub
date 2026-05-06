@@ -1768,20 +1768,198 @@ Altura: 56px | Padding: 16px H / 8px V`,
   {
     slug: 'boleta',
     name: 'Painel de Negociações (Boleta)',
-    figmaId: '1916:47370',
+    figmaId: '903:1853',
     category: 'trading',
-    description: 'Painel de entrada de ordens com campos de compra e venda.',
+    description: 'Painel lateral de entrada de ordens. Inclui segmented control Avançado/Simples, campos de estratégia, quantidade e preço, botões de compra/venda por tipo de ordem, ação Zerar e resumo de posição.',
     props: [
-      { name: 'Side', type: 'enum', values: ['Comprar', 'Vender'] },
+      { name: 'versao', type: 'enum', values: ['avancado', 'simples'] },
     ],
-    dimensions: [{ label: 'Default', height: 'auto' }],
+    dimensions: [
+      { label: 'Largura fixa', width: '283px', height: '—' },
+      { label: 'Abas (header)', width: '100%', height: '45px' },
+      { label: 'Input de campo', width: '100%', height: '32px' },
+      { label: 'Botão de ação', width: 'flex-1', height: '32–34px' },
+    ],
     tokens: [
       { property: 'Comprar BG', token: 'context.trading.long.default', value: 'rgba(79,226,144,0.08)' },
+      { property: 'Comprar hover BG', token: 'context.trading.long.hover', value: 'rgba(79,226,144,0.12)' },
+      { property: 'Comprar texto', token: 'context.trading.long.text', value: '#4FE290' },
       { property: 'Vender BG', token: 'context.trading.short.default', value: 'rgba(243,79,69,0.08)' },
-      { property: 'Comprar CTA', token: 'context.trading.long.text', value: '#4FE290' },
-      { property: 'Vender CTA', token: 'context.trading.short.text', value: '#F34F45' },
-      { property: 'Stop', token: 'context.trading.stop.default', value: 'rgba(255,100,0,0.16)' },
+      { property: 'Vender hover BG', token: 'context.trading.short.hover', value: 'rgba(243,79,69,0.12)' },
+      { property: 'Vender texto', token: 'context.trading.short.text', value: '#F34F45' },
+      { property: 'Zerar borda/texto', token: 'color.orange.500', value: '#FF6400' },
+      { property: 'Zerar hover BG', token: 'context.trading.stop.alpha', value: 'rgba(255,100,0,0.08)' },
+      { property: 'Segment control BG', token: 'surface.secondary', value: '#222222' },
+      { property: 'Segment ativo BG', token: 'action.secondary.default', value: '#4A4A4A' },
+      { property: 'Input BG', token: 'surface.primary', value: '#4A4A4A' },
+      { property: 'Borda seção', token: 'border.subtle', value: '#222222' },
+      { property: 'Posição "Zerado"', token: 'content.success', value: '#4FE290' },
     ],
+    anatomy: 'Painel de 283px de largura com border-left sutil. 3 seções: Abas (45px, segmented control pill), Container (padding 8px, gap 16px — linhas de info, inputs 32px, quick buttons e checkbox TP/SL), Botões (padding 8px, gap 8px — rows de Compra+Venda, Zerar, Cancel, grupo Cancelar/Inverter, resumo Posição).',
+    code: {
+      html: `<!-- Painel de Negociações (Boleta) -->
+<div class="trdr-boleta">
+
+  <!-- Abas -->
+  <div class="trdr-boleta-abas">
+    <div class="trdr-boleta-segment-control">
+      <button class="trdr-boleta-segment trdr-boleta-segment-active">Avançado</button>
+      <button class="trdr-boleta-segment">Simples</button>
+    </div>
+  </div>
+
+  <!-- Campos -->
+  <div class="trdr-boleta-container">
+    <!-- Estratégia -->
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <span class="trdr-boleta-label">Estratégia</span>
+      <span style="color:var(--content-primary);font-size:12px;font-weight:500">Manejo ▾</span>
+    </div>
+
+    <!-- Disponível -->
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <span class="trdr-boleta-label">Disp.</span>
+      <span style="color:var(--content-primary);font-size:12px;font-weight:500">258.010.200,00 USDT</span>
+    </div>
+
+    <!-- Quantidade -->
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <span class="trdr-boleta-label">Quantidade</span>
+      <input class="trdr-boleta-input" placeholder="Inserir" />
+      <div style="display:flex;gap:4px">
+        <button class="trdr-boleta-quick-btn">1</button>
+        <button class="trdr-boleta-quick-btn">2</button>
+        <button class="trdr-boleta-quick-btn">3</button>
+      </div>
+    </div>
+
+    <!-- Preço da Ordem -->
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <span class="trdr-boleta-label">Preço da Ordem</span>
+      <input class="trdr-boleta-input" value="0,00" />
+    </div>
+
+    <!-- TP/SL -->
+    <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+      <input type="checkbox" style="display:none" />
+      <span style="width:16px;height:16px;border:1px solid var(--border-default);border-radius:5px;background:var(--surface-tertiary);flex-shrink:0;display:block"></span>
+      <span style="font-size:12px;font-weight:500;color:var(--content-primary)">TP/SL</span>
+    </label>
+  </div>
+
+  <!-- Botões -->
+  <div class="trdr-boleta-botoes">
+    <div style="display:flex;gap:8px">
+      <button class="trdr-boleta-btn-long">CP Limite</button>
+      <button class="trdr-boleta-btn-short">VD Limite</button>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="trdr-boleta-btn-long">CP Mercado</button>
+      <button class="trdr-boleta-btn-short">VD Mercado</button>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="trdr-boleta-btn-long">Bid</button>
+      <button class="trdr-boleta-btn-short">Ask</button>
+    </div>
+    <button class="trdr-boleta-btn-zerar">Zerar (5)</button>
+    <button class="trdr-boleta-btn-ghost">Cancelar ordens (2) + Zerar (5)</button>
+    <div style="display:flex;gap:8px">
+      <button class="trdr-boleta-btn-ghost" style="width:auto;flex-shrink:0">Cancelar Ordem</button>
+      <button class="trdr-boleta-btn-ghost" style="flex:1;min-width:100px">Inverter</button>
+    </div>
+  </div>
+
+</div>`,
+      css: `/* Boleta — variáveis usadas */
+/* --context-trading-long-default: rgba(79,226,144,0.08)  */
+/* --context-trading-long-hover:   rgba(79,226,144,0.12)  */
+/* --context-trading-long-text:    #4FE290               */
+/* --context-trading-short-default: rgba(243,79,69,0.08)  */
+/* --context-trading-short-hover:   rgba(243,79,69,0.12)  */
+/* --context-trading-short-text:    #F34F45               */
+/* --color-orange-500:             #FF6400  (Zerar)        */
+/* --context-trading-stop-alpha:   rgba(255,100,0,0.08)   */
+/* --surface-secondary:            #222222                */
+/* --action-secondary-default:     #4A4A4A                */
+/* --surface-primary:              #4A4A4A                */
+/* --border-subtle:                #222222                */
+/* --content-success:              #4FE290                */
+
+.trdr-boleta { width: 283px; border-left: 1px solid var(--border-subtle); }
+
+.trdr-boleta-btn-long {
+  flex: 1;
+  background: var(--context-trading-long-default);
+  border-radius: var(--radius-md);
+  padding: 8px;
+  border: none; cursor: pointer;
+  font-size: 14px; font-weight: 600;
+  color: var(--context-trading-long-text);
+  transition: background 0.15s ease;
+}
+.trdr-boleta-btn-long:hover { background: var(--context-trading-long-hover); }
+
+.trdr-boleta-btn-short {
+  flex: 1;
+  background: var(--context-trading-short-default);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  border: none; cursor: pointer;
+  font-size: 14px; font-weight: 600;
+  color: var(--context-trading-short-text);
+  transition: background 0.15s ease;
+}
+.trdr-boleta-btn-short:hover { background: var(--context-trading-short-hover); }
+
+.trdr-boleta-btn-zerar {
+  width: 100%; height: 32px;
+  border: 1px solid var(--color-orange-500);
+  border-radius: var(--radius-md);
+  background: transparent; cursor: pointer;
+  font-size: 14px; font-weight: 600;
+  color: var(--color-orange-500);
+  transition: background 0.15s ease;
+}
+.trdr-boleta-btn-zerar:hover { background: var(--context-trading-stop-alpha); }`,
+      react: `import Boleta from '@/components/ui/Boleta'
+
+// Versão padrão (Avançado)
+<Boleta />
+
+// Versão Simples
+<Boleta versao="simples" />
+
+// Com className customizado
+<Boleta versao="avancado" className="meu-override" />`,
+      prompt: `Implemente o componente Boleta do Design System TRDR — painel lateral de negociações de 283px de largura.
+
+ESTRUTURA (3 seções com border-left: 1px solid --border-subtle):
+
+1. ABAS (height: 45px, padding: 8px, border-bottom sutil)
+   - Segmented control pill (border-radius: 9999px, bg: --surface-secondary #222)
+   - 2 segments: "Avançado" (ativo) e "Simples" (inativo)
+   - Segment ativo: bg --action-secondary-default #4A4A4A, radius 16px, padding 8px 12px
+   - Segment inativo: bg transparente, text --content-tertiary
+
+2. CONTAINER — campos do formulário (padding: 8px, gap: 16px, border-bottom sutil)
+   - Linha "Estratégia": label (tertiary 12px/500) + valor "Manejo" + chevron (primary)
+   - Linha "Disp.": label + valor "258.010.200,00 USDT" (primary)
+   - Grupo "Quantidade": label 12px + input 32px (bg --surface-primary, radius 8px, padding 8px) + 3 quick buttons (border --border-default, radius 8px, padding 8px 12px, font 14px/600 secondary, gap 4px)
+   - Grupo "Preço da Ordem": label 12px + input 32px
+   - Linha "TP/SL": checkbox 16x16 (border default, radius 5px, bg --surface-tertiary) + label primary
+
+3. BOTÕES (padding: 8px, gap: 8px)
+   - 4 rows de ação (gap 8px cada):
+     • Long (flex:1, bg --context-trading-long-default, text --context-trading-long-text #4FE290, radius 8px, padding 8px, font 14px/600)
+     • Short (flex:1, bg --context-trading-short-default, text --context-trading-short-text #F34F45, radius 8px, padding 8px 12px, font 14px/600)
+   - "Zerar (5)": width 100%, height 32px, border 1px sólido --color-orange-500 (#FF6400), text --color-orange-500, radius 8px
+   - "Cancelar ordens (2) + Zerar (5)": width 100%, border --border-default, text --content-secondary, radius 8px
+   - Row "Cancelar Ordem" (shrink-0) + "Inverter" (flex:1 min-width:100px): ambos border --border-default
+   - Resumo Posição: "Posição" (14px tertiary) / "Zerado" (16px --content-success #4FE290), + 2 linhas meta 12px tertiary
+
+Hover states: long-hover rgba(79,226,144,0.12), short-hover rgba(243,79,69,0.12), zerar-hover --context-trading-stop-alpha.
+Resultado pixel-perfect com exatamente 283px de largura.`,
+    },
   },
   { slug: 'volume', name: 'Volume', figmaId: '266:7525', category: 'trading', description: 'Exibição do volume negociado em histograma.', props: [], dimensions: [{ label: 'Default', height: 'auto' }], tokens: [{ property: 'Barras', token: 'content.tertiary', value: '#A4A4A4' }] },
   {

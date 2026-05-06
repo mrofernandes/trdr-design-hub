@@ -9,6 +9,7 @@ import RadioButton from './RadioButton'
 import ComboInput from './ComboInput'
 import Tooltip from './Tooltip'
 import TextInput from './TextInput'
+import Boleta from './Boleta'
 
 interface Props {
   slug: string
@@ -310,6 +311,9 @@ function renderPreview(slug: string) {
     case 'text-input':
       return <TextInputPreview />
 
+    case 'boleta':
+      return <BoletaPreview />
+
     default:
       return null
   }
@@ -453,6 +457,17 @@ function TextInputPreview() {
         />
         <TextInput variant="multi-line" disabled defaultValue="Campo desativado." rows={2} />
       </div>
+    </div>
+  )
+}
+
+function BoletaPreview() {
+  return (
+    <div className={styles.previewInner}>
+      <PreviewLabel>Versão Avançado</PreviewLabel>
+      <Boleta versao="avancado" />
+      <PreviewLabel>Versão Simples</PreviewLabel>
+      <Boleta versao="simples" />
     </div>
   )
 }
