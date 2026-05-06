@@ -5,6 +5,8 @@ import styles from '../page-layout.module.css'
 import iaStyles from './para-ia.module.css'
 
 export default function ParaIAPage() {
+  const installCommand = '/plugin install trdr-design-system@trdr-plugins'
+
   return (
     <div className={styles.page}>
       <div className={styles.header}>
@@ -13,6 +15,46 @@ export default function ParaIAPage() {
           <p className={styles.subtitle}>Regras absolutas e referências para qualquer IA construir interfaces TRDR consistentes.</p>
         </div>
       </div>
+
+      {/* Skill Claude Code */}
+      <section className={iaStyles.section}>
+        <h2 className={iaStyles.sectionTitle}>Skill Claude Code — /trdr-ds</h2>
+        <p className={iaStyles.sectionDesc}>Instale uma vez no Claude Code e aplique o TRDR Design System em qualquer projeto automaticamente. Atualizações chegam automaticamente para toda a equipe sem reinstalar.</p>
+        <div className={iaStyles.skillCard}>
+          <div className={iaStyles.skillCardHeader}>
+            <div className={iaStyles.skillIcon}>
+              <span className="material-symbols-outlined">auto_fix_high</span>
+            </div>
+            <div>
+              <div className={iaStyles.skillTitle}>/trdr-ds — Design System Installer</div>
+              <div className={iaStyles.skillSubtitle}>Analisa o projeto, gera um plano, aguarda aprovação, executa a implementação completa</div>
+            </div>
+          </div>
+
+          <div className={iaStyles.skillSteps}>
+            <div className={iaStyles.skillStep}>
+              <span className={iaStyles.skillStepLabel}>1 — Análise</span>
+              <span className={iaStyles.skillStepDesc}>Detecta o framework, mapeia estilos, encontra violações das 7 regras e busca componentes disponíveis no Hub</span>
+            </div>
+            <div className={iaStyles.skillStep}>
+              <span className={iaStyles.skillStepLabel}>2 — Aprovação</span>
+              <span className={iaStyles.skillStepDesc}>Apresenta um plano com tudo que será feito. O dev aprova, ajusta ou exclui itens antes de qualquer mudança</span>
+            </div>
+            <div className={iaStyles.skillStep}>
+              <span className={iaStyles.skillStepLabel}>3 — Execução</span>
+              <span className={iaStyles.skillStepDesc}>Cria tokens.css, components.css, CLAUDE.md, corrige violações e gera DS_MIGRATION.md com checklist</span>
+            </div>
+          </div>
+
+          <div className={iaStyles.skillInstall}>
+            <span className={iaStyles.skillInstallLabel}>Instalação (uma única vez por desenvolvedor):</span>
+            <div className={iaStyles.skillInstallCode}>
+              <code className={iaStyles.skillInstallCommand}>{installCommand}</code>
+              <CopyButton text={installCommand} label="comando de instalação" />
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Regras absolutas */}
       <section className={iaStyles.section}>
