@@ -1770,6 +1770,7 @@ Altura: 56px | Padding: 16px H / 8px V`,
     name: 'Painel de Negociações (Boleta)',
     figmaId: '903:1853',
     category: 'trading',
+    implemented: true,
     description: 'Painel lateral de entrada de ordens. Inclui segmented control Avançado/Simples, campos de estratégia, quantidade e preço, botões de compra/venda por tipo de ordem, ação Zerar e resumo de posição.',
     props: [
       { name: 'versao', type: 'enum', values: ['avancado', 'simples'] },
