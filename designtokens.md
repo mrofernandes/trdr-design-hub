@@ -391,7 +391,7 @@ Cores de elementos interativos: botões, ícones de ação e estados de interaç
 
 | Token | CSS Variable | Dark | Light | Descrição |
 |---|---|---|---|---|
-| `action/brand inverse/default` | `--action-brand-inverse-default` | `blue.800` | `blue.600` | Background do botão CTA primário — o call-to-action mais importante de cada tela. Azul saturado e sólido. O texto deve ser content/primary (branco). Ex: botão "Gerar prompts" no hub. Usar apenas uma vez por contexto. |
+| `action/brand inverse/default` | `--action-brand-inverse-default` | `blue.800` (#005266) | `blue.600` (#00A8CC) | Superfície brand sólida de alta densidade. Usado em superfícies de destaque brand que não são o botão primário — ex: banners com CTA de identidade TRDR, badges de produto preenchidos. **Atenção:** o Button Primary não usa mais este token; usa `action/brand/default` (ver Seção 5). |
 | `action/brand inverse/hover` | `--action-brand-inverse-hover` | `blue.700` | `blue.700` | Estado hover do botão CTA primário. Versão ligeiramente mais clara para feedback de mouse over. |
 | `action/brand inverse/active` | `--action-brand-inverse-active` | `blue.900` | `blue.800` | Estado pressionado/clicado do botão CTA primário. |
 | `action/brand inverse/disabled` | `--action-brand-inverse-disabled` | `neutral.700` | `neutral.300` | Estado desabilitado do botão CTA primário. |
@@ -550,3 +550,89 @@ Estilos compostos de texto (Text Styles do Figma), vinculados às variáveis da 
 |---|---|---|---|---|---|
 | `Typograph/Labels/L-2` | `text/label/l2` | `16px` | `600 (semibold)` | Inter | `0px (normal)` |
 | `Typograph/Labels/L-3` | `text/label/l3` | `14px` | `600 (semibold)` | Inter | `0px (normal)` |
+
+---
+
+## 5. Regras de Composição por Componente
+
+> Regras extraídas diretamente do Figma via MCP. Fonte primária dos tokens para implementação de componentes.
+>
+> **Regra geral:** qualquer superfície com cor `action/brand/*` (ciano claro) exige texto `content/inverse` — nunca `content/primary`. Superfícies escuras (`action/brand/inverse/*`, `bg/primary`, `surface/*`) usam `content/primary`.
+
+---
+
+### 5.1 Button
+
+Componente de ação. Fonte de verdade: arquivo Figma de Componentes, page `Componentes`, node set iniciado em `1318:750`.
+
+#### Anatomia
+
+```
+[container]
+  └── [label text]         ← obrigatório
+  └── [icon lead]          ← opcional, visível quando Icon Lead=True
+  └── [hotkey text]        ← opcional, visível em alguns contextos
+```
+
+#### Tamanhos
+
+| Tamanho | Padding V | Padding H | Altura aprox. | Token padding V | Token padding H |
+|---|---|---|---|---|---|
+| Default | `4px` | `8px` | `23px` | `scale/spacing/xs` | `scale/spacing/sm` |
+| Large | `8px` | `12px` | `31px` | `scale/radius/md` (alias) | `12px` hardcoded |
+
+- Gap entre ícone e label: `4px` (`scale/spacing/xs`)
+- Border radius: `scale/radius/md` = `8px`
+- Layout: hug contents, horizontal, alinhamento central
+
+#### Variante Primary
+
+> **Mudança crítica (2026-05):** O botão primário migrou de fundo escuro (`action/brand/inverse/default`) para fundo ciano claro (`action/brand/default`). O texto passou de `content/primary` (branco) para `content/inverse` (escuro). Qualquer implementação anterior usando fundo escuro + texto branco está incorreta.
+
+| Estado | Background | Stroke | Stroke weight | Texto |
+|---|---|---|---|---|
+| Default | `action/brand/default` | `action/brand/default` | `0.5px` | `content/inverse` |
+| Hover | `action/brand/hover` | `action/brand/default` | `0.5px` | `content/inverse` |
+| Focused | `action/brand/active` | `action/brand/default` | `1px` | `content/inverse` |
+
+**Estado Focused** tem adicionalmente: `inner-shadow` spread `2px`, cor `action/brand inverse/hover`.
+
+**Tipografia do label:**
+- Família: `Inter` (font.family.secondary)
+- Peso: `600` (Semi Bold)
+- Tamanho: `14px` (font.size.100)
+- Line height: `110%`
+- Letter spacing: `0px`
+
+**Regra de texto sobre superfície brand:**
+```
+surface = action/brand/* (ciano)  →  texto = content/inverse (#1A1A1A dark / #FFFFFF light)
+surface = action/brand/inverse/*  →  texto = content/primary (#FFFFFF dark / #1A1A1A light)
+surface = bg/primary ou surface/* →  texto = content/primary ou content/secondary
+```
+
+#### Código de referência (Button Primary Default, dark mode)
+
+```css
+.btn-primary {
+  background-color: var(--action-brand-default);   /* #00D4FF */
+  border: 0.5px solid var(--action-brand-default);
+  border-radius: var(--radius-md);                 /* 8px */
+  color: var(--content-inverse);                   /* #1A1A1A */
+  padding: 4px 8px;                                /* Default size */
+  font-family: var(--font-secondary);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 110%;
+}
+
+.btn-primary:hover {
+  background-color: var(--action-brand-hover);     /* #00A8CC */
+}
+
+.btn-primary:focus-visible {
+  background-color: var(--action-brand-active);    /* #007D99 */
+  border-width: 1px;
+  box-shadow: inset 0 0 0 2px var(--action-brand-inverse-hover);
+}
+```

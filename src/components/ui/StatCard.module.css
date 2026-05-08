@@ -9,8 +9,8 @@
 }
 
 .card.accent {
-  border-color: rgba(61, 153, 255, 0.3);
-  background: linear-gradient(135deg, rgba(61, 153, 255, 0.06) 0%, var(--bg-secondary) 100%);
+  border-color: var(--action-brand-alpha);
+  background: linear-gradient(135deg, var(--action-brand-alpha) 0%, var(--bg-secondary) 100%);
 }
 
 .value {
