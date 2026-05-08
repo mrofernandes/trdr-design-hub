@@ -21,8 +21,8 @@ const phaseOneSteps = [
   },
   {
     n: '4',
-    label: 'Buscar componentes do Hub',
-    desc: 'Acessa trdr.mrocontent.com.br/componentes ao vivo e lista quais componentes têm código pronto para uso imediato.',
+    label: 'Carregar catálogo (offline-first)',
+    desc: 'Lê o snapshot local data/components.json embutido na skill — funciona sem internet. Se o argumento --latest for usado, busca trdr.mrocontent.com.br/components.json e atualiza o snapshot antes de seguir.',
   },
   {
     n: '5',
@@ -32,15 +32,17 @@ const phaseOneSteps = [
 ]
 
 const phaseTwoFiles = [
-  { file: 'tokens.css', desc: '292 CSS custom properties — dark mode e light mode completos.' },
-  { file: 'components.css', desc: 'Classes utilitárias .trdr-* para todos os componentes do Hub.' },
+  { file: 'tokens.css', desc: 'Cópia verbatim do snapshot references/tokens.css — dark + light mode.' },
+  { file: 'components.css', desc: 'CSS de cada componente implementado no catálogo + classes de tipografia .trdr-h*/.trdr-body-*.' },
   { file: '[globals].css', desc: '@import adicionado no topo para carregar tokens.css e components.css.' },
-  { file: 'CLAUDE.md', desc: 'Regras do design system + referência rápida de tokens para o Claude Code.' },
-  { file: 'DS_MIGRATION.md', desc: 'Log completo da migração + checklist de passos manuais (fontes, dark mode, trading UI).' },
+  { file: 'CLAUDE.md', desc: 'Regras do design system + referência rápida + lista dos componentes implementados (gerada do catálogo).' },
+  { file: 'MISSING_COMPONENTS.md', desc: 'Apenas se algum stub for encontrado no projeto — registra slug, figmaId e tokens recomendados.' },
+  { file: 'DS_MIGRATION.md', desc: 'Log completo da migração + checklist de passos manuais (fontes, dark mode, trading UI, stubs).' },
 ]
 
 const responseCommands = [
   { cmd: '"Apply" ou "Executar"', desc: 'Executa tudo que está no plano sem exceções.' },
+  { cmd: '"Sync first"', desc: 'Atualiza o snapshot do catálogo a partir do Hub antes de aplicar — útil quando você sabe que há componentes novos.' },
   { cmd: '"Only tokens"', desc: 'Cria apenas tokens.css, components.css e CLAUDE.md — sem corrigir violações existentes.' },
   { cmd: '"Apply, skip src/vendor"', desc: 'Executa mas pula um caminho ou arquivo específico da lista de violações.' },
   { cmd: '"Change ..."', desc: 'Ajusta um detalhe do plano antes de executar — útil para escolher o diretório de output.' },
@@ -137,6 +139,32 @@ export default function ParaIAPage() {
               </span>
             ))}
           </div>
+        </div>
+
+        {/* Snapshot offline + JSON endpoint */}
+        <div className={iaStyles.subSection}>
+          <h3 className={iaStyles.subSectionTitle}>Catálogo offline-first</h3>
+          <p className={iaStyles.sectionDesc}>A skill embute um snapshot completo do catálogo e dos tokens — funciona sem internet. Mantenedores atualizam o snapshot puxando do Hub via npm run sync. Devs recebem a versão nova rodando npx trdr-ds-install@latest.</p>
+          <div className={iaStyles.fileList}>
+            <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>/components.json</code>
+              <span className={iaStyles.fileDesc}>Catálogo completo em JSON: 13 componentes implementados (com 4 code blocks) e stubs do restante. <a href="/components.json" style={{ color: 'var(--content-brand)' }}>Abrir endpoint →</a></span>
+            </div>
+            <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>/tokens.css</code>
+              <span className={iaStyles.fileDesc}>Todas as CSS variables (dark + light), copiadas verbatim para o projeto. <a href="/tokens.css" style={{ color: 'var(--content-brand)' }}>Abrir endpoint →</a></span>
+            </div>
+            <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>/trdr-ds sync</code>
+              <span className={iaStyles.fileDesc}>Comando do dev — força a skill a buscar o catálogo mais novo do Hub e sobrescrever o snapshot local. Não toca em arquivos do projeto.</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Stub fallback */}
+        <div className={iaStyles.subSection}>
+          <h3 className={iaStyles.subSectionTitle}>Componentes &quot;stub&quot; — fallback inteligente</h3>
+          <p className={iaStyles.sectionDesc}>O TRDR DS tem 60+ componentes. Os 13 com 4 code blocks completos são aplicados direto. Os demais entram no catálogo como stubs (implemented: false) — a skill não inventa código, mas aplica os tokens recomendados, comenta no fonte com figmaId e link para o Hub, e registra em MISSING_COMPONENTS.md no projeto. Promover um stub a implementado é o caminho gradual para crescer o DS.</p>
         </div>
 
         {/* Phase 1 */}
