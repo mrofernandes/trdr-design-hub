@@ -86,17 +86,18 @@ export const components: DesignComponent[] = [
       { label: 'Large', height: '32px' },
     ],
     tokens: [
-      { property: 'BG Primary', token: 'action.brand-inverse.default', value: '#0066FF' },
-      { property: 'BG Primary Hover', token: 'action.brand-inverse.hover', value: '#1E82FF' },
-      { property: 'BG Primary Active', token: 'action.brand-inverse.active', value: '#0052CC' },
+      { property: 'BG Primary', token: 'action.brand.default', value: '#00D4FF' },
+      { property: 'BG Primary Hover', token: 'action.brand.hover', value: '#00A8CC' },
+      { property: 'BG Primary Active', token: 'action.brand.active', value: '#007D99' },
       { property: 'BG Secondary', token: 'action.secondary.default', value: '#4A4A4A' },
-      { property: 'Text sobre Primary/Secondary', token: 'content.primary', value: '#FFFFFF' },
+      { property: 'Text sobre Primary', token: 'content.inverse', value: '#1A1A1A' },
+      { property: 'Text sobre Secondary', token: 'content.primary', value: '#FFFFFF' },
       { property: 'Text Ghost', token: 'content.secondary', value: '#E8E8E8' },
-      { property: 'BG Destructive', token: 'action.destructive.default', value: '#F57C00' },
-      { property: 'BG Long (trading)', token: 'context.trading.long.default', value: 'rgba(79,226,144,0.08)' },
-      { property: 'Text Long (trading)', token: 'context.trading.long.text', value: '#4FE290' },
-      { property: 'BG Short (trading)', token: 'context.trading.short.default', value: 'rgba(243,79,69,0.08)' },
-      { property: 'Text Short (trading)', token: 'context.trading.short.text', value: '#F34F45' },
+      { property: 'BG Destructive', token: 'action.destructive.default', value: '#EA580C' },
+      { property: 'BG Long (trading)', token: 'context.trading.long.default', value: '#4FE29014' },
+      { property: 'Text Long (trading)', token: 'context.trading.long.text', value: '#6DE7A2' },
+      { property: 'BG Short (trading)', token: 'context.trading.short.default', value: '#F1312614' },
+      { property: 'Text Short (trading)', token: 'context.trading.short.text', value: '#F56D64' },
       { property: 'Border radius', token: 'scale.radius.md', value: '8px' },
       { property: 'Border Ghost', token: 'border.default', value: '#4A4A4A' },
       { property: 'Font family', token: 'font.secondary', value: 'Inter' },
@@ -165,12 +166,12 @@ Height: 24px (Default) / 32px (Large) | Border-radius: 8px`,
 
 /* Primary */
 .trdr-btn-primary {
-  background-color: var(--action-brand-inverse-default); /* #0066FF */
-  color: var(--content-primary);
-  border: 0.5px solid var(--action-brand-inverse-default);
+  background-color: var(--action-brand-default); /* #00D4FF */
+  color: var(--content-inverse);
+  border: 0.5px solid var(--action-brand-default);
 }
-.trdr-btn-primary:hover  { background-color: var(--action-brand-inverse-hover); border-color: var(--action-brand-inverse-hover); }
-.trdr-btn-primary:active { background-color: var(--action-brand-inverse-active); border-color: var(--action-brand-inverse-active); }
+.trdr-btn-primary:hover  { background-color: var(--action-brand-hover); border-color: var(--action-brand-hover); }
+.trdr-btn-primary:active { background-color: var(--action-brand-active); border-color: var(--action-brand-active); }
 .trdr-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
 
 /* Secondary */
@@ -194,7 +195,7 @@ Height: 24px (Default) / 32px (Large) | Border-radius: 8px`,
 
 /* Destructive */
 .trdr-btn-destructive {
-  background-color: var(--action-destructive-default); /* #F57C00 */
+  background-color: var(--action-destructive-default); /* #EA580C */
   color: var(--content-primary);
 }
 .trdr-btn-destructive:hover  { background-color: var(--action-destructive-hover); }
@@ -211,7 +212,7 @@ Height: 24px (Default) / 32px (Large) | Border-radius: 8px`,
 /* Link */
 .trdr-btn-link {
   background-color: transparent;
-  color: var(--content-brand); /* #3D99FF */
+  color: var(--content-brand); /* #00D4FF */
   padding-left: 0;
   padding-right: 0;
 }
@@ -307,10 +308,10 @@ TIPOGRAFIA:
 10 VARIANTES com tokens obrigatórios:
 
 Primary:
-  BG: var(--action-brand-inverse-default) /* #0066FF */
-  Color: var(--content-primary)
-  Border: 0.5px solid var(--action-brand-inverse-default)
-  Hover: var(--action-brand-inverse-hover) | Active: var(--action-brand-inverse-active)
+  BG: var(--action-brand-default) /* #00D4FF */
+  Color: var(--content-inverse)
+  Border: 0.5px solid var(--action-brand-default)
+  Hover: var(--action-brand-hover) | Active: var(--action-brand-active)
 
 Secondary:
   BG: var(--action-secondary-default) /* #4A4A4A */
@@ -323,7 +324,7 @@ Ghost:
   Hover: BG var(--surface-secondary), border var(--border-strong), color var(--content-primary)
 
 Destructive:
-  BG: var(--action-destructive-default) /* #F57C00 */
+  BG: var(--action-destructive-default) /* #EA580C */
   Color: var(--content-primary)
   Hover: var(--action-destructive-hover) | Active: var(--action-destructive-active)
 
@@ -385,7 +386,7 @@ Implemente como componente React com CSS Module. Props: variant, size, iconLeft,
     ],
     tokens: [
       { property: 'Background', token: 'surface-primary', value: '#4A4A4A' },
-      { property: 'Border focus', token: 'border-focus', value: '#65B0FF' },
+      { property: 'Border focus', token: 'border-focus', value: '#00D4FF' },
       { property: 'Border multi-line/disabled', token: 'border-strong', value: '#A4A4A4' },
       { property: 'Texto preenchido', token: 'content-primary', value: '#FFFFFF' },
       { property: 'Placeholder', token: 'content-tertiary', value: '#A4A4A4' },
@@ -463,7 +464,7 @@ Implemente como componente React com CSS Module. Props: variant, size, iconLeft,
   transition: border-color 0.15s ease;
 }
 
-.trdr-text-input:focus-within { border-color: var(--border-focus); /* #65B0FF */ }
+.trdr-text-input:focus-within { border-color: var(--border-focus); /* #00D4FF */ }
 
 .trdr-text-input-lg         { height: 32px; }
 .trdr-text-input-icon       { padding: 0; }
@@ -560,7 +561,7 @@ TAMANHOS:
 
 TOKENS OBRIGATÓRIOS:
 - Background: --surface-primary (#4A4A4A)
-- Border focus: --border-focus (#65B0FF) — via :focus-within no wrapper
+- Border focus: --border-focus (#00D4FF) — via :focus-within no wrapper
 - Border multi-line/disabled: --border-strong (#A4A4A4)
 - Texto: --content-primary (#FFFFFF)
 - Placeholder: --content-tertiary (#A4A4A4)
@@ -614,7 +615,7 @@ Resultado deve ser pixel-perfect em relação ao Figma node 1327:17000.`,
     tokens: [
       { property: 'Background', token: 'surface-primary', value: '#4A4A4A' },
       { property: 'Border padrão', token: 'border-strong', value: '#A4A4A4' },
-      { property: 'Border focused/active', token: 'border-focus', value: '#65B0FF' },
+      { property: 'Border focused/active', token: 'border-focus', value: '#00D4FF' },
       { property: 'Texto', token: 'content-primary', value: '#FFFFFF' },
       { property: 'Texto disabled', token: 'content-tertiary', value: '#A4A4A4' },
       { property: 'Chevron', token: 'content-tertiary', value: '#A4A4A4' },
@@ -665,7 +666,7 @@ Resultado deve ser pixel-perfect em relação ao Figma node 1327:17000.`,
 
 .trdr-dropdown-lg       { height: 32px; }
 .trdr-dropdown-no-stroke { border-color: transparent; }
-.trdr-dropdown-active   { border-color: var(--border-focus); } /* #65B0FF */
+.trdr-dropdown-active   { border-color: var(--border-focus); } /* #00D4FF */
 
 .trdr-dropdown:hover:not(:disabled) { border-color: var(--border-focus); }
 .trdr-dropdown:focus-visible        { outline: none; border-color: var(--border-focus); }
@@ -720,7 +721,7 @@ ESPECIFICAÇÕES PIXEL-PERFECT:
 TOKENS OBRIGATÓRIOS:
 - Background: --surface-primary (#4A4A4A)
 - Border padrão: --border-strong (#A4A4A4)
-- Border focused/active: --border-focus (#65B0FF)
+- Border focused/active: --border-focus (#00D4FF)
 - Texto: --content-primary (#FFFFFF)
 - Texto disabled: --content-tertiary (#A4A4A4)
 - Chevron: --content-tertiary (#A4A4A4)
@@ -755,9 +756,9 @@ COMPORTAMENTO:
     tokens: [
       { property: 'BG value', token: 'surface-primary', value: '#4A4A4A' },
       { property: 'BG chevron default', token: 'surface-primary', value: '#4A4A4A' },
-      { property: 'Chevron border', token: 'border-focus', value: '#65B0FF' },
+      { property: 'Chevron border', token: 'border-focus', value: '#00D4FF' },
       { property: 'Border hover', token: 'border-strong', value: '#A4A4A4' },
-      { property: 'Selected chevron bg', token: 'surface-brand', value: 'rgba(0,82,204,0.16)' },
+      { property: 'Selected chevron bg', token: 'surface-brand', value: '#00D4FF29' },
       { property: 'Texto', token: 'content-primary', value: '#FFFFFF' },
     ],
     anatomy: `[div display=flex gap=1px height=24px]
@@ -848,10 +849,10 @@ ESPECIFICAÇÕES PIXEL-PERFECT:
 
 TOKENS OBRIGATÓRIOS:
 - BG ambas as seções: --surface-primary (#4A4A4A)
-- Chevron border PADRÃO: --border-focus (#65B0FF) — SEMPRE azul por padrão
+- Chevron border PADRÃO: --border-focus (#00D4FF) — SEMPRE ciano por padrão
 - Border hover: --border-strong (#A4A4A4) na seção input
 - Selected Input: border-focus na seção input, chevron sem borda
-- Selected Chevron: --surface-brand (rgba(0,82,204,0.16)) no chevron
+- Selected Chevron: --surface-brand (#00D4FF29) no chevron
 
 COMPORTAMENTO:
 - O gap de 1px entre seções cria o "split" visual
@@ -874,11 +875,11 @@ COMPORTAMENTO:
       { label: 'Box', width: '16px', height: '16px' },
     ],
     tokens: [
-      { property: 'BG Checked / Mixed', token: 'action-brand-default', value: '#3D99FF' },
+      { property: 'BG Checked / Mixed', token: 'action-brand-default', value: '#00D4FF' },
       { property: 'BG Unchecked', token: 'surface-secondary', value: '#222222' },
       { property: 'Border padrão', token: 'border-default', value: '#4A4A4A' },
       { property: 'Border hover', token: 'border-strong', value: '#A4A4A4' },
-      { property: 'Focus ring', token: 'border-focus', value: '#65B0FF' },
+      { property: 'Focus ring', token: 'border-focus', value: '#00D4FF' },
       { property: 'Check / Dash', token: '—', value: '#FFFFFF' },
     ],
     anatomy: `[label cursor=pointer gap=8px]
@@ -937,12 +938,12 @@ COMPORTAMENTO:
 .trdr-checkbox:hover .trdr-checkbox-box { border-color: var(--border-strong); }
 
 .trdr-checkbox-box.trdr-checkbox-checked {
-  background: var(--action-brand-default);   /* #3D99FF */
+  background: var(--action-brand-default);   /* #00D4FF */
   border-color: var(--action-brand-default);
 }
 
 .trdr-checkbox input:focus-visible ~ .trdr-checkbox-box {
-  outline: 2px solid var(--border-focus);    /* #65B0FF */
+  outline: 2px solid var(--border-focus);    /* #00D4FF */
   outline-offset: 2px;
 }`,
       react: `import Checkbox from '@/components/ui/Checkbox'
@@ -969,11 +970,11 @@ ESPECIFICAÇÕES PIXEL-PERFECT:
 - Mixed (indeterminado): traço horizontal 8×2px branco
 
 TOKENS OBRIGATÓRIOS:
-- BG Checked/Mixed: --action-brand-default (#3D99FF)
+- BG Checked/Mixed: --action-brand-default (#00D4FF)
 - BG Unchecked: --surface-secondary (#222222)
 - Border padrão: --border-default (#4A4A4A)
 - Border hover: --border-strong (#A4A4A4)
-- Focus ring: outline 2px --border-focus (#65B0FF) offset 2px
+- Focus ring: outline 2px --border-focus (#00D4FF) offset 2px
 - Check/Dash: #FFFFFF
 
 ESTADOS:
@@ -1000,14 +1001,14 @@ ESTADOS:
       { label: 'Button pill', height: '24px' },
     ],
     tokens: [
-      { property: 'Circle On bg', token: 'action-brand-default', value: '#3D99FF' },
+      { property: 'Circle On bg', token: 'action-brand-default', value: '#00D4FF' },
       { property: 'Circle Off bg', token: 'surface-secondary', value: '#222222' },
       { property: 'Circle border', token: 'border-default', value: '#4A4A4A' },
       { property: 'Dot (On)', token: '—', value: '#FFFFFF' },
-      { property: 'Focus ring', token: 'border-focus', value: '#65B0FF' },
+      { property: 'Focus ring', token: 'border-focus', value: '#00D4FF' },
       { property: 'Button border default', token: 'border-subtle', value: '#222222' },
       { property: 'Button border active', token: 'border-default', value: '#4A4A4A' },
-      { property: 'Button bg active', token: 'surface-brand', value: 'rgba(0,82,204,0.16)' },
+      { property: 'Button bg active', token: 'surface-brand', value: '#00D4FF29' },
     ],
     anatomy: `[Input] → label > input[type=radio] hidden + círculo 16×16px + label text
 [Button] → button pill 24px height | border varia por estado`,
@@ -1070,7 +1071,7 @@ ESTADOS:
 }
 
 .trdr-radio-button-active {
-  background: var(--surface-brand);          /* rgba(0,82,204,0.16) */
+  background: var(--surface-brand);          /* #00D4FF29 */
   border-color: var(--border-default);
 }
 
@@ -1111,16 +1112,16 @@ export default function Example() {
 VARIANTE INPUT (círculo):
 - Círculo: 16×16px, border-radius: 9999px (radius-full)
 - Off: bg=--surface-secondary (#222222), border=--border-default (#4A4A4A)
-- On: bg=--action-brand-default (#3D99FF), border=action-brand-default
+- On: bg=--action-brand-default (#00D4FF), border=action-brand-default
   → Dot interno: 6×6px branco via ::after
 - Hover Off: border=--border-strong (#A4A4A4)
-- Focus: outline 2px --border-focus (#65B0FF) offset 2px
+- Focus: outline 2px --border-focus (#00D4FF) offset 2px
 
 VARIANTE BUTTON (pill):
 - Height: 24px, border-radius: 5px, padding: 0 8px
 - Default: border=--border-subtle (#222222)
-- Active: bg=--surface-brand (rgba(0,82,204,0.16)), border=--border-default
-- Focused: border=--border-focus (#65B0FF)
+- Active: bg=--surface-brand (#00D4FF29), border=--border-default
+- Focused: border=--border-focus (#00D4FF)
 - Disabled: opacity 0.6, cursor not-allowed
 
 FONT: 12px / 500 / --font-secondary / --content-primary`,
@@ -1142,11 +1143,11 @@ FONT: 12px / 500 / --font-secondary / --content-primary`,
       { label: 'Componente total', height: '24px' },
     ],
     tokens: [
-      { property: 'Track On / Mixed', token: 'action-brand-default', value: '#3D99FF' },
+      { property: 'Track On / Mixed', token: 'action-brand-default', value: '#00D4FF' },
       { property: 'Track Off', token: 'surface-primary', value: '#4A4A4A' },
       { property: 'Track Disabled', token: 'surface-secondary', value: '#222222' },
       { property: 'Knob', token: '—', value: '#FFFFFF' },
-      { property: 'Focus border', token: 'border-focus', value: '#65B0FF' },
+      { property: 'Focus border', token: 'border-focus', value: '#00D4FF' },
       { property: 'Label padrão', token: 'content-primary', value: '#FFFFFF' },
       { property: 'Label disabled', token: 'content-tertiary', value: '#A4A4A4' },
     ],
@@ -1225,7 +1226,7 @@ FONT: 12px / 500 / --font-secondary / --content-primary`,
 
 .trdr-switch-track-on,
 .trdr-switch-track-mixed {
-  background-color: var(--action-brand-default); /* #3D99FF */
+  background-color: var(--action-brand-default); /* #00D4FF */
 }
 
 .trdr-switch:disabled .trdr-switch-track {
@@ -1233,7 +1234,7 @@ FONT: 12px / 500 / --font-secondary / --content-primary`,
 }
 
 .trdr-switch:focus-visible .trdr-switch-track {
-  outline: 1px solid var(--border-focus); /* #65B0FF */
+  outline: 1px solid var(--border-focus); /* #00D4FF */
   outline-offset: 2px;
 }
 
@@ -1298,11 +1299,11 @@ ESPECIFICAÇÕES PIXEL-PERFECT:
 - Label: 12px, weight 500, font-secondary
 
 TOKENS OBRIGATÓRIOS:
-- Track On/Mixed: --action-brand-default (#3D99FF)
+- Track On/Mixed: --action-brand-default (#00D4FF)
 - Track Off: --surface-primary (#4A4A4A)
 - Track Disabled: --surface-secondary (#222222)
 - Knob: #FFFFFF (não tem token, é sempre branco)
-- Focus outline: --border-focus (#65B0FF)
+- Focus outline: --border-focus (#00D4FF)
 - Label padrão: --content-primary (#FFFFFF)
 - Label disabled: --content-tertiary (#A4A4A4)
 
@@ -1374,8 +1375,8 @@ COMPORTAMENTO:
 }
 
 .trdr-segment-active {
-  background-color: var(--action-brand-inverse-default);  /* #0066FF */
-  color: var(--content-primary);                          /* #FFFFFF */
+  background-color: var(--action-secondary-default);  /* #4A4A4A */
+  color: var(--content-primary);                      /* #FFFFFF */
 }
 
 .trdr-segment-inactive {
@@ -1414,7 +1415,7 @@ export default function Example() {
 ESPECIFICAÇÕES:
 - Container (.trdr-segment-control): display inline-flex, gap 8px (--spacing-sm), flex-wrap wrap
 - Segment (.trdr-segment): padding 8px 12px (--spacing-sm/--spacing-md), border-radius 16px (pill), font 14px/400 Inter
-- Ativo (.trdr-segment-active): bg --action-brand-inverse-default (#0066FF), color --content-primary (#FFFFFF)
+- Ativo (.trdr-segment-active): bg --action-secondary-default (#4A4A4A), color --content-primary (#FFFFFF)
 - Inativo (.trdr-segment-inactive): bg --surface-secondary (#222222), color --content-tertiary (#A4A4A4)
 - Hover inativo: color --content-secondary (#E8E8E8)
 - Transição: 0.15s ease em background-color e color
@@ -1613,7 +1614,7 @@ SETAS CSS POR DIREÇÃO:
   position: absolute;
   bottom: 0; left: 0; right: 0;
   height: 2px;
-  background-color: var(--action-brand-active);  /* #3D99FF */
+  background-color: var(--action-brand-active);  /* #007D99 */
 }`,
       react: `import { useState } from 'react'
 
@@ -1643,7 +1644,7 @@ ESPECIFICAÇÕES PIXEL-PERFECT:
 - Item (.trdr-abas-item): position relative, padding 0 12px, flex col centered, font 16px/500 Inter
 - Tab inativa: color --content-tertiary (#A4A4A4), hover: --content-secondary (#E8E8E8)
 - Tab ativa (.trdr-abas-item-active): color --content-primary (#FFFFFF)
-- Indicador ativo: ::after position absolute, bottom 0, left 0, right 0, height 2px, bg --action-brand-active (#3D99FF)
+- Indicador ativo: ::after position absolute, bottom 0, left 0, right 0, height 2px, bg --action-brand-active (#007D99)
 - Largura total: 476px | Transição: color 0.15s ease`,
     },
   },

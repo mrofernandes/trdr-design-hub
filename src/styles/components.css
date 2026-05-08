@@ -87,12 +87,12 @@
 
 /* Primary */
 .trdr-btn-primary {
-  background-color: var(--action-brand-inverse-default);
-  color: var(--content-primary);
-  border: 0.5px solid var(--action-brand-inverse-default);
+  background-color: var(--action-brand-default);
+  color: var(--content-inverse);
+  border: 0.5px solid var(--action-brand-default);
 }
-.trdr-btn-primary:hover  { background-color: var(--action-brand-inverse-hover); border-color: var(--action-brand-inverse-hover); }
-.trdr-btn-primary:active { background-color: var(--action-brand-inverse-active); border-color: var(--action-brand-inverse-active); }
+.trdr-btn-primary:hover  { background-color: var(--action-brand-hover); border-color: var(--action-brand-hover); }
+.trdr-btn-primary:active { background-color: var(--action-brand-active); border-color: var(--action-brand-active); }
 .trdr-btn-primary:disabled { background-color: var(--action-brand-disabled); border-color: transparent; opacity: 0.5; cursor: not-allowed; }
 
 /* Secondary */
@@ -247,7 +247,7 @@
 }
 
 .trdr-segment-active {
-  background-color: var(--action-brand-inverse-default);
+  background-color: var(--action-secondary-default);
   color: var(--content-primary);
 }
 

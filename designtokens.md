@@ -14,28 +14,30 @@ Valores brutos sem semântica. **Nunca usar diretamente na UI** — sempre via t
 
 ### 1.1 Cores
 
-#### Azul (Blue)
+#### Brand Cyan (Blue)
+
+> Paleta principal de identidade TRDR. Cyan/Aqua — diferente de azul royal. A cor #00D4FF é o `blue.500` e o brand default.
 
 | Token | Hex |
 |---|---|
-| `color.blue.50` | `#F0F7FF` |
-| `color.blue.100` | `#E0EEFF` |
-| `color.blue.200` | `#C1DDFF` |
-| `color.blue.300` | `#A2CDFF` |
-| `color.blue.400` | `#84BFFF` |
-| `color.blue.500` | `#65B0FF` |
-| `color.blue.600` | `#3D99FF` |
-| `color.blue.700` | `#1E82FF` |
-| `color.blue.800` | `#0066FF` |
-| `color.blue.900` | `#0052CC` |
+| `color.blue.50` | `#E6FEFF` |
+| `color.blue.100` | `#CCFDFF` |
+| `color.blue.200` | `#99F9FF` |
+| `color.blue.300` | `#5CF3FF` |
+| `color.blue.400` | `#29ECFF` |
+| `color.blue.500` | `#00D4FF` |
+| `color.blue.600` | `#00A8CC` |
+| `color.blue.700` | `#007D99` |
+| `color.blue.800` | `#005266` |
+| `color.blue.900` | `#002933` |
 
 **Blue — alpha:**
 
 | Token | Hex |
 |---|---|
-| `color.blue.500.alpha.08` | `#65B0FF14` |
-| `color.blue.500.alpha.16` | `#65B0FF29` |
-| `color.blue.500.alpha.32` | `#65B0FF52` |
+| `color.blue.500.alpha.08` | `#00D4FF14` |
+| `color.blue.500.alpha.16` | `#00D4FF29` |
+| `color.blue.500.alpha.32` | `#00D4FF52` |
 
 #### Neutro (Neutral)
 
@@ -488,31 +490,31 @@ Tokens de escala que variam entre **Desktop** e **Mobile**. Usar em vez dos prim
 
 | Token | CSS Variable | Desktop | Mobile |
 |---|---|---|---|
-| `scale/spacing/xs` | `--scale-spacing-xs` | `4px` | `8px` |
-| `scale/spacing/sm` | `--scale-spacing-sm` | `8px` | `12px` |
-| `scale/spacing/md` | `--scale-spacing-md` | `12px` | `16px` |
-| `scale/spacing/lg` | `--scale-spacing-lg` | `16px` | `20px` |
-| `scale/spacing/xl` | `--scale-spacing-xl` | `20px` | `24px` |
-| `scale/spacing/2xl` | `--scale-spacing-2xl` | `24px` | `32px` |
-| `scale/spacing/3xl` | `--scale-spacing-3xl` | `32px` | `40px` |
-| `scale/spacing/3xl 2` | `--scale-spacing-3xl-2` | `40px` | `40px` |
-| `scale/spacing/3xl 3` | `--scale-spacing-3xl-3` | `48px` | `40px` |
-| `scale/spacing/3xl 4` | `--scale-spacing-3xl-4` | `56px` | `40px` |
-| `scale/spacing/3xl 5` | `--scale-spacing-3xl-5` | `64px` | `40px` |
-| `scale/spacing/3xl 6` | `--scale-spacing-3xl-6` | `80px` | `40px` |
-| `scale/spacing/3xl 7` | `--scale-spacing-3xl-7` | `96px` | `40px` |
+| `scale/spacing/xs` | `--spacing-xs` | `4px` | `8px` |
+| `scale/spacing/sm` | `--spacing-sm` | `8px` | `12px` |
+| `scale/spacing/md` | `--spacing-md` | `12px` | `16px` |
+| `scale/spacing/lg` | `--spacing-lg` | `16px` | `20px` |
+| `scale/spacing/xl` | `--spacing-xl` | `20px` | `24px` |
+| `scale/spacing/2xl` | `--spacing-2xl` | `24px` | `32px` |
+| `scale/spacing/3xl` | `--spacing-3xl` | `32px` | `40px` |
+| `scale/spacing/3xl 2` | `--spacing-3xl-2` | `40px` | `40px` |
+| `scale/spacing/3xl 3` | `--spacing-3xl-3` | `48px` | `40px` |
+| `scale/spacing/3xl 4` | `--spacing-3xl-4` | `56px` | `40px` |
+| `scale/spacing/3xl 5` | `--spacing-3xl-5` | `64px` | `40px` |
+| `scale/spacing/3xl 6` | `--spacing-3xl-6` | `80px` | `40px` |
+| `scale/spacing/3xl 7` | `--spacing-3xl-7` | `96px` | `40px` |
 
 ### 3.2 Border Radius por Plataforma
 
 | Token | CSS Variable | Desktop | Mobile |
 |---|---|---|---|
-| `scale/radius/none` | `--scale-radius-none` | `0px` | `0px` |
-| `scale/radius/xs` | `--scale-radius-xs` | `2px` | `4px` |
-| `scale/radius/sm` | `--scale-radius-sm` | `4px` | `8px` |
-| `scale/radius/md` | `--scale-radius-md` | `8px` | `12px` |
-| `scale/radius/lg` | `--scale-radius-lg` | `16px` | `20px` |
-| `scale/radius/xl` | `--scale-radius-xl` | `20px` | `24px` |
-| `scale/radius/full` | `--scale-radius-full` | `9999px` | `9999px` |
+| `scale/radius/none` | `--radius-none` | `0px` | `0px` |
+| `scale/radius/xs` | `--radius-xs` | `2px` | `4px` |
+| `scale/radius/sm` | `--radius-sm` | `4px` | `8px` |
+| `scale/radius/md` | `--radius-md` | `8px` | `12px` |
+| `scale/radius/lg` | `--radius-lg` | `16px` | `20px` |
+| `scale/radius/xl` | `--radius-xl` | `20px` | `24px` |
+| `scale/radius/full` | `--radius-full` | `9999px` | `9999px` |
 
 ---
 
