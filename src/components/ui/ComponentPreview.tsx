@@ -92,34 +92,6 @@ function renderPreview(slug: string) {
         </div>
       )
 
-    case 'text-input':
-      return (
-        <div className={styles.previewInner}>
-          <div className={styles.col}>
-            <div className={styles.inputWrapper}>
-              <span style={{ ...ICON_STYLE, color: 'var(--content-tertiary)' }}>search</span>
-              <input
-                className="trdr-input"
-                type="text"
-                placeholder="Buscar por nome, valor ou CSS var..."
-                style={{ flex: 1, border: 'none', background: 'transparent', outline: 'none' }}
-                readOnly
-              />
-            </div>
-            <div className={styles.inputWrapper}>
-              <span style={{ ...ICON_STYLE, color: 'var(--content-tertiary)' }}>person</span>
-              <input
-                className="trdr-input"
-                type="text"
-                defaultValue="Texto preenchido"
-                style={{ flex: 1, border: 'none', background: 'transparent', outline: 'none' }}
-                readOnly
-              />
-            </div>
-          </div>
-        </div>
-      )
-
     case 'abas':
       return (
         <div className={styles.previewInner}>
@@ -390,48 +362,68 @@ function SwitchPreview() {
 }
 
 function TextInputPreview() {
-  const [search, setSearch] = useState('WINFUT')
-  const [searchLg, setSearchLg] = useState('')
+  const [iconDefaultVal, setIconDefaultVal] = useState('WINFUT')
+  const [iconLgVal, setIconLgVal] = useState('PETR4')
   const [quickVal, setQuickVal] = useState('Busca ativa')
   const [multiVal, setMultiVal] = useState('Observações sobre o ativo...')
 
   return (
-    <div className={styles.previewInner} style={{ maxWidth: 280 }}>
+    <div className={styles.previewInner} style={{ maxWidth: 340 }}>
+
+      {/* --- Single Line Default 24px --- */}
       <PreviewLabel>Single Line — Default (24px)</PreviewLabel>
       <div className={styles.col}>
-        <TextInput placeholder="Placeholder vazio" />
-        <TextInput defaultValue="Filled — editável" placeholder="Filled" />
-        <TextInput disabled defaultValue="Desativado" />
-        <TextInput readOnly defaultValue="Somente leitura" />
+        <TextInput placeholder="Placeholder..." />
+        <TextInput defaultValue="Text, Default" placeholder="Default" />
+        <TextInput disabled defaultValue="Text, Disabled" />
       </div>
 
+      {/* --- Single Line Large 32px --- */}
       <PreviewLabel>Single Line — Large (32px)</PreviewLabel>
       <div className={styles.col}>
-        <TextInput size="large" placeholder="Placeholder" />
-        <TextInput size="large" defaultValue="Large filled" />
-        <TextInput size="large" disabled defaultValue="Desativado" />
+        <TextInput size="large" placeholder="Placeholder..." />
+        <TextInput size="large" defaultValue="Text, Default" />
+        <TextInput size="large" disabled defaultValue="Text, Disabled" />
       </div>
 
-      <PreviewLabel>Com ícone + clear</PreviewLabel>
+      {/* --- Com Ícone Default 24px --- */}
+      <PreviewLabel>Com Ícone — Default (24px)</PreviewLabel>
       <div className={styles.col}>
+        <TextInput iconLeft placeholder="Buscar instrumento..." />
         <TextInput
           iconLeft
           placeholder="Buscar instrumento..."
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          onClear={() => setSearch('')}
+          value={iconDefaultVal}
+          onChange={e => setIconDefaultVal(e.target.value)}
+          onClear={() => setIconDefaultVal('')}
         />
+        <TextInput iconLeft disabled defaultValue="Text, Disabled" />
+      </div>
+
+      {/* --- Com Ícone Large 32px --- */}
+      <PreviewLabel>Com Ícone — Large (32px)</PreviewLabel>
+      <div className={styles.col}>
+        <TextInput iconLeft size="large" placeholder="Buscar instrumento..." />
         <TextInput
           iconLeft
           size="large"
-          placeholder="Buscar (large)..."
-          value={searchLg}
-          onChange={e => setSearchLg(e.target.value)}
-          onClear={() => setSearchLg('')}
+          placeholder="Buscar instrumento..."
+          value={iconLgVal}
+          onChange={e => setIconLgVal(e.target.value)}
+          onClear={() => setIconLgVal('')}
         />
-        <TextInput iconLeft disabled defaultValue="Busca desativada" />
+        <TextInput iconLeft size="large" disabled defaultValue="Text, Disabled" />
       </div>
 
+      {/* --- Variable --- */}
+      <PreviewLabel>Variable</PreviewLabel>
+      <div className={styles.col}>
+        <TextInput isVariable defaultValue="WINFUT" />
+        <TextInput isVariable placeholder="Variável..." />
+        <TextInput isVariable disabled defaultValue="Text, Disabled" />
+      </div>
+
+      {/* --- Quick Action 32px --- */}
       <PreviewLabel>Quick Action (32px)</PreviewLabel>
       <div className={styles.col}>
         <TextInput
@@ -441,23 +433,19 @@ function TextInputPreview() {
           onChange={e => setQuickVal(e.target.value)}
           onClear={() => setQuickVal('')}
         />
+        <TextInput variant="quick-action" placeholder="Filtrar..." />
         <TextInput variant="quick-action" disabled defaultValue="Indisponível" />
       </div>
 
-      <PreviewLabel>Validação</PreviewLabel>
+      {/* --- Validação --- */}
+      <PreviewLabel>Validação de Estado</PreviewLabel>
       <div className={styles.col}>
         <TextInput validation="error" defaultValue="Valor inválido" />
         <TextInput validation="warning" defaultValue="Verificar dado" />
         <TextInput validation="success" defaultValue="Confirmado" />
       </div>
 
-      <PreviewLabel>Variable (chip de fórmula)</PreviewLabel>
-      <div className={styles.col}>
-        <TextInput isVariable defaultValue="WINFUT" />
-        <TextInput isVariable placeholder="Variável..." />
-        <TextInput isVariable disabled defaultValue="Bloqueado" />
-      </div>
-
+      {/* --- Multi Line --- */}
       <PreviewLabel>Multi Line (textarea)</PreviewLabel>
       <div className={styles.col}>
         <TextInput
@@ -466,8 +454,10 @@ function TextInputPreview() {
           onChange={e => setMultiVal(e.target.value)}
           rows={3}
         />
+        <TextInput variant="multi-line" placeholder="Observações..." rows={2} />
         <TextInput variant="multi-line" disabled defaultValue="Campo desativado." rows={2} />
       </div>
+
     </div>
   )
 }
