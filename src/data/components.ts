@@ -2225,6 +2225,345 @@ Tokens TRDR obrigatórios:
 Implemente como componente React com CSS Module. Use as classes .trdr-badge e .trdr-badge-{variant} para os badges. O componente deve aceitar as props: href, icon?, title, description, headerBadges?, footerLeft?, footerBadges?.`,
     },
   },
+
+  // =========================================================================
+  // JANELA — composto: header + abas de filtros + container com slot
+  // =========================================================================
+  {
+    slug: 'janela',
+    name: 'Janela',
+    figmaId: '1909:41600',
+    category: 'trading',
+    implemented: true,
+    description: 'Janela de ferramenta de trading — componente composto com header (badge AI, abas de ferramentas com underline, dropdown Multi e ações), linha de abas em pill (filtros) e Container central com slot swappable que recebe qualquer conteúdo via children. Inclui floating menu opcional de ações (Fechar, Minimizar, Maximizar, Fixar, Renomear) e scrollbars laterais/inferior visuais.',
+    props: [
+      { name: 'tools', type: 'JanelaTool[]', values: ['{ label, icon? }'] },
+      { name: 'activeTool', type: 'number', values: ['0', '1', '2'] },
+      { name: 'onToolChange', type: 'function', values: ['(index) => void'] },
+      { name: 'tabs', type: 'string[]', values: ['["Aba 1", ...]'] },
+      { name: 'activeTab', type: 'number', values: ['0..N'] },
+      { name: 'onTabChange', type: 'function', values: ['(index) => void'] },
+      { name: 'multiLabel', type: 'string', values: ['Multi'] },
+      { name: 'showSideScroll', type: 'boolean', values: ['true', 'false'] },
+      { name: 'showBottomScroll', type: 'boolean', values: ['true', 'false'] },
+      { name: 'showActionsMenu', type: 'boolean', values: ['true', 'false'] },
+      { name: 'actions', type: 'JanelaAction[]', values: ['{ icon, label, onClick? }'] },
+      { name: 'children', type: 'ReactNode', values: ['conteúdo do slot central'] },
+    ],
+    dimensions: [
+      { label: 'Janela total', width: '476px', height: '312px' },
+      { label: 'Header', width: '476px', height: '41px' },
+      { label: 'Pill tabs row', width: '476px', height: '45px' },
+      { label: 'Container central', width: '476px', height: '226px' },
+      { label: 'Tag AI', width: 'hug', height: '19px' },
+      { label: 'Pill (filtro)', width: 'hug', height: '31px' },
+      { label: 'Botão Multi', width: '65px', height: '33px' },
+      { label: 'Floating actions menu', width: '172px', height: '192px' },
+      { label: 'Scrollbar lateral', width: '14px', height: '—' },
+      { label: 'Scrollbar inferior', width: '—', height: '14px' },
+    ],
+    tokens: [
+      { property: 'Janela bg / Header bg', token: 'bg.secondary', value: '#141519' },
+      { property: 'Pill row bg / Container bg', token: 'bg.tertiary', value: '#1A1A1A' },
+      { property: 'Tag AI bg', token: 'bg.brand', value: '#00D4FF' },
+      { property: 'Pill ativa bg / Multi bg', token: 'action.secondary.default', value: '#4A4A4A' },
+      { property: 'Pill inativa bg', token: 'surface.secondary', value: '#222222' },
+      { property: 'Texto pill ativa / título', token: 'content.primary', value: '#FFFFFF' },
+      { property: 'Texto item floating', token: 'content.secondary', value: '#E8E8E8' },
+      { property: 'Texto pill inativa / ícones / aba inativa', token: 'content.tertiary', value: '#A4A4A4' },
+      { property: 'Ícone link / underline aba ativa', token: 'bg.brand', value: '#00D4FF' },
+      { property: 'Stroke header / pill row / floating', token: 'border.subtle', value: '#222222' },
+      { property: 'Radius pill / botão Multi', token: 'radius.lg', value: '16px' },
+      { property: 'Radius janela / floating menu', token: 'radius.md', value: '8px' },
+      { property: 'Radius Tag AI / item floating', token: 'radius.sm', value: '4px' },
+      { property: 'Padding pill / gap header', token: 'spacing.sm', value: '8px' },
+      { property: 'Padding pill horizontal', token: 'spacing.md', value: '12px' },
+      { property: 'Padding container interno', token: 'spacing.lg', value: '16px' },
+    ],
+    anatomy: `Janela 476×312 com border-radius 8px e border subtle, em coluna:
+
+1. HEADER (41px, bg --bg-secondary, border-bottom subtle):
+   [Tag AI 19h #00D4FF radius 4] · [Tabs Ferramentas 14/16.8 com underline 2px brand na ativa + chevron 40×40] · [Divider 1×33 · Link cyan 24×24 · Multi 65×33 bg secondary radius 16 · more_horiz 24×24 · close 24×24]
+
+2. PILL TABS (45px, bg --bg-tertiary, padding 8, gap 8, border-bottom subtle):
+   5 pills 31h padding 8/12 radius 16. Ativa: bg --action-secondary-default + texto primary. Inativas: bg --surface-secondary + texto tertiary.
+
+3. CONTAINER (226px, bg --bg-tertiary, padding 16, gap 8):
+   Slot via children. Fallback visual: texto "Componente coringa". Scrollbars opcionais (lateral 14×, inferior ×14) com setas Material e thumb arredondado radius 16.
+
+4. FLOATING ACTIONS MENU (172×192, opcional, ancorado em more_horiz):
+   bg --bg-secondary, border subtle, radius 8, shadow drop. 5 ações (Fechar/Minimizar/Maximizar/Fixar/Renomear) 32h cada com ícone Material 20px tertiary + label Inter 14 secondary. Hover bg --surface-secondary.`,
+    notes: 'Slot via React.children: passe qualquer componente (Boleta, Card, gráfico, etc.) como filho. O componente expõe estado controlado e não-controlado para activeTool/activeTab.',
+    code: {
+      html: `<!-- Janela TRDR — exemplo estático (Figma 1909:41600) -->
+<div class="trdr-janela">
+
+  <!-- HEADER -->
+  <div class="trdr-janela-header">
+    <span class="trdr-janela-tag-ai">
+      <span class="material-symbols-outlined" style="font-size:12px">auto_awesome</span>
+      AI
+    </span>
+
+    <div class="trdr-janela-tool-tabs">
+      <button class="trdr-janela-tool-tab trdr-janela-tool-tab-active">Ferramenta 1</button>
+      <button class="trdr-janela-tool-tab">Ferramenta 2</button>
+      <button class="trdr-janela-tool-tab">Ferramenta 3</button>
+      <button class="trdr-janela-tool-chevron">
+        <span class="material-symbols-outlined">keyboard_arrow_down</span>
+      </button>
+    </div>
+
+    <div class="trdr-janela-header-actions">
+      <span class="trdr-janela-divider"></span>
+      <button class="trdr-janela-icon-button trdr-janela-icon-link">
+        <span class="material-symbols-outlined">link</span>
+      </button>
+      <button class="trdr-janela-multi">
+        Multi
+        <span class="material-symbols-outlined" style="font-size:16px">keyboard_arrow_down</span>
+      </button>
+      <button class="trdr-janela-icon-button">
+        <span class="material-symbols-outlined">more_horiz</span>
+      </button>
+      <button class="trdr-janela-icon-button">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- PILL TABS (filtros) -->
+  <div class="trdr-janela-pill-row" role="tablist">
+    <button class="trdr-janela-pill trdr-janela-pill-active">Aba 1</button>
+    <button class="trdr-janela-pill">Aba 2</button>
+    <button class="trdr-janela-pill">Aba 3</button>
+    <button class="trdr-janela-pill">Aba 4</button>
+    <button class="trdr-janela-pill">Aba 5</button>
+  </div>
+
+  <!-- CONTAINER (slot) -->
+  <div class="trdr-janela-container">
+    <div class="trdr-janela-container-inner">
+      <!-- Slot: substitua pelo seu componente -->
+      <span class="trdr-janela-coringa">Componente coringa</span>
+    </div>
+  </div>
+
+  <!-- FLOATING MENU (opcional — more_horiz) -->
+  <div class="trdr-janela-actions-menu" role="menu">
+    <button class="trdr-janela-action-item"><span class="material-symbols-outlined">close</span>Fechar</button>
+    <button class="trdr-janela-action-item"><span class="material-symbols-outlined">remove</span>Minimizar</button>
+    <button class="trdr-janela-action-item"><span class="material-symbols-outlined">arrow_outward</span>Maximizar</button>
+    <button class="trdr-janela-action-item"><span class="material-symbols-outlined">keep</span>Fixar</button>
+    <button class="trdr-janela-action-item"><span class="material-symbols-outlined">edit</span>Renomear aba</button>
+  </div>
+
+</div>`,
+      css: `/* Janela TRDR — Figma 1909:41600 (476×312)
+ * Tokens semânticos usados (todos em src/styles/tokens.css):
+ * --bg-secondary #141519   --bg-tertiary #1A1A1A   --bg-brand #00D4FF
+ * --surface-secondary #222222   --action-secondary-default #4A4A4A
+ * --content-primary #FFFFFF   --content-secondary #E8E8E8   --content-tertiary #A4A4A4
+ * --border-subtle #222222
+ * --radius-sm 4px   --radius-md 8px   --radius-lg 16px
+ * --spacing-xs 4px  --spacing-sm 8px  --spacing-md 12px  --spacing-lg 16px
+ */
+
+.trdr-janela {
+  width: 476px;
+  height: 312px;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+  font-family: var(--font-secondary);
+}
+
+/* HEADER */
+.trdr-janela-header {
+  display: flex; align-items: center; gap: 8px;
+  height: 41px; padding: 0 8px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.trdr-janela-tag-ai {
+  display: inline-flex; align-items: center; gap: 2px;
+  padding: 2px 4px;
+  background: var(--bg-brand);
+  border-radius: var(--radius-sm);
+  font-size: 11px; font-weight: 600;
+  color: var(--content-primary);
+}
+.trdr-janela-tool-tabs {
+  display: flex; align-items: stretch; flex: 1; min-width: 0; height: 100%;
+  overflow: hidden;
+}
+.trdr-janela-tool-tab {
+  padding: 0 12px; height: 100%;
+  background: transparent; border: none; cursor: pointer;
+  font-size: 14px; line-height: 16.8px;
+  color: var(--content-tertiary);
+  position: relative; transition: color 0.15s ease;
+  white-space: nowrap;
+}
+.trdr-janela-tool-tab:hover:not(.trdr-janela-tool-tab-active) { color: var(--content-secondary); }
+.trdr-janela-tool-tab-active { color: var(--content-primary); }
+.trdr-janela-tool-tab-active::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0;
+  height: 2px; background: var(--bg-brand);
+}
+.trdr-janela-tool-chevron {
+  width: 40px; height: 40px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent; border: none; cursor: pointer;
+  color: var(--content-tertiary);
+}
+.trdr-janela-header-actions {
+  display: flex; align-items: center; gap: 8px; flex-shrink: 0; height: 100%;
+}
+.trdr-janela-divider { width: 1px; height: 33px; background: var(--border-subtle); }
+.trdr-janela-icon-button {
+  width: 24px; height: 24px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent; border: none; cursor: pointer;
+  color: var(--content-tertiary);
+  transition: color 0.15s ease;
+}
+.trdr-janela-icon-button:hover { color: var(--content-secondary); }
+.trdr-janela-icon-link { color: var(--bg-brand); }
+.trdr-janela-multi {
+  display: inline-flex; align-items: center; gap: 4px;
+  height: 33px; padding: 0 8px;
+  background: var(--action-secondary-default);
+  border: none; border-radius: var(--radius-lg);
+  cursor: pointer;
+  font-size: 14px; color: var(--content-primary);
+}
+
+/* PILL TABS (filtros) */
+.trdr-janela-pill-row {
+  display: flex; align-items: center; gap: 8px;
+  height: 45px; padding: 8px;
+  background: var(--bg-tertiary);
+  border-bottom: 1px solid var(--border-subtle);
+  overflow: hidden;
+}
+.trdr-janela-pill {
+  height: 31px; padding: 8px 12px;
+  background: var(--surface-secondary);
+  border: none; border-radius: var(--radius-lg);
+  font-size: 14px; line-height: 16.8px;
+  color: var(--content-tertiary);
+  cursor: pointer; white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.trdr-janela-pill-active {
+  background: var(--action-secondary-default);
+  color: var(--content-primary);
+}
+
+/* CONTAINER (slot) */
+.trdr-janela-container {
+  flex: 1; position: relative;
+  background: var(--bg-tertiary);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.trdr-janela-container-inner {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  padding: 16px; gap: 8px; overflow: auto; min-height: 0;
+}
+.trdr-janela-coringa {
+  font-size: 14px; line-height: 16.8px; color: var(--content-primary);
+}
+
+/* FLOATING MENU */
+.trdr-janela-actions-menu {
+  position: absolute; top: 45px; right: 40px;
+  width: 172px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.30);
+  padding: 8px; display: flex; flex-direction: column; gap: 4px;
+  z-index: 10;
+}
+.trdr-janela-action-item {
+  display: flex; align-items: center; gap: 8px;
+  height: 32px; padding: 0 8px;
+  background: transparent; border: none; cursor: pointer;
+  border-radius: var(--radius-sm);
+  font-size: 14px; line-height: 16.8px;
+  color: var(--content-secondary);
+  text-align: left;
+  transition: background 0.12s ease;
+}
+.trdr-janela-action-item:hover { background: var(--surface-secondary); }
+.trdr-janela-action-item .material-symbols-outlined { color: var(--content-tertiary); font-size: 20px; }`,
+      react: `import Janela from '@/components/ui/Janela'
+import Boleta from '@/components/ui/Boleta'
+
+// Versão default — slot vazio mostra "Componente coringa"
+<Janela />
+
+// Com tabs/ferramentas customizadas e callback
+<Janela
+  tools={[
+    { label: 'Book', icon: 'view_list' },
+    { label: 'Gráfico', icon: 'show_chart' },
+  ]}
+  tabs={['Mercado', 'Posições', 'Histórico']}
+  activeTab={0}
+  onTabChange={(i) => console.log('tab', i)}
+/>
+
+// Com conteúdo customizado no slot
+<Janela activeTab={2} showSideScroll showBottomScroll>
+  <Boleta versao="simples" />
+</Janela>
+
+// Com floating menu de ações aberto
+<Janela
+  showActionsMenu
+  onActionsMenuToggle={() => setMenuOpen(v => !v)}
+  actions={[
+    { icon: 'close', label: 'Fechar', onClick: handleClose },
+    { icon: 'remove', label: 'Minimizar' },
+    { icon: 'arrow_outward', label: 'Maximizar' },
+  ]}
+/>`,
+      prompt: `Implemente o componente Janela do Design System TRDR — janela de ferramenta de trading composta, pixel-perfect com o Figma 1909:41600.
+
+DIMENSÕES (fixas): 476×312 px, border-radius var(--radius-md) (8px), border 1px solid var(--border-subtle), background var(--bg-secondary), overflow hidden, position relative, font-family var(--font-secondary). Layout em coluna com 3 faixas:
+
+1. HEADER (height 41px, bg var(--bg-secondary), border-bottom 1px var(--border-subtle), padding 0 8px, gap 8px):
+   - Tag AI: padding 2px 4px, gap 2px, bg var(--bg-brand) #00D4FF, border-radius var(--radius-sm) 4px, texto "AI" Inter 11/600 var(--content-primary). Ícone Material "auto_awesome" 12px à esquerda.
+   - Abas Ferramentas (flex:1, height 100%, overflow hidden): 3 botões "Ferramenta N", padding 0 12px, font Inter 14/16.8 var(--content-tertiary); ativa muda para var(--content-primary) e ganha ::after com height 2px var(--bg-brand) (#00D4FF) no bottom 0 left/right 0. Botão chevron 40×40 com ícone Material "keyboard_arrow_down" tertiary.
+   - Controles à direita (gap 8px): divider vertical 1×33 var(--border-subtle); botão ícone "link" 24×24 cor var(--bg-brand) (cyan); botão "Multi" 33h padding 0 8px gap 4 bg var(--action-secondary-default) (#4A4A4A) radius var(--radius-lg) (16px) texto primary + chevron 16px; botões ícone "more_horiz" e "close" 24×24 tertiary.
+
+2. PILL TABS (height 45px, bg var(--bg-tertiary) #1A1A1A, padding 8px, gap 8px, border-bottom subtle, overflow hidden):
+   - 5 pills "Aba 1..Aba 5". Cada pill 31h padding 8px 12px radius var(--radius-lg) Inter 14/16.8 whitespace nowrap.
+   - Ativa: bg var(--action-secondary-default) #4A4A4A, texto var(--content-primary).
+   - Inativa: bg var(--surface-secondary) #222222, texto var(--content-tertiary). Hover muda texto para var(--content-secondary).
+
+3. CONTAINER CENTRAL (flex 1, bg var(--bg-tertiary), padding 16px, gap 8px, position relative, overflow hidden):
+   - Slot via children. Quando vazio mostrar fallback "Componente coringa" centralizado, Inter 14/16.8 var(--content-primary).
+   - Scrollbars opcionais (controlados por props showSideScroll/showBottomScroll):
+     • Lateral (right 0, top 0, bottom 6px, width 14px, bg var(--bg-secondary), border-left subtle): seta cima 12×12 Material "arrow_drop_up", track 6px com thumb radius 16 bg var(--action-secondary-default) 60% de altura, seta baixo "arrow_drop_down".
+     • Inferior (left 0, right 14px, height 14px, bg var(--bg-secondary), border-top subtle): seta esquerda "arrow_left", track horizontal com thumb radius 16, seta direita "arrow_right".
+     • Canto: quando ambos ativos, 14×14 no canto inferior direito com bg secondary e borders.
+
+4. FLOATING ACTIONS MENU (opcional, posição absoluta top 45px right 40px, width 172px):
+   - bg var(--bg-secondary), border 1px var(--border-subtle), border-radius var(--radius-md) (8px), box-shadow 0 4px 12px rgba(0,0,0,0.30), padding 8px, gap 4px, z-index 10.
+   - 5 ações: { close: Fechar, remove: Minimizar, arrow_outward: Maximizar, keep: Fixar, edit: Renomear aba }. Cada item: height 32px, padding 0 8px, gap 8px, border-radius var(--radius-sm), ícone Material 20px var(--content-tertiary), label Inter 14/16.8 var(--content-secondary). Hover bg var(--surface-secondary).
+
+API React (TypeScript): props { tools?: JanelaTool[]; activeTool?: number; onToolChange?; tabs?: string[]; activeTab?: number; onTabChange?; multiLabel?: string; onMultiClick?; onLinkClick?; onClose?; showSideScroll?: boolean; showBottomScroll?: boolean; showActionsMenu?: boolean; onActionsMenuToggle?; actions?: JanelaAction[]; children?: ReactNode }. Suporta estado controlado E não-controlado (defaultActiveTool/defaultActiveTab). aria-selected nas pills, aria-expanded no botão de menu, role="tab"/"tablist"/"menu"/"menuitem".
+
+Use APENAS tokens semânticos do TRDR (var(--bg-*), var(--surface-*), var(--content-*), var(--action-*), var(--border-*), var(--radius-*), var(--spacing-*)). NUNCA hex direto. NUNCA --scale-spacing-* ou --scale-radius-* (não existem). O componente deve funcionar nos dois temas (light e dark) sem alterações.`,
+    },
+  },
 ]
 
 export function getComponentBySlug(slug: string): DesignComponent | undefined {

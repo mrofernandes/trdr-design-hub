@@ -10,6 +10,7 @@ import ComboInput from './ComboInput'
 import Tooltip from './Tooltip'
 import TextInput from './TextInput'
 import Boleta from './Boleta'
+import Janela from './Janela'
 
 interface Props {
   slug: string
@@ -314,6 +315,9 @@ function renderPreview(slug: string) {
     case 'boleta':
       return <BoletaPreview />
 
+    case 'janela':
+      return <JanelaPreview />
+
     default:
       return null
   }
@@ -468,6 +472,36 @@ function BoletaPreview() {
       <Boleta versao="avancado" />
       <PreviewLabel>Versão Simples</PreviewLabel>
       <Boleta versao="simples" />
+    </div>
+  )
+}
+
+function JanelaPreview() {
+  const [activeTab, setActiveTab] = useState(0)
+  const [activeTool, setActiveTool] = useState(0)
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  return (
+    <div className={styles.previewInner}>
+      <PreviewLabel>Default — slot vazio mostra "Componente coringa"</PreviewLabel>
+      <Janela
+        activeTool={activeTool}
+        onToolChange={setActiveTool}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        showSideScroll
+        showBottomScroll
+        showActionsMenu={menuOpen}
+        onActionsMenuToggle={() => setMenuOpen(v => !v)}
+      />
+
+      <PreviewLabel>Com componente no slot (Boleta versão Simples)</PreviewLabel>
+      <Janela activeTab={2} tabs={['Mercado', 'Posições', 'Histórico', 'Ordens']}>
+        <Boleta versao="simples" />
+      </Janela>
+
+      <PreviewLabel>Sem scrollbars</PreviewLabel>
+      <Janela />
     </div>
   )
 }
