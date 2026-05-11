@@ -387,30 +387,33 @@ Implemente como componente React com CSS Module. Props: variant, size, iconLeft,
     tokens: [
       { property: 'Background', token: 'surface-primary', value: '#4A4A4A' },
       { property: 'Border focus', token: 'border-focus', value: '#00D4FF' },
-      { property: 'Border multi-line/disabled', token: 'border-strong', value: '#A4A4A4' },
-      { property: 'Texto preenchido', token: 'content-primary', value: '#FFFFFF' },
+      { property: 'Border multi-line/variable/disabled', token: 'border-strong', value: '#A4A4A4' },
+      { property: 'Texto Single Line', token: 'content-primary', value: '#FFFFFF' },
+      { property: 'Texto Quick Action', token: 'content-tertiary', value: '#A4A4A4' },
       { property: 'Placeholder', token: 'content-tertiary', value: '#A4A4A4' },
       { property: 'Texto disabled', token: 'content-disabled', value: '#4A4A4A' },
       { property: 'Borda error', token: 'content-error', value: '#F34F45' },
-      { property: 'Borda warning', token: 'content-warning', value: '#FFCC40' },
+      { property: 'Borda warning', token: 'content-warning', value: '#FFD35A' },
       { property: 'Borda success', token: 'content-success', value: '#4FE290' },
     ],
-    anatomy: `[div wrapper h=24px border-radius=5px bg=surface-primary border=transparent]
+    anatomy: `[div wrapper h=24px border-radius=5px bg=surface-primary border=transparent gap=4px]
   └── [span icon-slot 24×24px, opcional] → ícone de busca 13px
-  └── [input flex=1 bg=transparent no-border]
+  └── [input flex=1 bg=transparent no-border 14px/400]
   └── [button clear 24×24px, opcional, aparece quando iconLeft + value]
+— Large: h=32px, mesma tipografia (14px/400)
 — Multi Line: [div wrapper padding=4px_8px border=border-strong auto-height]
-  └── [textarea flex=1 resize=none]
-— Quick Action: padding=0_4px gap=8px sempre com icon-slot`,
-    notes: 'Quick Action é uma variante compacta para inputs em toolbars e painéis de trading. Border radius fixo: 5px (não token). O botão clear só aparece quando iconLeft=true e há valor digitado.',
+  └── [textarea flex=1 resize=none 11px/450]
+— Quick Action: h=32px padding=0_4px gap=8px sempre com icon-slot, texto 11px/450 cor tertiary
+— Variable: padding=0_4px border=border-strong sempre visível, texto 11px/450`,
+    notes: 'Quick Action é uma variante compacta para inputs em toolbars — texto em cor tertiary (#A4A4A4), sempre com ícone de busca. Variable é o estado de input de fórmula/variável com borda sempre visível. Border radius fixo: 5px. O botão clear só aparece quando iconLeft=true e há valor digitado.',
     implemented: true,
     code: {
-      html: `<!-- Single Line Default -->
+      html: `<!-- Single Line Default (14px) -->
 <div class="trdr-text-input">
   <input type="text" placeholder="Placeholder" />
 </div>
 
-<!-- Single Line Large -->
+<!-- Single Line Large (14px, 32px height) -->
 <div class="trdr-text-input trdr-text-input-lg">
   <input type="text" placeholder="Placeholder" />
 </div>
@@ -431,10 +434,20 @@ Implemente como componente React com CSS Module. Props: variant, size, iconLeft,
   </button>
 </div>
 
-<!-- Quick Action -->
+<!-- Quick Action (32px, texto tertiary, gap 8px) -->
 <div class="trdr-text-input trdr-text-input-quick">
-  <span class="trdr-text-input-icon-slot" aria-hidden="true">...</span>
-  <input type="text" placeholder="Buscar..." />
+  <span class="trdr-text-input-icon-slot" aria-hidden="true">
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+      <circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M9 9L12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </span>
+  <input type="text" placeholder="Filtrar..." />
+</div>
+
+<!-- Variable state (borda sempre visível, 11px) -->
+<div class="trdr-text-input trdr-text-input-variable">
+  <input type="text" value="WINFUT" />
 </div>
 
 <!-- Multi Line -->
@@ -462,15 +475,22 @@ Implemente como componente React com CSS Module. Props: variant, size, iconLeft,
   width: 100%;
   box-sizing: border-box;
   transition: border-color 0.15s ease;
+  gap: 4px;
 }
 
 .trdr-text-input:focus-within { border-color: var(--border-focus); /* #00D4FF */ }
 
 .trdr-text-input-lg         { height: 32px; }
-.trdr-text-input-icon       { padding: 0; }
-.trdr-text-input-lg.trdr-text-input-icon { padding: 0 4px; }
+.trdr-text-input-icon       { padding: 0; gap: 0; }
+.trdr-text-input-lg.trdr-text-input-icon { padding: 0 4px; gap: 0; }
 
 .trdr-text-input-quick { height: 32px; padding: 0 4px; gap: 8px; }
+
+.trdr-text-input-variable {
+  padding: 0 4px;
+  border-color: var(--border-strong);          /* #A4A4A4 — sempre visível */
+}
+.trdr-text-input-variable:focus-within { border-color: var(--border-focus); }
 
 .trdr-text-input-multiline {
   height: auto; min-height: 56px;
@@ -486,7 +506,16 @@ Implemente como componente React com CSS Module. Props: variant, size, iconLeft,
 .trdr-text-input-disabled,
 .trdr-text-input-disabled:focus-within { border-color: var(--border-strong); cursor: not-allowed; }
 
-.trdr-text-input input,
+/* Single Line (Default + Large): 14px / 400 */
+.trdr-text-input input {
+  flex: 1; min-width: 0; background: transparent;
+  border: none; outline: none;
+  color: var(--content-primary);              /* #FFFFFF */
+  font-size: 14px; font-weight: 400; letter-spacing: 0; line-height: 1.2;
+  padding: 0; width: 100%;
+}
+
+/* Textarea (Multi Line): 11px / 450 */
 .trdr-text-input textarea {
   flex: 1; min-width: 0; background: transparent;
   border: none; outline: none;
@@ -498,17 +527,25 @@ Implemente como componente React com CSS Module. Props: variant, size, iconLeft,
 .trdr-text-input input::placeholder,
 .trdr-text-input textarea::placeholder { color: var(--content-tertiary); /* #A4A4A4 */ }
 
-.trdr-text-input-lg input,
-.trdr-text-input-quick input { font-size: 12px; font-weight: 500; letter-spacing: 0.2px; }
+/* Quick Action: 11px / 450 / cor tertiary */
+.trdr-text-input-quick input {
+  font-size: 11px; font-weight: 450; letter-spacing: 0.055px; line-height: 16px;
+  color: var(--content-tertiary);             /* #A4A4A4 */
+}
+
+/* Variable: 11px / 450 */
+.trdr-text-input-variable input {
+  font-size: 11px; font-weight: 450; letter-spacing: 0.055px; line-height: 16px;
+}
 
 .trdr-text-input-disabled input,
 .trdr-text-input-disabled textarea { color: var(--content-disabled); cursor: not-allowed; }`,
       react: `import TextInput from '@/components/ui/TextInput'
 
-// Single Line Default
+// Single Line Default (14px/400)
 <TextInput placeholder="Placeholder" />
 
-// Single Line Large
+// Single Line Large (14px/400, 32px height)
 <TextInput size="large" placeholder="Placeholder" />
 
 // Com ícone e clear
@@ -521,7 +558,7 @@ const [val, setVal] = useState('')
   onClear={() => setVal('')}
 />
 
-// Quick Action (toolbar)
+// Quick Action (toolbar) — texto tertiary, 11px
 <TextInput
   variant="quick-action"
   placeholder="Filtrar..."
@@ -530,7 +567,10 @@ const [val, setVal] = useState('')
   onClear={() => setVal('')}
 />
 
-// Multi Line (textarea)
+// Variable state — borda sempre visível, 11px
+<TextInput isVariable value="WINFUT" />
+
+// Multi Line (textarea, 11px/450)
 <TextInput
   variant="multi-line"
   rows={4}
@@ -553,21 +593,29 @@ VARIANTES:
 - single-line (padrão): <input type="text"> dentro de um wrapper div
 - multi-line: <textarea> dentro do wrapper, altura auto (min 56px)
 - quick-action: como single-line mas sempre com icon-left, padding compacto
+- variable (isVariable=true): input de fórmula com borda sempre visível e padding compacto
+
+TIPOGRAFIA (confirmada no Figma node 1327:17000):
+- Single Line Default e Large: font-size 14px, font-weight 400, letter-spacing 0, line-height 1.2
+- Multi Line: font-size 11px, font-weight 450, letter-spacing 0.055px, line-height 16px
+- Quick Action: font-size 11px, font-weight 450, letter-spacing 0.055px, line-height 16px
+- Variable: font-size 11px, font-weight 450, letter-spacing 0.055px, line-height 16px
 
 TAMANHOS:
-- default: height 24px, padding 0 8px, font 11px/450
-- large:   height 32px, padding 0 8px (sem icon) / 0 4px (com icon), font 12px/500
-- Quick Action é sempre large (32px)
+- default: height 24px, padding 0 8px, gap 4px
+- large:   height 32px, padding 0 8px (sem icon) / 0 4px (com icon), gap 0
+- Quick Action é sempre large (32px), padding 0 4px, gap 8px
 
 TOKENS OBRIGATÓRIOS:
 - Background: --surface-primary (#4A4A4A)
 - Border focus: --border-focus (#00D4FF) — via :focus-within no wrapper
-- Border multi-line/disabled: --border-strong (#A4A4A4)
-- Texto: --content-primary (#FFFFFF)
+- Border multi-line/variable/disabled: --border-strong (#A4A4A4)
+- Texto Single Line: --content-primary (#FFFFFF)
+- Texto Quick Action: --content-tertiary (#A4A4A4) — texto em cor tertiary por design
 - Placeholder: --content-tertiary (#A4A4A4)
 - Texto disabled: --content-disabled (#4A4A4A)
 - Border error: --content-error (#F34F45)
-- Border warning: --content-warning (#FFCC40)
+- Border warning: --content-warning (#FFD35A)
 - Border success: --content-success (#4FE290)
 
 BORDER RADIUS: 5px FIXO (não usar token de radius)
@@ -575,21 +623,26 @@ BORDER RADIUS: 5px FIXO (não usar token de radius)
 ICON LEFT:
 - Container 24×24px, ícone de busca SVG 13px centralizado
 - Quick Action sempre tem icon, Single Line e Large são opcionais
-- Com icon: wrapper sem padding (0) em Default | padding 0 4px em Large
+- Com icon: wrapper sem padding (0) e gap=0 em Default | padding 0 4px, gap=0 em Large
 
 BOTÃO CLEAR (X):
-- Aparece apenas quando iconLeft=true + value não vazio + não disabled
+- Aparece apenas quando iconLeft=true + value não vazio + não disabled + não readOnly
 - Container 24×24px, SVG X 11px, cor content-tertiary, hover: content-primary
 - tabIndex={-1} para não receber foco via tab
 
+VARIABLE STATE:
+- Wrapper padding: 0 4px (reduzido vs 0 8px do default)
+- Border: border-strong (#A4A4A4) sempre visível (mesmo sem foco)
+- Em foco: substitui por border-focus (#00D4FF)
+
 MULTI LINE:
-- Border default sempre visível: var(--border-strong) — diferente do Single Line
-- padding: 4px 8px (não 0 8px)
-- Altura automática via textarea nativo (não height fixo)
+- Border default sempre visível: var(--border-strong)
+- padding: 4px 8px
+- Textarea com resize: none
 
 ESTADOS CSS:
-- :focus-within no wrapper = borda focus (não no input)
-- disabled: borda strong + cursor not-allowed em wrapper E input
+- :focus-within no wrapper = borda focus (não no input/textarea)
+- disabled: borda strong + cursor not-allowed em wrapper E input/textarea
 - readOnly: sem borda adicional, cursor default
 - Validação: error/warning/success sobrescreve a borda (inclusive no focus)
 

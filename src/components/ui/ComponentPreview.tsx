@@ -451,6 +451,13 @@ function TextInputPreview() {
         <TextInput validation="success" defaultValue="Confirmado" />
       </div>
 
+      <PreviewLabel>Variable (chip de fórmula)</PreviewLabel>
+      <div className={styles.col}>
+        <TextInput isVariable defaultValue="WINFUT" />
+        <TextInput isVariable placeholder="Variável..." />
+        <TextInput isVariable disabled defaultValue="Bloqueado" />
+      </div>
+
       <PreviewLabel>Multi Line (textarea)</PreviewLabel>
       <div className={styles.col}>
         <TextInput

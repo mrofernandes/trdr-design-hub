@@ -17,6 +17,7 @@ export interface TextInputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
   onClear?: () => void
   iconLeft?: boolean
+  isVariable?: boolean
   disabled?: boolean
   readOnly?: boolean
   rows?: number
@@ -63,6 +64,7 @@ export default function TextInput({
   onChange,
   onClear,
   iconLeft = false,
+  isVariable = false,
   disabled = false,
   readOnly = false,
   rows = 3,
@@ -82,6 +84,7 @@ export default function TextInput({
     isLarge ? styles.lg : '',
     isQuickAction ? styles.quickAction : '',
     isMultiLine ? styles.multiLine : '',
+    isVariable ? styles.chip : '',
     showIcon && !isQuickAction ? styles.withIcon : '',
     validation !== 'default' ? styles[validation] : '',
     disabled ? styles.disabled : '',

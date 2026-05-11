@@ -10,6 +10,7 @@
   width: 100%;
   box-sizing: border-box;
   transition: border-color 0.15s ease;
+  gap: 4px;
 }
 
 .wrapper:focus-within {
@@ -21,16 +22,18 @@
   height: 32px;
 }
 
-/* With icon: icon provides the visual left edge */
+/* With icon: icon (24px) provides the visual left edge, no left padding */
 .withIcon {
   padding: 0;
+  gap: 0;
 }
 
 .lg.withIcon {
   padding: 0 4px;
+  gap: 0;
 }
 
-/* Quick Action: always large + icon, compact gap */
+/* Quick Action: always large + icon, wider gap */
 .quickAction {
   height: 32px;
   padding: 0 4px;
@@ -47,6 +50,16 @@
 }
 
 .multiLine:focus-within {
+  border-color: var(--border-focus);
+}
+
+/* Variable state: compact pill with always-visible border */
+.chip {
+  padding: 0 4px;
+  border-color: var(--border-strong);
+}
+
+.chip:focus-within {
   border-color: var(--border-focus);
 }
 
@@ -78,7 +91,7 @@
   cursor: default;
 }
 
-/* Field (input / textarea) */
+/* Field — Single Line Default and Large: 14px/400 per Figma */
 .field {
   flex: 1;
   min-width: 0;
@@ -86,11 +99,11 @@
   border: none;
   outline: none;
   color: var(--content-primary);
-  font-size: 11px;
+  font-size: 14px;
   font-family: var(--font-secondary, 'Inter', sans-serif);
-  font-weight: 450;
-  letter-spacing: 0.055px;
-  line-height: 16px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.2;
   padding: 0;
   width: 100%;
 }
@@ -99,19 +112,29 @@
   color: var(--content-tertiary);
 }
 
-/* Large field typography */
-.lg .field,
-.quickAction .field {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.2px;
-  line-height: 1.2;
+/* Multi Line field: 11px/450 per Figma */
+.multiLine .field {
+  font-size: 11px;
+  font-weight: 450;
+  letter-spacing: 0.055px;
+  line-height: 16px;
+  resize: none;
 }
 
-/* Textarea */
-.field[data-multiline] {
-  resize: none;
-  padding: 0;
+/* Quick Action field: 11px/450, tertiary text color per Figma */
+.quickAction .field {
+  font-size: 11px;
+  font-weight: 450;
+  letter-spacing: 0.055px;
+  line-height: 16px;
+  color: var(--content-tertiary);
+}
+
+/* Variable state field: 11px/450 */
+.chip .field {
+  font-size: 11px;
+  font-weight: 450;
+  letter-spacing: 0.055px;
   line-height: 16px;
 }
 
