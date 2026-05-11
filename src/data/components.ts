@@ -2587,3 +2587,7 @@ export function filterComponents(search: string, category?: ComponentCategory): 
   }
   return filtered
 }
+
+export function getComponentByFigmaId(figmaId: string): DesignComponent | undefined {
+  return components.find(c => c.figmaId === figmaId)
+}
