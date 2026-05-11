@@ -2280,6 +2280,230 @@ Implemente como componente React com CSS Module. Use as classes .trdr-badge e .t
   },
 
   // =========================================================================
+  // FLOATING MENU — menu flutuante genérico (compound component)
+  // =========================================================================
+  {
+    slug: 'floating-menu',
+    name: 'Floating Menu',
+    figmaId: '1921:55380',
+    category: 'floating-menu',
+    implemented: true,
+    description: 'Menu flutuante genérico do TRDR — compound component com Item, Title e Divider. Cobre desde listas simples de ações até menus seccionados com ícones Material Symbols. Usado em Janela, seletor de ativo, configurações, indicadores e notificações.',
+    props: [
+      { name: 'width', type: 'number | string', values: ['172', '240', '260', '280', '300', 'auto'] },
+      { name: 'children', type: 'ReactNode', values: ['FloatingMenu.Item, FloatingMenu.Title, FloatingMenu.Divider, custom content'] },
+      { name: 'Item.icon', type: 'string', values: ['nome do Material Symbols (ex: "close", "star", "search")'] },
+      { name: 'Item.disabled', type: 'boolean', values: ['true', 'false'] },
+      { name: 'Item.onClick', type: 'function', values: ['() => void'] },
+      { name: 'Title.size', type: 'enum', values: ['"default" (14px)', '"sm" (10px)'] },
+    ],
+    dimensions: [
+      { label: 'Item height', width: '—', height: '32px' },
+      { label: 'Menu padding', width: '8px', height: '8px' },
+      { label: 'Ações da janela (5 itens)', width: '172px', height: '192px' },
+      { label: 'Notificações (4 itens)', width: '300px', height: '182px' },
+      { label: 'Configurações (5 itens + dropdown)', width: '260px', height: '239px' },
+    ],
+    tokens: [
+      { property: 'Menu background', token: 'bg.secondary', value: '#141519' },
+      { property: 'Menu border', token: 'border.subtle', value: '#222222' },
+      { property: 'Menu border-radius', token: 'radius.md', value: '8px' },
+      { property: 'Item border-radius', token: 'radius.sm', value: '4px' },
+      { property: 'Item label color', token: 'content.secondary', value: '#E8E8E8' },
+      { property: 'Item icon color', token: 'content.tertiary', value: '#A4A4A4' },
+      { property: 'Item hover background', token: 'surface.secondary', value: '#222222' },
+      { property: 'Title color', token: 'content.tertiary', value: '#A4A4A4' },
+      { property: 'Divider color', token: 'border.subtle', value: '#222222' },
+      { property: 'Menu gap', token: 'spacing.xs', value: '4px' },
+      { property: 'Item padding', token: 'spacing.sm', value: '8px' },
+    ],
+    anatomy: `Container: bg-secondary, border-subtle, radius-md 8px, shadow 0 4px 12px rgba(0,0,0,0.3), padding 8px, gap 4px
+
+FloatingMenu.Title — rótulo de seção: content-tertiary, 14px (padrão) ou 10px (size="sm"), padding-left 8px
+FloatingMenu.Item — botão: 32px height, padding 0 8px, gap 8px, radius-sm 4px
+  └ [Icon?: 20px Material Symbols Outlined, content-tertiary] [Label: Inter 14px, content-secondary, flex-1]
+  └ :hover → background surface-secondary | :disabled → opacity 0.45, cursor not-allowed
+FloatingMenu.Divider — separador: 1px solid border-subtle, full-width`,
+    code: {
+      html: `<!-- Floating Menu TRDR — HTML com classes globais -->
+
+<!-- Exemplo 1: ações simples (sem título) -->
+<div class="trdr-floating-menu" style="width:172px" role="menu">
+  <button class="trdr-floating-menu-item" role="menuitem">
+    <span class="material-symbols-outlined" style="font-size:20px;line-height:20px;font-variation-settings:'FILL' 0,'GRAD' 0;color:var(--content-tertiary)">close</span>
+    Fechar
+  </button>
+  <button class="trdr-floating-menu-item" role="menuitem">
+    <span class="material-symbols-outlined" style="font-size:20px;line-height:20px;font-variation-settings:'FILL' 0,'GRAD' 0;color:var(--content-tertiary)">remove</span>
+    Minimizar
+  </button>
+  <button class="trdr-floating-menu-item" role="menuitem">
+    <span class="material-symbols-outlined" style="font-size:20px;line-height:20px;font-variation-settings:'FILL' 0,'GRAD' 0;color:var(--content-tertiary)">keep</span>
+    Fixar
+  </button>
+</div>
+
+<!-- Exemplo 2: com título, divisor e seções -->
+<div class="trdr-floating-menu" style="width:240px" role="menu">
+  <p class="trdr-floating-menu-title">Favoritos</p>
+  <button class="trdr-floating-menu-item" role="menuitem">
+    <span class="material-symbols-outlined" style="font-size:20px;line-height:20px;font-variation-settings:'FILL' 0,'GRAD' 0;color:var(--content-tertiary)">star</span>
+    WINFUT (Q19)
+  </button>
+  <button class="trdr-floating-menu-item" role="menuitem">
+    <span class="material-symbols-outlined" style="font-size:20px;line-height:20px;font-variation-settings:'FILL' 0,'GRAD' 0;color:var(--content-tertiary)">star</span>
+    PETR4
+  </button>
+  <div class="trdr-floating-menu-divider" role="separator"></div>
+  <p class="trdr-floating-menu-title">Recentes</p>
+  <button class="trdr-floating-menu-item" role="menuitem">
+    <span class="material-symbols-outlined" style="font-size:20px;line-height:20px;font-variation-settings:'FILL' 0,'GRAD' 0;color:var(--content-tertiary)">history</span>
+    BBDC4
+  </button>
+  <div class="trdr-floating-menu-divider" role="separator"></div>
+  <button class="trdr-floating-menu-item" role="menuitem">
+    <span class="material-symbols-outlined" style="font-size:20px;line-height:20px;font-variation-settings:'FILL' 0,'GRAD' 0;color:var(--content-tertiary)">search</span>
+    Buscar ativo...
+  </button>
+</div>`,
+      css: `/* Floating Menu TRDR — classes globais */
+
+/* Container */
+.trdr-floating-menu {
+  background: var(--bg-secondary);          /* #141519 */
+  border: 1px solid var(--border-subtle);   /* #222222 */
+  border-radius: var(--radius-md);          /* 8px */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.30);
+  padding: var(--spacing-sm);               /* 8px */
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);                   /* 4px */
+  overflow: hidden;
+}
+
+/* Item — botão de ação */
+.trdr-floating-menu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);                   /* 8px */
+  height: 32px;
+  padding: 0 var(--spacing-sm);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);          /* 4px */
+  cursor: pointer;
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--content-secondary);          /* #E8E8E8 */
+  text-align: left;
+  width: 100%;
+  flex-shrink: 0;
+  transition: background 0.12s ease;
+}
+
+.trdr-floating-menu-item:not(:disabled):hover {
+  background: var(--surface-secondary);     /* #222222 */
+}
+
+.trdr-floating-menu-item:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+/* Título de seção */
+.trdr-floating-menu-title {
+  color: var(--content-tertiary);           /* #A4A4A4 */
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  width: 100%;
+  flex-shrink: 0;
+  padding: 0 var(--spacing-sm);
+}
+
+.trdr-floating-menu-title-sm {             /* size="sm" — mercados, color-picker */
+  font-size: 10px;
+  line-height: 15px;
+  padding: 4px var(--spacing-xs) 2px;
+}
+
+/* Divisor */
+.trdr-floating-menu-divider {
+  height: 1px;
+  background: var(--border-subtle);        /* #222222 */
+  width: 100%;
+  flex-shrink: 0;
+}`,
+      react: `import FloatingMenu from '@/components/ui/FloatingMenu'
+
+// Ações simples (como na Janela)
+<FloatingMenu width={172}>
+  <FloatingMenu.Item icon="close" onClick={onClose}>Fechar</FloatingMenu.Item>
+  <FloatingMenu.Item icon="remove" onClick={onMinimize}>Minimizar</FloatingMenu.Item>
+  <FloatingMenu.Item icon="arrow_outward" onClick={onMaximize}>Maximizar</FloatingMenu.Item>
+  <FloatingMenu.Item icon="keep" onClick={onPin}>Fixar</FloatingMenu.Item>
+  <FloatingMenu.Item icon="edit" onClick={onRename}>Renomear aba</FloatingMenu.Item>
+</FloatingMenu>
+
+// Com seções e divisores (como seletor de ativo)
+<FloatingMenu width={280}>
+  <FloatingMenu.Title>Favoritos</FloatingMenu.Title>
+  <FloatingMenu.Item icon="star" onClick={() => selectAtivo('WINFUT')}>WINFUT (Q19)</FloatingMenu.Item>
+  <FloatingMenu.Item icon="star" onClick={() => selectAtivo('PETR4')}>PETR4</FloatingMenu.Item>
+  <FloatingMenu.Divider />
+  <FloatingMenu.Title>Recentes</FloatingMenu.Title>
+  <FloatingMenu.Item icon="history" onClick={() => selectAtivo('BBDC4')}>BBDC4</FloatingMenu.Item>
+  <FloatingMenu.Item icon="history" onClick={() => selectAtivo('ITUB4')}>ITUB4</FloatingMenu.Item>
+  <FloatingMenu.Divider />
+  <FloatingMenu.Item icon="search">Buscar ativo...</FloatingMenu.Item>
+</FloatingMenu>
+
+// Item desabilitado
+<FloatingMenu width={240}>
+  <FloatingMenu.Item icon="bar_chart">Volume</FloatingMenu.Item>
+  <FloatingMenu.Item icon="trending_up">Média Móvel</FloatingMenu.Item>
+  <FloatingMenu.Item icon="add" disabled>Indicador premium</FloatingMenu.Item>
+</FloatingMenu>
+
+// Conteúdo customizado (qualquer ReactNode como children)
+<FloatingMenu width={260}>
+  <FloatingMenu.Title>Conta</FloatingMenu.Title>
+  <div style={{ padding: '4px 8px' }}>
+    {/* Dropdown, Checkbox, Slider, etc. */}
+  </div>
+  <FloatingMenu.Divider />
+  <FloatingMenu.Item icon="logout">Sair</FloatingMenu.Item>
+</FloatingMenu>`,
+      prompt: `Implemente o componente FloatingMenu do Design System TRDR — menu flutuante genérico pixel-perfect com Figma 1921:55380.
+
+COMPOUND COMPONENT — 4 partes:
+1. FloatingMenu (container): bg var(--bg-secondary) #141519, border 1px solid var(--border-subtle) #222, border-radius var(--radius-md) 8px, box-shadow 0 4px 12px rgba(0,0,0,0.30), padding var(--spacing-sm) 8px, gap var(--spacing-xs) 4px, flex-col, overflow hidden. Prop width?: number|string.
+
+2. FloatingMenu.Item (button): height 32px, padding 0 var(--spacing-sm) 8px, gap var(--spacing-sm) 8px, border-radius var(--radius-sm) 4px, background transparent, color var(--content-secondary) #E8E8E8, font Inter 14px/400. :hover (não disabled) → background var(--surface-secondary) #222. :disabled → opacity 0.45, cursor not-allowed. Props: icon?: string (Material Symbols name), disabled?: boolean, onClick, children.
+
+3. FloatingMenu.Title (p): color var(--content-tertiary) #A4A4A4, font Inter 14px/400. Prop size: "default" (14px, padding-left 8px) | "sm" (10px/15px, padding 4px 4px 2px — usado em mercados/color-picker). children: string.
+
+4. FloatingMenu.Divider (div): height 1px, background var(--border-subtle) #222, width 100%.
+
+ICON (Material Symbols Outlined): font-family 'Material Symbols Outlined', font-size 20px, line-height 20px, font-variation-settings: 'FILL' 0 'GRAD' 0, color var(--content-tertiary) #A4A4A4, flex-shrink 0.
+
+LABEL: flex:1, min-width 0, overflow hidden, text-overflow ellipsis, white-space nowrap.
+
+API: import FloatingMenu from '@/components/ui/FloatingMenu'
+<FloatingMenu width={172}>
+  <FloatingMenu.Item icon="close" onClick={fn}>Fechar</FloatingMenu.Item>
+  <FloatingMenu.Title>Seção</FloatingMenu.Title>
+  <FloatingMenu.Divider />
+</FloatingMenu>
+
+Use Object.assign(FloatingMenuRoot, { Item, Title, Divider }) para montar o compound component. NUNCA hex direto — apenas tokens var(--*). NUNCA --scale-spacing-* ou --scale-radius-*.`,
+    },
+  },
+
+  // =========================================================================
   // JANELA — composto: header + abas de filtros + container com slot
   // =========================================================================
   {

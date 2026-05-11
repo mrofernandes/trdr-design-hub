@@ -11,6 +11,7 @@ import Tooltip from './Tooltip'
 import TextInput from './TextInput'
 import Boleta from './Boleta'
 import Janela from './Janela'
+import FloatingMenu from './FloatingMenu'
 
 interface Props {
   slug: string
@@ -287,6 +288,9 @@ function renderPreview(slug: string) {
     case 'boleta':
       return <BoletaPreview />
 
+    case 'floating-menu':
+      return <FloatingMenuPreview />
+
     case 'janela':
       return <JanelaPreview />
 
@@ -499,6 +503,63 @@ function JanelaPreview() {
 
       <PreviewLabel>Sem scrollbars</PreviewLabel>
       <Janela />
+    </div>
+  )
+}
+
+function FloatingMenuPreview() {
+  return (
+    <div className={styles.previewInner}>
+      <PreviewLabel>Ações da janela (sem título)</PreviewLabel>
+      <div className={styles.row}>
+        <FloatingMenu width={172}>
+          <FloatingMenu.Item icon="close">Fechar</FloatingMenu.Item>
+          <FloatingMenu.Item icon="remove">Minimizar</FloatingMenu.Item>
+          <FloatingMenu.Item icon="arrow_outward">Maximizar</FloatingMenu.Item>
+          <FloatingMenu.Item icon="keep">Fixar</FloatingMenu.Item>
+          <FloatingMenu.Item icon="edit">Renomear aba</FloatingMenu.Item>
+        </FloatingMenu>
+      </div>
+
+      <PreviewLabel>Com título e divisor (seletor de ativo)</PreviewLabel>
+      <div className={styles.row}>
+        <FloatingMenu width={260}>
+          <FloatingMenu.Title>Favoritos</FloatingMenu.Title>
+          <FloatingMenu.Item icon="star">WINFUT (Q19)</FloatingMenu.Item>
+          <FloatingMenu.Item icon="star">PETR4</FloatingMenu.Item>
+          <FloatingMenu.Item icon="star">VALE3</FloatingMenu.Item>
+          <FloatingMenu.Divider />
+          <FloatingMenu.Title>Recentes</FloatingMenu.Title>
+          <FloatingMenu.Item icon="history">BBDC4</FloatingMenu.Item>
+          <FloatingMenu.Item icon="history">ITUB4</FloatingMenu.Item>
+          <FloatingMenu.Divider />
+          <FloatingMenu.Item icon="search">Buscar ativo...</FloatingMenu.Item>
+        </FloatingMenu>
+      </div>
+
+      <PreviewLabel>Com seções e indicadores</PreviewLabel>
+      <div className={styles.row}>
+        <FloatingMenu width={240}>
+          <FloatingMenu.Title>Indicadores</FloatingMenu.Title>
+          <FloatingMenu.Item icon="bar_chart">Volume</FloatingMenu.Item>
+          <FloatingMenu.Item icon="trending_up">Média Móvel</FloatingMenu.Item>
+          <FloatingMenu.Item icon="analytics">MACD</FloatingMenu.Item>
+          <FloatingMenu.Item icon="speed">IFR</FloatingMenu.Item>
+          <FloatingMenu.Divider />
+          <FloatingMenu.Item icon="more_horiz">Outros...</FloatingMenu.Item>
+        </FloatingMenu>
+      </div>
+
+      <PreviewLabel>Item desabilitado</PreviewLabel>
+      <div className={styles.row}>
+        <FloatingMenu width={220}>
+          <FloatingMenu.Item icon="notifications_active">Stop Loss ativado</FloatingMenu.Item>
+          <FloatingMenu.Item icon="check_circle">Ordem executada</FloatingMenu.Item>
+          <FloatingMenu.Item icon="warning" disabled>Margem insuficiente</FloatingMenu.Item>
+          <FloatingMenu.Divider />
+          <FloatingMenu.Item icon="settings">Configurar alertas</FloatingMenu.Item>
+        </FloatingMenu>
+      </div>
     </div>
   )
 }
