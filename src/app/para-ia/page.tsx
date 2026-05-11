@@ -148,7 +148,7 @@ export default function ParaIAPage() {
           <div className={iaStyles.fileList}>
             <div className={iaStyles.fileItem}>
               <code className={iaStyles.fileName}>/components.json</code>
-              <span className={iaStyles.fileDesc}>Catálogo completo em JSON: 13 componentes implementados (com 4 code blocks) e stubs do restante. <a href="/components.json" style={{ color: 'var(--content-brand)' }}>Abrir endpoint →</a></span>
+              <span className={iaStyles.fileDesc}>Catálogo completo em JSON: 14 componentes implementados (com 4 code blocks) e stubs do restante. <a href="/components.json" style={{ color: 'var(--content-brand)' }}>Abrir endpoint →</a></span>
             </div>
             <div className={iaStyles.fileItem}>
               <code className={iaStyles.fileName}>/tokens.css</code>
@@ -164,7 +164,7 @@ export default function ParaIAPage() {
         {/* Stub fallback */}
         <div className={iaStyles.subSection}>
           <h3 className={iaStyles.subSectionTitle}>Componentes &quot;stub&quot; — fallback inteligente</h3>
-          <p className={iaStyles.sectionDesc}>O TRDR DS tem 60+ componentes. Os 13 com 4 code blocks completos são aplicados direto. Os demais entram no catálogo como stubs (implemented: false) — a skill não inventa código, mas aplica os tokens recomendados, comenta no fonte com figmaId e link para o Hub, e registra em MISSING_COMPONENTS.md no projeto. Promover um stub a implementado é o caminho gradual para crescer o DS.</p>
+          <p className={iaStyles.sectionDesc}>O TRDR DS tem 60+ componentes. Os 14 com 4 code blocks completos são aplicados direto. Os demais entram no catálogo como stubs (implemented: false) — a skill não inventa código, mas aplica os tokens recomendados, comenta no fonte com figmaId e link para o Hub, e registra em MISSING_COMPONENTS.md no projeto. Promover um stub a implementado é o caminho gradual para crescer o DS.</p>
         </div>
 
         {/* Phase 1 */}
