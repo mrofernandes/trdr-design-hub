@@ -168,7 +168,7 @@ Referência completa: https://trdr.mrocontent.com.br
 
 ## Código de componentes
 Para qualquer componente: https://trdr.mrocontent.com.br/componentes/[slug]
-Disponíveis: button, text-input, switch, dropdown, checkbox, radio-button, combo-input, tooltip, boleta
+Disponíveis: button, text-input, switch, dropdown, checkbox, radio-button, combo-input, tooltip, boleta, segmented-control, abas, sub-menu-item, janela
 (Verifique o Hub — novos componentes são adicionados regularmente)
 
 ## Hierarquia de camadas
