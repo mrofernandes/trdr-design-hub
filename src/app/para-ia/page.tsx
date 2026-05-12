@@ -16,18 +16,18 @@ const phaseOneSteps = [
   },
   {
     n: '3',
-    label: 'Encontrar violações',
-    desc: 'Busca cores hardcoded (#hex), font-family direto, px de espaçamento fixo e uso de tokens primitivos em vez de semânticos.',
+    label: 'Encontrar violações e auditar logo',
+    desc: 'Busca cores hardcoded (#hex), font-family direto, px de espaçamento fixo e tokens primitivos. Também varre logo*.svg / *trdr*.svg / brand*.svg e verifica o fingerprint do logo oficial (viewBox 105×41, #00D4FF) — logos errados entram na fila de substituição.',
   },
   {
     n: '4',
-    label: 'Carregar catálogo (offline-first)',
-    desc: 'Lê o snapshot local data/components.json embutido na skill — funciona sem internet. Se o argumento --latest for usado, busca trdr.mrocontent.com.br/components.json e atualiza o snapshot antes de seguir.',
+    label: 'Detectar candidatos a componentes e carregar catálogo',
+    desc: 'Identifica padrões de UI substituíveis por componentes TRDR (<button>, <input>, <select>, etc.) e carrega o catálogo offline do snapshot embutido. Com --latest, busca trdr.mrocontent.com.br/components.json antes de seguir.',
   },
   {
     n: '5',
     label: 'Apresentar o plano e aguardar',
-    desc: 'Exibe score de conformidade, arquivos a criar, arquivos a modificar e violações por categoria. Nenhum arquivo é alterado nesta fase.',
+    desc: 'Exibe score de conformidade, arquivos a criar, logos a corrigir, violações por categoria e — em projetos grandes (>50 violações) — a estimativa de lotes. Nenhum arquivo é alterado antes da sua resposta.',
   },
 ]
 
@@ -36,16 +36,26 @@ const phaseTwoFiles = [
   { file: 'components.css', desc: 'CSS de cada componente implementado no catálogo + classes de tipografia .trdr-h*/.trdr-body-*.' },
   { file: '[globals].css', desc: '@import adicionado no topo para carregar tokens.css e components.css.' },
   { file: 'CLAUDE.md', desc: 'Regras do design system + referência rápida + lista dos componentes implementados (gerada do catálogo).' },
+  { file: 'logo-trdr.svg', desc: 'Logos errados encontrados na Fase 1 são substituídos no lugar pelo logo oficial (105×41px). Se não houver logo e public/ existir, o arquivo é copiado para public/logo-trdr.svg.' },
   { file: 'MISSING_COMPONENTS.md', desc: 'Apenas se algum stub for encontrado no projeto — registra slug, figmaId e tokens recomendados.' },
   { file: 'DS_MIGRATION.md', desc: 'Log completo da migração + checklist de passos manuais (fontes, dark mode, trading UI, stubs).' },
+  { file: 'DS_PROGRESS.md', desc: 'Apenas em projetos grandes — checkpoint por lote com status PENDING / IN_PROGRESS / COMPLETED. Permite retomar a migração com /trdr-ds resume após interrupções.' },
 ]
 
 const responseCommands = [
   { cmd: '"Apply" ou "Executar"', desc: 'Executa tudo que está no plano sem exceções.' },
+  { cmd: '"Apply, batch 15"', desc: 'Executa em lotes de 15 arquivos por vez — recomendado para projetos grandes.' },
   { cmd: '"Sync first"', desc: 'Atualiza o snapshot do catálogo a partir do Hub antes de aplicar — útil quando você sabe que há componentes novos.' },
   { cmd: '"Only tokens"', desc: 'Cria apenas tokens.css, components.css e CLAUDE.md — sem corrigir violações existentes.' },
   { cmd: '"Apply, skip src/vendor"', desc: 'Executa mas pula um caminho ou arquivo específico da lista de violações.' },
   { cmd: '"Change ..."', desc: 'Ajusta um detalhe do plano antes de executar — útil para escolher o diretório de output.' },
+]
+
+const batchCommands = [
+  { cmd: '"continuar"', desc: 'Processa o próximo lote.' },
+  { cmd: '"tudo"', desc: 'Processa todos os lotes restantes sem pausar — sem interrupções até o final.' },
+  { cmd: '"pular src/legacy"', desc: 'Pula a pasta do próximo lote e vai para o seguinte.' },
+  { cmd: '"parar"', desc: 'Salva o progresso e para — retome depois com /trdr-ds resume.' },
 ]
 
 const triggerPhrases = [
@@ -161,6 +171,35 @@ export default function ParaIAPage() {
           </div>
         </div>
 
+        {/* Large projects */}
+        <div className={iaStyles.subSection}>
+          <h3 className={iaStyles.subSectionTitle}>Projetos grandes — execução por lotes</h3>
+          <p className={iaStyles.sectionDesc}>Quando o projeto tem mais de 50 violações ou 30 arquivos afetados, a Fase 2 entra automaticamente em modo batched: processa as violações pasta por pasta, salva progresso em <code style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--content-brand)' }}>DS_PROGRESS.md</code> e pausa entre lotes para você decidir o que fazer.</p>
+          <div className={iaStyles.fileList}>
+            <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>/trdr-ds resume</code>
+              <span className={iaStyles.fileDesc}>Retoma de onde parou — lê DS_PROGRESS.md e continua a partir do último lote incompleto. Funciona mesmo em sessões diferentes.</span>
+            </div>
+            <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>/trdr-ds status</code>
+              <span className={iaStyles.fileDesc}>Mostra tabela de progresso (lotes concluídos, violações corrigidas, pendências) sem modificar nenhum arquivo.</span>
+            </div>
+            <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>/trdr-ds batch N</code>
+              <span className={iaStyles.fileDesc}>Define o tamanho de cada lote (padrão: 25 arquivos). Útil para ajustar ao ritmo que você prefere revisar.</span>
+            </div>
+          </div>
+          <p className={iaStyles.sectionDesc} style={{ marginTop: 'var(--spacing-lg)' }}>Entre um lote e outro, responda com:</p>
+          <div className={iaStyles.responseGrid}>
+            {batchCommands.map(r => (
+              <div key={r.cmd} className={iaStyles.responseCard}>
+                <code className={iaStyles.responseCmd}>{r.cmd}</code>
+                <p className={iaStyles.responseDesc}>{r.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Stub fallback */}
         <div className={iaStyles.subSection}>
           <h3 className={iaStyles.subSectionTitle}>Componentes &quot;stub&quot; — fallback inteligente</h3>
@@ -237,6 +276,14 @@ export default function ParaIAPage() {
             <div className={iaStyles.example}>
               <span className={iaStyles.exampleLabel}>Invocar por frase natural</span>
               <pre className={iaStyles.exampleCode}>{`# Funciona sem digitar /trdr-ds:\naplicar design system TRDR neste projeto`}</pre>
+            </div>
+            <div className={iaStyles.example}>
+              <span className={iaStyles.exampleLabel}>Projeto grande — lotes de 20 arquivos</span>
+              <pre className={iaStyles.exampleCode}>{`/trdr-ds\n\n# Após o plano (skill detecta >50 violações):\nApply, batch 20\n\n# Após cada lote:\ncontinuar\n\n# Ou processar tudo de uma vez:\ntudo`}</pre>
+            </div>
+            <div className={iaStyles.example}>
+              <span className={iaStyles.exampleLabel}>Retomar migração pausada</span>
+              <pre className={iaStyles.exampleCode}>{`# Em qualquer sessão, enquanto DS_PROGRESS.md existir:\n/trdr-ds resume\n\n# Ver progresso sem alterar nada:\n/trdr-ds status`}</pre>
             </div>
           </div>
         </div>
