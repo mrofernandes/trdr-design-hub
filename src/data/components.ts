@@ -2009,6 +2009,451 @@ Resultado pixel-perfect com exatamente 283px de largura.`,
   },
 
   // =========================================================================
+  // TRADING — TABELAS
+  // =========================================================================
+  {
+    slug: 'tabela-cotacoes',
+    name: 'Tabela de Cotações',
+    figmaId: '77:3681',
+    category: 'trading',
+    implemented: true,
+    description: 'Tabela de cotações em tempo real. Exibe ativo, último preço, variação % com código de cor (verde/vermelho), tendência (seta), quantidade e dados de oferta/demanda.',
+    props: [
+      { name: 'rows', type: 'CotacaoRow[]', values: ['array de dados de cotação'] },
+    ],
+    dimensions: [
+      { label: 'Largura total', width: '800px', height: '—' },
+      { label: 'Altura do header', width: '—', height: '32px' },
+      { label: 'Altura da linha', width: '—', height: '32px' },
+      { label: 'Célula Último', width: '80px', height: '32px' },
+    ],
+    tokens: [
+      { property: 'Var% positivo', token: 'context.trading.up', value: '#4FE290' },
+      { property: 'Var% negativo', token: 'context.trading.down', value: '#F34F45' },
+      { property: 'Cell Último bg', token: 'surface.primary', value: '#4A4A4A' },
+      { property: 'Row alternada', token: '—', value: 'rgba(255,255,255,0.08)' },
+      { property: 'Row hover', token: 'surface.secondary', value: '#222222' },
+      { property: 'Header border', token: 'border.default', value: '#4A4A4A' },
+      { property: 'Header text', token: 'content.tertiary', value: '#A4A4A4' },
+      { property: 'Cell text', token: 'content.primary', value: '#FFFFFF' },
+    ],
+    anatomy: `Tabela (table-layout: fixed, border-collapse: collapse):
+  [thead > tr (32px, border-bottom 1px --border-default)]
+    [th: 14px/400 --content-tertiary | padding: 4px 8px]
+    Colunas: Ativo(65) Último(80) Q Últ(65) Var%(65) Tend(65) Dif(65) Stat(65) QOfc(65) Ofc(65) Ofv(65) QOfv(65) Teórico(65)
+  [tbody > tr (32px, cursor pointer)]
+    [tr:nth-child(even): bg rgba(255,255,255,0.08)]
+    [tr:hover: bg --surface-secondary]
+    [tr.selected: bg --bg-secondary]
+    [td: 14px/400 --content-primary | padding: 4px 8px]
+    [td.col-ultimo: bg --surface-primary #4A4A4A]
+    [td.col-var-up: color --context-trading-up #4FE290]
+    [td.col-var-down: color --context-trading-down #F34F45]
+    [td.col-tend: ícone Material Symbols arrow_drop_up/down]`,
+    code: {
+      html: `<!-- Tabela de Cotações TRDR (Figma: 77:3681) -->
+<div style="width:100%;overflow-x:auto;background:var(--bg-primary)">
+  <table class="trdr-tabela-cotacoes">
+    <colgroup>
+      <col style="width:65px"> <col style="width:80px"> <col style="width:65px">
+      <col style="width:65px"> <col style="width:65px"> <col style="width:65px">
+      <col style="width:65px"> <col style="width:65px"> <col style="width:65px">
+      <col style="width:65px"> <col style="width:65px"> <col style="width:65px">
+    </colgroup>
+    <thead>
+      <tr>
+        <th>Ativo</th><th>Último</th><th>Q Últ</th><th>Var %</th>
+        <th>Tend</th><th>Dif</th><th>Stat...</th><th>QOfc</th>
+        <th>Ofc</th><th>Ofv</th><th>QOfv</th><th>Teórico</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="trdr-tabela-cotacoes-row-selected">
+        <td>ITUB4</td>
+        <td class="col-ultimo">50.47</td>
+        <td>100</td>
+        <td class="col-var-down">-0.72%</td>
+        <td><span class="col-tend-icon col-tend-down">arrow_drop_down</span></td>
+        <td>0.36</td><td>.</td><td>1.000</td>
+        <td>50.47</td><td>50.49</td><td>1.300</td><td>.</td>
+      </tr>
+      <tr>
+        <td>VALE3</td>
+        <td class="col-ultimo">92,00</td>
+        <td>200</td>
+        <td class="col-var-up">+1.20%</td>
+        <td><span class="col-tend-icon col-tend-up">arrow_drop_up</span></td>
+        <td>0.50</td><td>.</td><td>2.700</td>
+        <td>92,00</td><td>92,10</td><td>4.000</td><td>.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>`,
+      css: `/* Tabela de Cotações — TRDR Design System */
+/* Tokens: --context-trading-up (#4FE290), --context-trading-down (#F34F45) */
+/* Tokens: --surface-primary (#4A4A4A), --surface-secondary (#222222)       */
+/* Tokens: --border-default (#4A4A4A), --content-tertiary (#A4A4A4)          */
+
+.trdr-tabela-cotacoes {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-family: var(--font-secondary); /* Inter */
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--content-primary);         /* #FFFFFF */
+}
+
+.trdr-tabela-cotacoes thead tr {
+  height: 32px;
+  border-bottom: 1px solid var(--border-default); /* #4A4A4A */
+}
+
+.trdr-tabela-cotacoes th {
+  padding: 4px 8px;
+  text-align: left;
+  color: var(--content-tertiary);   /* #A4A4A4 */
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+.trdr-tabela-cotacoes tbody tr {
+  height: 32px;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+.trdr-tabela-cotacoes tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.trdr-tabela-cotacoes tbody tr:hover {
+  background: var(--surface-secondary); /* #222222 */
+}
+
+.trdr-tabela-cotacoes tbody tr.trdr-tabela-cotacoes-row-selected {
+  background: var(--bg-secondary); /* #141519 */
+}
+
+.trdr-tabela-cotacoes td {
+  padding: 4px 8px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+.trdr-tabela-cotacoes td.col-ultimo {
+  background: var(--surface-primary); /* #4A4A4A */
+}
+
+.trdr-tabela-cotacoes .col-var-up   { color: var(--context-trading-up);   } /* #4FE290 */
+.trdr-tabela-cotacoes .col-var-down { color: var(--context-trading-down); } /* #F34F45 */
+
+.trdr-tabela-cotacoes .col-tend-icon {
+  font-family: 'Material Symbols Outlined';
+  font-size: 20px;
+  font-variation-settings: 'FILL' 1, 'GRAD' 0, 'wght' 400;
+  vertical-align: middle;
+}
+.trdr-tabela-cotacoes .col-tend-up   { color: var(--context-trading-up);   }
+.trdr-tabela-cotacoes .col-tend-down { color: var(--context-trading-down); }`,
+      react: `import TabelaCotacoes, { CotacaoRow } from '@/components/ui/TabelaCotacoes'
+
+const rows: CotacaoRow[] = [
+  {
+    ativo: 'ITUB4',
+    ultimo: '50.47',
+    qUlt: 100,
+    varPct: -0.72,
+    tend: 'down',
+    dif: '0.36',
+    qOfc: '1.000',
+    ofc: '50.47',
+    ofv: '50.49',
+    qOfv: '1.300',
+    selected: true,
+  },
+  {
+    ativo: 'VALE3',
+    ultimo: '92,00',
+    qUlt: 200,
+    varPct: 1.20,
+    tend: 'up',
+    dif: '0.50',
+  },
+]
+
+export default function Example() {
+  return <TabelaCotacoes rows={rows} />
+}`,
+      prompt: `Crie um componente React 'TabelaCotacoes' pixel-perfect baseado no Figma TRDR (node 77:3681).
+
+ESTRUTURA:
+- Elemento <table> com table-layout: fixed e border-collapse: collapse
+- Wrapper <div> com overflow-x: auto e background: var(--bg-primary)
+
+HEADER (thead > tr):
+- height: 32px
+- border-bottom: 1px solid var(--border-default) /* #4A4A4A */
+- th: padding 4px 8px, font 14px/400, color var(--content-tertiary) /* #A4A4A4 */
+
+COLUNAS (colgroup):
+Ativo=65px, Último=80px, Q Últ=65px, Var%=65px, Tend=65px, Dif=65px,
+Stat=65px, QOfc=65px, Ofc=65px, Ofv=65px, QOfv=65px, Teórico=65px
+
+DATA ROWS (tbody > tr):
+- height: 32px, cursor: pointer
+- tr:nth-child(even): background rgba(255,255,255,0.08)
+- tr:hover: background var(--surface-secondary) /* #222222 */
+- tr.selected: background var(--bg-secondary) /* #141519 */
+- td: padding 4px 8px, font 14px/400, color var(--content-primary) /* #FFFFFF */
+- td.col-ultimo: background var(--surface-primary) /* #4A4A4A */
+- td variação positiva: color var(--context-trading-up) /* #4FE290 */
+- td variação negativa: color var(--context-trading-down) /* #F34F45 */
+- td tendência: ícone Material Symbols Outlined 'arrow_drop_up'/'arrow_drop_down', 20px, FILL 1
+
+INTERFACE TypeScript:
+interface CotacaoRow {
+  ativo: string; ultimo: string|number; qUlt?: string|number
+  varPct: number; tend?: 'up'|'down'|null; dif?: string|number
+  status?: string; qOfc?: string|number; ofc?: string|number
+  ofv?: string|number; qOfv?: string|number; teorico?: string|number
+  selected?: boolean
+}
+
+Usar APENAS tokens semânticos TRDR. NUNCA hex direto. NUNCA --scale-spacing-*.`,
+    },
+  },
+  {
+    slug: 'tabela-ordens',
+    name: 'Tabela de Ordens',
+    figmaId: '336:3114',
+    category: 'trading',
+    implemented: true,
+    description: 'Tabela de histórico de ordens. Exibe horário, ativo, tipo C/V (colorido), preço, quantidade, status (Aberta/Executada/Cancelada) e origem. Linhas canceladas recebem fundo vermelho translúcido.',
+    props: [
+      { name: 'rows', type: 'OrdemRow[]', values: ['array de dados de ordens'] },
+    ],
+    dimensions: [
+      { label: 'Largura total', width: '896px', height: '—' },
+      { label: 'Altura do header', width: '—', height: '32px' },
+      { label: 'Altura da linha', width: '—', height: '32px' },
+    ],
+    tokens: [
+      { property: 'C (Compra) text', token: 'context.trading.long.text', value: '#6DE7A2' },
+      { property: 'V (Venda) text', token: 'context.trading.short.text', value: '#F56D64' },
+      { property: 'Row cancelada bg', token: 'context.trading.short.default', value: 'rgba(241,49,38,0.08)' },
+      { property: 'Row hover', token: 'surface.secondary', value: '#222222' },
+      { property: 'Header border', token: 'border.default', value: '#4A4A4A' },
+      { property: 'Header text', token: 'content.tertiary', value: '#A4A4A4' },
+      { property: 'Cell text', token: 'content.primary', value: '#FFFFFF' },
+    ],
+    anatomy: `Tabela (table-layout: fixed, border-collapse: collapse):
+  [thead > tr (32px, border-bottom 1px --border-default)]
+    [th: 14px/400 --content-tertiary | padding: 4px 8px]
+    Colunas: Horário(81) Ativo(80) C/V(65) Preço(104) Médio(79)
+             Qtde(65) Disp(65) Aberta(65) Exec(65) Status(86) Validade(79) Origem(65)
+  [tbody > tr (32px, cursor pointer)]
+    [tr:nth-child(even): bg rgba(255,255,255,0.05)]
+    [tr:hover: bg --surface-secondary]
+    [tr.cancelada: bg --context-trading-short-default]
+    [td: 14px/400 --content-primary | padding: 4px 8px | text-overflow: ellipsis]
+    [td.col-cv-c: color --context-trading-long-text #6DE7A2, font-weight 600]
+    [td.col-cv-v: color --context-trading-short-text #F56D64, font-weight 600]`,
+    code: {
+      html: `<!-- Tabela de Ordens TRDR (Figma: 336:3114) -->
+<div style="width:100%;overflow-x:auto;background:var(--bg-primary)">
+  <table class="trdr-tabela-ordens">
+    <colgroup>
+      <col style="width:81px"> <col style="width:80px"> <col style="width:65px">
+      <col style="width:104px"><col style="width:79px"> <col style="width:65px">
+      <col style="width:65px"> <col style="width:65px"> <col style="width:65px">
+      <col style="width:86px"> <col style="width:79px"> <col style="width:65px">
+    </colgroup>
+    <thead>
+      <tr>
+        <th>Horário</th><th>Ativo</th><th>C/V</th><th>Preço</th>
+        <th>Médio</th><th>Qtde</th><th>Disp</th><th>Aberta</th>
+        <th>Exec</th><th>Status</th><th>Validade</th><th>Origem</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>11:32:56</td><td>WDOK18</td>
+        <td class="col-cv-c">C</td>
+        <td>3.425.600</td><td>3.425.600</td>
+        <td>20</td><td>.</td><td>.</td><td>20</td>
+        <td>Aberta</td><td>.</td><td>Loss</td>
+      </tr>
+      <tr>
+        <td>11:35:24</td><td>WDOK18</td>
+        <td class="col-cv-v">V</td>
+        <td>3.425.600</td><td>3.425.600</td>
+        <td>19</td><td>.</td><td>.</td><td>19</td>
+        <td>Aberta</td><td>.</td><td>Criptor</td>
+      </tr>
+      <tr class="trdr-tabela-ordens-row-cancelada">
+        <td>11:36:03</td><td>WDOK18</td>
+        <td class="col-cv-c">C</td>
+        <td>3.425.600</td><td>3.425.600</td>
+        <td>16</td><td>.</td><td>.</td><td>16</td>
+        <td>Cancelada</td><td>.</td><td>Criptor</td>
+      </tr>
+    </tbody>
+  </table>
+</div>`,
+      css: `/* Tabela de Ordens — TRDR Design System */
+/* Tokens: --context-trading-long-text (#6DE7A2) — C (Compra)               */
+/* Tokens: --context-trading-short-text (#F56D64) — V (Venda)               */
+/* Tokens: --context-trading-short-default — fundo linha cancelada           */
+/* Tokens: --border-default (#4A4A4A), --content-tertiary (#A4A4A4)          */
+
+.trdr-tabela-ordens {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-family: var(--font-secondary); /* Inter */
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--content-primary); /* #FFFFFF */
+}
+
+.trdr-tabela-ordens thead tr {
+  height: 32px;
+  border-bottom: 1px solid var(--border-default); /* #4A4A4A */
+}
+
+.trdr-tabela-ordens th {
+  padding: 4px 8px;
+  text-align: left;
+  color: var(--content-tertiary);  /* #A4A4A4 */
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+.trdr-tabela-ordens tbody tr {
+  height: 32px;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+.trdr-tabela-ordens tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.trdr-tabela-ordens tbody tr:hover {
+  background: var(--surface-secondary); /* #222222 */
+}
+
+.trdr-tabela-ordens tbody tr.trdr-tabela-ordens-row-cancelada {
+  background: var(--context-trading-short-default); /* rgba(241,49,38,0.08) */
+}
+
+.trdr-tabela-ordens td {
+  padding: 4px 8px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+.trdr-tabela-ordens .col-cv-c {
+  color: var(--context-trading-long-text);  /* #6DE7A2 */
+  font-weight: 600;
+}
+
+.trdr-tabela-ordens .col-cv-v {
+  color: var(--context-trading-short-text); /* #F56D64 */
+  font-weight: 600;
+}`,
+      react: `import TabelaOrdens, { OrdemRow } from '@/components/ui/TabelaOrdens'
+
+const rows: OrdemRow[] = [
+  {
+    horario: '11:32:56',
+    ativo: 'WDOK18',
+    tipo: 'C',
+    preco: '3.425.600',
+    medio: '3.425.600',
+    qtde: 20,
+    exec: 20,
+    status: 'aberta',
+    origem: 'Loss',
+  },
+  {
+    horario: '11:35:24',
+    ativo: 'WDOK18',
+    tipo: 'V',
+    preco: '3.425.600',
+    medio: '3.425.600',
+    qtde: 19,
+    exec: 19,
+    status: 'aberta',
+    origem: 'Criptor',
+  },
+  {
+    horario: '11:36:03',
+    ativo: 'WDOK18',
+    tipo: 'C',
+    preco: '3.425.600',
+    medio: '3.425.600',
+    qtde: 16,
+    exec: 16,
+    status: 'cancelada',
+    origem: 'Criptor',
+  },
+]
+
+export default function Example() {
+  return <TabelaOrdens rows={rows} />
+}`,
+      prompt: `Crie um componente React 'TabelaOrdens' pixel-perfect baseado no Figma TRDR (node 336:3114).
+
+ESTRUTURA:
+- Elemento <table> com table-layout: fixed e border-collapse: collapse
+- Wrapper <div> com overflow-x: auto e background: var(--bg-primary)
+
+HEADER (thead > tr):
+- height: 32px
+- border-bottom: 1px solid var(--border-default) /* #4A4A4A */
+- th: padding 4px 8px, font 14px/400, color var(--content-tertiary) /* #A4A4A4 */
+
+COLUNAS (colgroup):
+Horário=81px, Ativo=80px, C/V=65px, Preço=104px, Médio=79px,
+Qtde=65px, Disp=65px, Aberta=65px, Exec=65px, Status=86px, Validade=79px, Origem=65px
+
+DATA ROWS (tbody > tr):
+- height: 32px, cursor: pointer
+- tr:nth-child(even): background rgba(255,255,255,0.05)
+- tr:hover: background var(--surface-secondary) /* #222222 */
+- tr.cancelada: background var(--context-trading-short-default) /* rgba(241,49,38,0.08) */
+- td: padding 4px 8px, font 14px/400, color var(--content-primary), text-overflow ellipsis
+- td.col-cv-c (Compra): color var(--context-trading-long-text) /* #6DE7A2 */, font-weight 600
+- td.col-cv-v (Venda): color var(--context-trading-short-text) /* #F56D64 */, font-weight 600
+
+INTERFACE TypeScript:
+type OrdemStatus = 'aberta' | 'executada' | 'cancelada' | 'parcial'
+interface OrdemRow {
+  horario: string; ativo: string; tipo: 'C'|'V'
+  preco: string|number; medio?: string|number
+  qtde: number; disp?: string|number; aberta?: string|number; exec?: string|number
+  status: OrdemStatus; validade?: string; origem?: string
+}
+
+Usar APENAS tokens semânticos TRDR. NUNCA hex direto. NUNCA --scale-spacing-*.`,
+    },
+  },
+
+  // =========================================================================
   // OUTROS
   // =========================================================================
   {

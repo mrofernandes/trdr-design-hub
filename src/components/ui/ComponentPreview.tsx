@@ -12,6 +12,8 @@ import TextInput from './TextInput'
 import Boleta from './Boleta'
 import Janela from './Janela'
 import FloatingMenu from './FloatingMenu'
+import TabelaCotacoes from './TabelaCotacoes'
+import TabelaOrdens from './TabelaOrdens'
 
 interface Props {
   slug: string
@@ -293,6 +295,22 @@ function renderPreview(slug: string) {
 
     case 'janela':
       return <JanelaPreview />
+
+    case 'tabela-cotacoes':
+      return (
+        <div className={styles.previewInner}>
+          <PreviewLabel>Painel de Cotações</PreviewLabel>
+          <TabelaCotacoes />
+        </div>
+      )
+
+    case 'tabela-ordens':
+      return (
+        <div className={styles.previewInner}>
+          <PreviewLabel>Tabela de Ordens</PreviewLabel>
+          <TabelaOrdens />
+        </div>
+      )
 
     default:
       return null

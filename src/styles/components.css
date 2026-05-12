@@ -1097,3 +1097,156 @@
   width: 100%;
   flex-shrink: 0;
 }
+
+/* ==========================================================================
+   TABELA DE COTAÇÕES (tabela-cotacoes)
+   Figma: 77:3681 — 800×256px | Painel de cotações
+   ========================================================================== */
+
+.trdr-tabela-cotacoes {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--content-primary);
+}
+
+.trdr-tabela-cotacoes thead tr {
+  height: 32px;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.trdr-tabela-cotacoes th {
+  padding: 4px 8px;
+  text-align: left;
+  color: var(--content-tertiary);
+  font-weight: 400;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+.trdr-tabela-cotacoes tbody tr {
+  height: 32px;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+.trdr-tabela-cotacoes tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.trdr-tabela-cotacoes tbody tr:hover {
+  background: var(--surface-secondary);
+}
+
+.trdr-tabela-cotacoes tbody tr.trdr-tabela-cotacoes-row-selected {
+  background: var(--bg-secondary);
+}
+
+.trdr-tabela-cotacoes td {
+  padding: 4px 8px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+.trdr-tabela-cotacoes td.col-ultimo {
+  background: var(--surface-primary);
+}
+
+.trdr-tabela-cotacoes .col-var-up {
+  color: var(--context-trading-up);
+}
+
+.trdr-tabela-cotacoes .col-var-down {
+  color: var(--context-trading-down);
+}
+
+.trdr-tabela-cotacoes .col-tend-icon {
+  font-family: 'Material Symbols Outlined';
+  font-size: 20px;
+  line-height: 1;
+  font-variation-settings: 'FILL' 1, 'GRAD' 0, 'wght' 400;
+  vertical-align: middle;
+}
+
+.trdr-tabela-cotacoes .col-tend-up { color: var(--context-trading-up); }
+.trdr-tabela-cotacoes .col-tend-down { color: var(--context-trading-down); }
+
+/* ==========================================================================
+   TABELA DE ORDENS (tabela-ordens)
+   Figma: 336:3114 — 896×352px | Ordens
+   ========================================================================== */
+
+.trdr-tabela-ordens {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--content-primary);
+}
+
+.trdr-tabela-ordens thead tr {
+  height: 32px;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.trdr-tabela-ordens th {
+  padding: 4px 8px;
+  text-align: left;
+  color: var(--content-tertiary);
+  font-weight: 400;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+.trdr-tabela-ordens tbody tr {
+  height: 32px;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+.trdr-tabela-ordens tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.trdr-tabela-ordens tbody tr:hover {
+  background: var(--surface-secondary);
+}
+
+.trdr-tabela-ordens tbody tr.trdr-tabela-ordens-row-cancelada {
+  background: var(--context-trading-short-default);
+}
+
+.trdr-tabela-ordens td {
+  padding: 4px 8px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+.trdr-tabela-ordens .col-cv-c {
+  color: var(--context-trading-long-text);
+  font-weight: 600;
+}
+
+.trdr-tabela-ordens .col-cv-v {
+  color: var(--context-trading-short-text);
+  font-weight: 600;
+}
