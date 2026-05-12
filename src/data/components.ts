@@ -3286,6 +3286,212 @@ API React (TypeScript): props { tools?: JanelaTool[]; activeTool?: number; onToo
 Use APENAS tokens semânticos do TRDR (var(--bg-*), var(--surface-*), var(--content-*), var(--action-*), var(--border-*), var(--radius-*), var(--spacing-*)). NUNCA hex direto. NUNCA --scale-spacing-* ou --scale-radius-* (não existem). O componente deve funcionar nos dois temas (light e dark) sem alterações.`,
     },
   },
+
+  // =========================================================================
+  // NEWS CARD
+  // =========================================================================
+  {
+    slug: 'news-card',
+    name: 'News Card',
+    figmaId: '66:2373',
+    category: 'trading',
+    description: 'Card de notícia financeira — exibe título, fonte, tempo e indicador de sentimento (alta/baixa/neutro). Usado em feeds de notícias dentro do contexto de trading.',
+    implemented: true,
+    props: [
+      { name: 'sentiment', type: 'enum', values: ['up', 'down', 'neutral'] },
+      { name: 'title', type: 'string', values: [] },
+      { name: 'source', type: 'string', values: [] },
+      { name: 'time', type: 'string', values: [] },
+      { name: 'href', type: 'string', values: [] },
+    ],
+    dimensions: [
+      { label: 'Default', width: '100%', height: '74px' },
+      { label: 'Dot indicador', width: '4px', height: '4px' },
+      { label: 'Botão de ação', width: '20px', height: '20px' },
+    ],
+    tokens: [
+      { property: 'Border bottom', token: 'border.subtle', value: '#222222' },
+      { property: 'Dot — alta', token: 'context.trading.up', value: '#4FE290' },
+      { property: 'Dot — baixa', token: 'context.trading.down', value: '#F34F45' },
+      { property: 'Dot — neutro', token: 'content.tertiary', value: '#A4A4A4' },
+      { property: 'Título', token: 'content.primary', value: '#FFFFFF' },
+      { property: 'Fonte / Tempo', token: 'content.tertiary', value: '#A4A4A4' },
+      { property: 'Separador •', token: 'content.disabled', value: '#4A4A4A' },
+      { property: 'Hover BG', token: 'surface.secondary', value: '#222222' },
+      { property: 'Padding', token: 'spacing.sm + spacing.lg', value: '8px 16px' },
+      { property: 'Gap inner', token: 'spacing.sm', value: '8px' },
+      { property: 'Radius botão', token: 'radius.sm', value: '4px' },
+    ],
+    anatomy: `Container (border-bottom subtle, padding 8px 16px):\n  [Dot 4×4px] [Content flex-1 gap-8px] [Action 20×20px]\n  Content:\n    [Title — Inter 14/400/1.2 content-primary]\n    [Meta row gap-8px h-16px]\n      [Source 14/400] [• 12px disabled] [Time 14/400]`,
+    notes: 'O dot indicador sobe (up) ou desce (down) conforme sentimento da notícia. Hover aplica surface.secondary. Quando href é passado, o container se torna um <a> com target _blank.',
+    code: {
+      html: `<!-- News Card — Design System TRDR (Figma: 66:2373) -->
+<!-- sentiment: adicionar .trdr-news-card-dot-up | -down | -neutral -->
+<div class="trdr-news-card">
+  <div class="trdr-news-card-inner">
+    <div class="trdr-news-card-dot trdr-news-card-dot-up"></div>
+    <div class="trdr-news-card-content">
+      <p class="trdr-news-card-title">Bitcoin ETF sees record inflows as institutional interest grows</p>
+      <div class="trdr-news-card-meta">
+        <span class="trdr-news-card-source">CoinDesk</span>
+        <span class="trdr-news-card-sep">•</span>
+        <span class="trdr-news-card-time">2h ago</span>
+      </div>
+    </div>
+    <button class="trdr-news-card-action" aria-label="Abrir notícia">
+      <span class="material-symbols-outlined" style="font-size:12px;line-height:12px">open_in_new</span>
+    </button>
+  </div>
+</div>`,
+      css: `/* News Card — Design System TRDR (Figma node: 66:2373, 313×74) */
+.trdr-news-card {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 16px;        /* --spacing-sm --spacing-lg */
+  border-bottom: 1px solid var(--border-subtle);  /* #222222 */
+  width: 100%;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.trdr-news-card:hover {
+  background-color: var(--surface-secondary);     /* #222222 */
+}
+
+.trdr-news-card-inner {
+  display: flex;
+  gap: 8px;                 /* --spacing-sm */
+  align-items: flex-start;
+  width: 100%;
+}
+
+.trdr-news-card-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 9999px;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+.trdr-news-card-dot-up     { background-color: var(--context-trading-up);   }  /* #4FE290 */
+.trdr-news-card-dot-down   { background-color: var(--context-trading-down); }  /* #F34F45 */
+.trdr-news-card-dot-neutral{ background-color: var(--content-tertiary);     }  /* #A4A4A4 */
+
+.trdr-news-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.trdr-news-card-title {
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--content-primary);                  /* #FFFFFF */
+  width: 100%;
+}
+
+.trdr-news-card-meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  height: 16px;
+  white-space: nowrap;
+}
+
+.trdr-news-card-source,
+.trdr-news-card-time {
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--content-tertiary);                 /* #A4A4A4 */
+}
+
+.trdr-news-card-sep {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--content-disabled);                 /* #4A4A4A */
+}
+
+.trdr-news-card-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: var(--radius-sm);                /* 4px */
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--content-tertiary);
+  transition: background-color 0.15s ease;
+}
+
+.trdr-news-card-action:hover {
+  background-color: var(--surface-secondary);
+}`,
+      react: `import NewsCard from '@/components/ui/NewsCard'
+
+// Notícia de alta (dot verde)
+<NewsCard
+  sentiment="up"
+  title="Bitcoin ETF sees record inflows as institutional interest grows"
+  source="CoinDesk"
+  time="2h ago"
+  href="https://coindesk.com/article/..."
+/>
+
+// Notícia de baixa (dot vermelho)
+<NewsCard
+  sentiment="down"
+  title="Petrobras shares fall on dividend cut concerns"
+  source="Valor Econômico"
+  time="45m ago"
+/>
+
+// Neutro com callback no botão de ação
+<NewsCard
+  sentiment="neutral"
+  title="Banco Central mantém Selic em 10,5% ao ano"
+  source="Folha"
+  time="1h ago"
+  onShare={() => console.log('share clicked')}
+/>`,
+      prompt: `Implemente o componente NewsCard do Design System TRDR — card de notícia financeira, pixel-perfect com o Figma 66:2373.
+
+DIMENSÕES (fixas): width 100%, border-bottom 1px solid var(--border-subtle) (#222222), padding 8px 16px, cursor pointer. Hover: background-color var(--surface-secondary) (#222222).
+
+LAYOUT INTERNO (flex-row, gap 8px, align-items flex-start):
+1. DOT INDICADOR (4×4px, border-radius 9999px, flex-shrink 0, margin-top 6px):
+   - sentiment="up"      → background var(--context-trading-up) #4FE290
+   - sentiment="down"    → background var(--context-trading-down) #F34F45
+   - sentiment="neutral" → background var(--content-tertiary) #A4A4A4
+
+2. CONTENT (flex: 1, flex-col, gap 8px, min-width 0):
+   - Título: font-family var(--font-secondary), 14px/400/1.2, color var(--content-primary) #FFFFFF, width 100%
+   - Meta row (flex-row, gap 8px, height 16px, white-space nowrap, align-items center):
+     • Fonte: 14px/400/1.2 var(--content-tertiary) #A4A4A4
+     • Separador "•": 12px/16px var(--content-disabled) #4A4A4A
+     • Tempo: 14px/400/1.2 var(--content-tertiary) #A4A4A4
+
+3. BOTÃO DE AÇÃO (20×20px, border-radius var(--radius-sm) 4px, padding 4px, flex-shrink 0):
+   - background transparent, border none, color var(--content-tertiary)
+   - Hover: background var(--surface-secondary)
+   - Ícone: Material Symbols "open_in_new" 12px
+
+API React: props { title: string; source: string; time: string; sentiment?: 'up' | 'down' | 'neutral'; href?: string; onShare?: () => void }
+Quando href é passado, renderizar como <a target="_blank" rel="noreferrer">, senão como <div>.
+
+Use APENAS tokens semânticos do TRDR. NUNCA hex direto. NUNCA --scale-spacing-* ou --scale-radius-*.`,
+    },
+  },
 ]
 
 export function getComponentBySlug(slug: string): DesignComponent | undefined {

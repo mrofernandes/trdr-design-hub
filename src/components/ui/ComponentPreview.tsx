@@ -14,6 +14,7 @@ import Janela from './Janela'
 import FloatingMenu from './FloatingMenu'
 import TabelaCotacoes from './TabelaCotacoes'
 import TabelaOrdens from './TabelaOrdens'
+import NewsCard from './NewsCard'
 
 interface Props {
   slug: string
@@ -309,6 +310,45 @@ function renderPreview(slug: string) {
         <div className={styles.previewInner}>
           <PreviewLabel>Tabela de Ordens</PreviewLabel>
           <TabelaOrdens />
+        </div>
+      )
+
+    case 'news-card':
+      return (
+        <div className={styles.previewInner}>
+          <PreviewLabel>Alta (dot verde)</PreviewLabel>
+          <div style={{ width: 320, background: 'var(--bg-secondary)', borderRadius: 4, overflow: 'hidden' }}>
+            <NewsCard
+              sentiment="up"
+              title="Bitcoin ETF sees record inflows as institutional interest grows"
+              source="CoinDesk"
+              time="2h ago"
+            />
+          </div>
+          <PreviewLabel>Baixa (dot vermelho)</PreviewLabel>
+          <div style={{ width: 320, background: 'var(--bg-secondary)', borderRadius: 4, overflow: 'hidden' }}>
+            <NewsCard
+              sentiment="down"
+              title="Petrobras shares fall on dividend cut concerns after Q3 earnings"
+              source="Valor Econômico"
+              time="45m ago"
+            />
+          </div>
+          <PreviewLabel>Neutro (dot cinza)</PreviewLabel>
+          <div style={{ width: 320, background: 'var(--bg-secondary)', borderRadius: 4, overflow: 'hidden' }}>
+            <NewsCard
+              sentiment="neutral"
+              title="Banco Central mantém Selic em 10,5% ao ano em decisão unânime"
+              source="Folha de S.Paulo"
+              time="1h ago"
+            />
+          </div>
+          <PreviewLabel>Lista de notícias</PreviewLabel>
+          <div style={{ width: 320, background: 'var(--bg-secondary)', borderRadius: 4, overflow: 'hidden' }}>
+            <NewsCard sentiment="up" title="Bitcoin ETF sees record inflows" source="CoinDesk" time="2h ago" />
+            <NewsCard sentiment="down" title="Petrobras shares fall on dividend cut" source="Valor Econômico" time="45m ago" />
+            <NewsCard sentiment="neutral" title="Banco Central mantém Selic em 10,5%" source="Folha" time="1h ago" />
+          </div>
         </div>
       )
 

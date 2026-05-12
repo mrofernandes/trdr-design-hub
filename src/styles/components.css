@@ -1250,3 +1250,108 @@
   color: var(--context-trading-short-text);
   font-weight: 600;
 }
+
+/* ==========================================================================
+   NEWS CARD — Figma node: 66:2373, 313×74
+   ========================================================================== */
+.trdr-news-card {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  width: 100%;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.trdr-news-card:hover {
+  background-color: var(--surface-secondary);
+}
+
+.trdr-news-card-inner {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.trdr-news-card-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 9999px;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+.trdr-news-card-dot-up {
+  background-color: var(--context-trading-up);
+}
+
+.trdr-news-card-dot-down {
+  background-color: var(--context-trading-down);
+}
+
+.trdr-news-card-dot-neutral {
+  background-color: var(--content-tertiary);
+}
+
+.trdr-news-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.trdr-news-card-title {
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--content-primary);
+  width: 100%;
+}
+
+.trdr-news-card-meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  height: 16px;
+  white-space: nowrap;
+}
+
+.trdr-news-card-source,
+.trdr-news-card-time {
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--content-tertiary);
+}
+
+.trdr-news-card-sep {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--content-disabled);
+}
+
+.trdr-news-card-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--content-tertiary);
+  transition: background-color 0.15s ease;
+}
+
+.trdr-news-card-action:hover {
+  background-color: var(--surface-secondary);
+}
