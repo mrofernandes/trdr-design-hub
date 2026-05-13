@@ -7,7 +7,7 @@ const phaseOneSteps = [
   {
     n: '1',
     label: 'Detectar framework',
-    desc: 'Lê package.json e identifica Next.js, React, Vue, TypeScript e a abordagem de estilos (CSS Modules, Tailwind, plain CSS...).',
+    desc: 'Lê package.json e identifica Next.js, React, Vue, TypeScript e a abordagem de estilos (CSS Modules, Tailwind, plain CSS). Detecta stylingMode duplo — quando Tailwind e styled-components coexistem, ativa scan especial de template literals além dos arquivos CSS.',
   },
   {
     n: '2',
@@ -17,7 +17,7 @@ const phaseOneSteps = [
   {
     n: '3',
     label: 'Encontrar violações e auditar logo',
-    desc: 'Busca cores hardcoded (#hex), font-family direto, px de espaçamento fixo e tokens primitivos. Também varre logo*.svg / *trdr*.svg / brand*.svg e verifica o fingerprint do logo oficial (viewBox 105×41, #00D4FF) — logos errados entram na fila de substituição.',
+    desc: 'Busca 11 categorias: cores hardcoded A/A* (incluindo SVG attrs e Tailwind arbitrary bg-[#hex]), font-family B, spacing px C, primitivos via var() D (uso e definição em :root), rgba F, gradientes G (inclusive com rgba stops), font-size H, inline styles I, atribuições DOM imperativas I.2 (element.style.prop = valor), SVGs inline J/J.medium, e logo incorreta K. Verifica fingerprint do logo oficial (viewBox 105×41, fill #00D4FF).',
   },
   {
     n: '4',
@@ -27,7 +27,7 @@ const phaseOneSteps = [
   {
     n: '5',
     label: 'Apresentar o plano e aguardar',
-    desc: 'Exibe score de conformidade, arquivos a criar, logos a corrigir, violações por categoria e — em projetos grandes (>50 violações) — a estimativa de lotes. Nenhum arquivo é alterado antes da sua resposta.',
+    desc: 'Exibe score de conformidade, arquivos a criar, logos a corrigir, violações por categoria e estimativa de lotes (todos os projetos usam 4 sub-fases com checkpoint). Nenhum arquivo é alterado antes da sua resposta.',
   },
 ]
 
@@ -39,12 +39,12 @@ const phaseTwoFiles = [
   { file: 'logo-trdr.svg', desc: 'Logos errados encontrados na Fase 1 são substituídos no lugar pelo logo oficial (105×41px). Se não houver logo e public/ existir, o arquivo é copiado para public/logo-trdr.svg.' },
   { file: 'MISSING_COMPONENTS.md', desc: 'Apenas se algum stub for encontrado no projeto — registra slug, figmaId e tokens recomendados.' },
   { file: 'DS_MIGRATION.md', desc: 'Log completo da migração + checklist de passos manuais (fontes, dark mode, trading UI, stubs).' },
-  { file: 'DS_PROGRESS.md', desc: 'Apenas em projetos grandes — checkpoint por lote com status PENDING / IN_PROGRESS / COMPLETED. Permite retomar a migração com /trdr-ds resume após interrupções.' },
+  { file: 'DS_PROGRESS.md', desc: 'Checkpoint de execução em todos os projetos — registra sub-fases A/B/C/D e lotes de violações com status PENDING / IN_PROGRESS / COMPLETED. Permite retomar com /trdr-ds resume após interrupções.' },
 ]
 
 const responseCommands = [
   { cmd: '"Apply" ou "Executar"', desc: 'Executa tudo que está no plano sem exceções.' },
-  { cmd: '"Apply, batch 15"', desc: 'Executa em lotes de 15 arquivos por vez — recomendado para projetos grandes.' },
+  { cmd: '"Apply, batch 15"', desc: 'Executa com lotes de 15 arquivos por vez na sub-fase Violations (padrão é 5 arquivos). Útil para reduzir o número de interrupções.' },
   { cmd: '"Sync first"', desc: 'Atualiza o snapshot do catálogo a partir do Hub antes de aplicar — útil quando você sabe que há componentes novos.' },
   { cmd: '"Only tokens"', desc: 'Cria apenas tokens.css, components.css e CLAUDE.md — sem corrigir violações existentes.' },
   { cmd: '"Apply, skip src/vendor"', desc: 'Executa mas pula um caminho ou arquivo específico da lista de violações.' },
@@ -93,8 +93,8 @@ export default function ParaIAPage() {
               <span className="material-symbols-outlined">auto_fix_high</span>
             </div>
             <div>
-              <div className={iaStyles.skillTitle}>/trdr-ds — TRDR Design System Installer</div>
-              <div className={iaStyles.skillSubtitle}>Analisa o projeto → gera plano → aguarda aprovação → executa implementação completa</div>
+              <div className={iaStyles.skillTitle}>/trdr-ds — TRDR Design System Installer <span className={iaStyles.commandBadge} style={{ marginLeft: 8, fontSize: 11 }}>v1.6.5</span></div>
+              <div className={iaStyles.skillSubtitle}>Analisa o projeto → gera plano → aguarda aprovação → executa em 4 sub-fases com checkpoint</div>
             </div>
           </div>
 
@@ -108,8 +108,8 @@ export default function ParaIAPage() {
               <span className={iaStyles.skillStepDesc}>Apresenta plano completo com score de conformidade. Nenhum arquivo é alterado antes da sua resposta</span>
             </div>
             <div className={iaStyles.skillStep}>
-              <span className={iaStyles.skillStepLabel}>3 — Execução</span>
-              <span className={iaStyles.skillStepDesc}>Cria tokens.css, components.css, CLAUDE.md, corrige violações e gera DS_MIGRATION.md com checklist</span>
+              <span className={iaStyles.skillStepLabel}>3 — Execução em 4 sub-fases</span>
+              <span className={iaStyles.skillStepDesc}>Foundation (tokens.css, components.css, CLAUDE.md) → Violations (lotes de violações) → Components (classes DS) → Final (logos + DS_MIGRATION.md). Checkpoint salvo após cada sub-fase — retomável a qualquer momento</span>
             </div>
           </div>
         </div>
@@ -158,7 +158,7 @@ export default function ParaIAPage() {
           <div className={iaStyles.fileList}>
             <div className={iaStyles.fileItem}>
               <code className={iaStyles.fileName}>/components.json</code>
-              <span className={iaStyles.fileDesc}>Catálogo completo em JSON: 14 componentes implementados (com 4 code blocks) e stubs do restante. <a href="/components.json" style={{ color: 'var(--content-brand)' }}>Abrir endpoint →</a></span>
+              <span className={iaStyles.fileDesc}>Catálogo completo em JSON: 18 componentes implementados (com 4 code blocks cada). <a href="/components.json" style={{ color: 'var(--content-brand)' }}>Abrir endpoint →</a></span>
             </div>
             <div className={iaStyles.fileItem}>
               <code className={iaStyles.fileName}>/tokens.css</code>
@@ -173,20 +173,20 @@ export default function ParaIAPage() {
 
         {/* Large projects */}
         <div className={iaStyles.subSection}>
-          <h3 className={iaStyles.subSectionTitle}>Projetos grandes — execução por lotes</h3>
-          <p className={iaStyles.sectionDesc}>Quando o projeto tem mais de 50 violações ou 30 arquivos afetados, a Fase 2 entra automaticamente em modo batched: processa as violações pasta por pasta, salva progresso em <code style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--content-brand)' }}>DS_PROGRESS.md</code> e pausa entre lotes para você decidir o que fazer.</p>
+          <h3 className={iaStyles.subSectionTitle}>Checkpoints e lotes — todos os projetos</h3>
+          <p className={iaStyles.sectionDesc}>Todos os projetos — independente do tamanho — executam em 4 sub-fases com checkpoint: Foundation → Violations → Components → Final. Isso previne sobrecarga de contexto e alucinações. A sub-fase Violations processa <strong>5 arquivos por lote</strong> (padrão), salva progresso em <code style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--content-brand)' }}>DS_PROGRESS.md</code> e pausa entre lotes para você decidir.</p>
           <div className={iaStyles.fileList}>
             <div className={iaStyles.fileItem}>
               <code className={iaStyles.fileName}>/trdr-ds resume</code>
-              <span className={iaStyles.fileDesc}>Retoma de onde parou — lê DS_PROGRESS.md e continua a partir do último lote incompleto. Funciona mesmo em sessões diferentes.</span>
+              <span className={iaStyles.fileDesc}>Retoma de onde parou — lê DS_PROGRESS.md e continua a partir do último checkpoint (sub-fase ou lote). Funciona mesmo em sessões diferentes.</span>
             </div>
             <div className={iaStyles.fileItem}>
               <code className={iaStyles.fileName}>/trdr-ds status</code>
-              <span className={iaStyles.fileDesc}>Mostra tabela de progresso (lotes concluídos, violações corrigidas, pendências) sem modificar nenhum arquivo.</span>
+              <span className={iaStyles.fileDesc}>Mostra tabela de progresso (sub-fases A/B/C/D, lotes concluídos, violações corrigidas, pendências) sem modificar nenhum arquivo.</span>
             </div>
             <div className={iaStyles.fileItem}>
               <code className={iaStyles.fileName}>/trdr-ds batch N</code>
-              <span className={iaStyles.fileDesc}>Define o tamanho de cada lote (padrão: 25 arquivos). Útil para ajustar ao ritmo que você prefere revisar.</span>
+              <span className={iaStyles.fileDesc}>Define o tamanho de cada lote de violações (padrão: 5 arquivos). Use batch 10 ou batch 20 para projetos onde prefere menos interrupções.</span>
             </div>
           </div>
           <p className={iaStyles.sectionDesc} style={{ marginTop: 'var(--spacing-lg)' }}>Entre um lote e outro, responda com:</p>
@@ -203,7 +203,7 @@ export default function ParaIAPage() {
         {/* Stub fallback */}
         <div className={iaStyles.subSection}>
           <h3 className={iaStyles.subSectionTitle}>Componentes &quot;stub&quot; — fallback inteligente</h3>
-          <p className={iaStyles.sectionDesc}>O TRDR DS tem 60+ componentes. Os 14 com 4 code blocks completos são aplicados direto. Os demais entram no catálogo como stubs (implemented: false) — a skill não inventa código, mas aplica os tokens recomendados, comenta no fonte com figmaId e link para o Hub, e registra em MISSING_COMPONENTS.md no projeto. Promover um stub a implementado é o caminho gradual para crescer o DS.</p>
+          <p className={iaStyles.sectionDesc}>O TRDR DS tem 82+ componentes no Figma. Os 18 com 4 code blocks completos no catálogo (HTML, CSS, React e prompt) são aplicados direto durante a sub-fase C. Os demais entram como stubs (implemented: false) — a skill não inventa código, mas aplica os tokens recomendados, comenta no fonte com figmaId e link para o Hub, e registra em MISSING_COMPONENTS.md no projeto.</p>
         </div>
 
         {/* Phase 1 */}
@@ -212,7 +212,7 @@ export default function ParaIAPage() {
             <span className={iaStyles.phaseBadge}>Fase 1</span>
             <h3 className={iaStyles.subSectionTitle}>Análise — roda automaticamente</h3>
           </div>
-          <p className={iaStyles.sectionDesc}>A skill examina o projeto em 5 etapas e apresenta um plano estruturado. Nenhum arquivo é modificado até a sua aprovação.</p>
+          <p className={iaStyles.sectionDesc}>A skill examina o projeto em 5 etapas, salva o resultado em <code style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--content-brand)' }}>DS_ANALYSIS.md</code> e apresenta um plano estruturado. Nenhum arquivo do projeto é modificado até a sua aprovação.</p>
           <div className={iaStyles.phaseStepList}>
             {phaseOneSteps.map(s => (
               <div key={s.n} className={iaStyles.phaseStepItem}>
@@ -246,7 +246,7 @@ export default function ParaIAPage() {
             <span className={iaStyles.phaseBadge2}>Fase 2</span>
             <h3 className={iaStyles.subSectionTitle}>Execução — o que é criado</h3>
           </div>
-          <p className={iaStyles.sectionDesc}>Após aprovação, a skill cria e modifica os seguintes arquivos no projeto:</p>
+          <p className={iaStyles.sectionDesc}>Após aprovação, a skill executa 4 sub-fases com checkpoint: <strong>A — Foundation</strong> (cria os arquivos base), <strong>B — Violations</strong> (corrige lotes de violações), <strong>C — Components</strong> (aplica classes DS nos elementos) e <strong>D — Final</strong> (logos + DS_MIGRATION.md). Os arquivos gerados são:</p>
           <div className={iaStyles.fileList}>
             {phaseTwoFiles.map(f => (
               <div key={f.file} className={iaStyles.fileItem}>
@@ -278,8 +278,8 @@ export default function ParaIAPage() {
               <pre className={iaStyles.exampleCode}>{`# Funciona sem digitar /trdr-ds:\naplicar design system TRDR neste projeto`}</pre>
             </div>
             <div className={iaStyles.example}>
-              <span className={iaStyles.exampleLabel}>Projeto grande — lotes de 20 arquivos</span>
-              <pre className={iaStyles.exampleCode}>{`/trdr-ds\n\n# Após o plano (skill detecta >50 violações):\nApply, batch 20\n\n# Após cada lote:\ncontinuar\n\n# Ou processar tudo de uma vez:\ntudo`}</pre>
+              <span className={iaStyles.exampleLabel}>Controlar o tamanho dos lotes de violações</span>
+              <pre className={iaStyles.exampleCode}>{`/trdr-ds\n\n# Após o plano, definir lotes maiores (padrão: 5 arquivos):\nApply, batch 20\n\n# Entre lotes da sub-fase Violations:\ncontinuar\n\n# Ou processar todos os lotes de uma vez:\ntudo`}</pre>
             </div>
             <div className={iaStyles.example}>
               <span className={iaStyles.exampleLabel}>Retomar migração pausada</span>
