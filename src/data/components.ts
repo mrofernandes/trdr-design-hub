@@ -3536,9 +3536,9 @@ Use APENAS tokens semânticos do TRDR. NUNCA hex direto. NUNCA --scale-spacing-*
 <!-- Adicionar .trdr-header-nav-item-active no item ativo -->
 <header class="trdr-header">
   <div class="trdr-header-left">
-    <!-- Logo -->
+    <!-- Logo — SVG inline do logo TRDR 45° -->
     <div class="trdr-header-logo">
-      <img src="/logo-trdr.svg" alt="TRDR" width="107" height="40" />
+      <svg width="107" height="42" viewBox="0 0 107 42" fill="none" aria-label="TRDR"><!-- logo-trdr-45graus.svg inline --></svg>
     </div>
     <div class="trdr-header-divider"></div>
 
@@ -3579,13 +3579,16 @@ Use APENAS tokens semânticos do TRDR. NUNCA hex direto. NUNCA --scale-spacing-*
       5/6 Conexões
     </button>
 
-    <!-- Controles de janela -->
+    <!-- Controles de janela — SVGs customizados 18×18 -->
     <div class="trdr-header-wincontrols">
       <button class="trdr-header-win-btn" aria-label="Minimizar" type="button">
-        <span class="material-symbols-outlined" style="font-size:16px">remove</span>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M14.25 9.75H3.75V8.25H14.25V9.75Z" fill="currentColor"/></svg>
+      </button>
+      <button class="trdr-header-win-btn" aria-label="Restaurar" type="button">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M13.7813 3.9375C14.1542 3.9375 14.5119 4.08566 14.7756 4.34938C15.0393 4.6131 15.1875 4.97079 15.1875 5.34375V12.375H13.7813V5.34375H6.75V3.9375H13.7813ZM5.34375 8.15625V13.7813H10.9688V8.15625H5.34375ZM5.34375 6.75H10.9688C11.3417 6.75 11.6994 6.89816 11.9631 7.16188C12.2268 7.42561 12.375 7.78329 12.375 8.15625V13.7813C12.375 14.1542 12.2268 14.5119 11.9631 14.7756C11.6994 15.0393 11.3417 15.1875 10.9688 15.1875H5.34375C4.97079 15.1875 4.6131 15.0393 4.34938 14.7756C4.08566 14.5119 3.9375 14.1542 3.9375 13.7813V8.15625C3.9375 7.78329 4.08566 7.42561 4.34938 7.16188C4.6131 6.89816 4.97079 6.75 5.34375 6.75Z" fill="currentColor"/></svg>
       </button>
       <button class="trdr-header-win-btn trdr-header-win-btn-close" aria-label="Fechar" type="button">
-        <span class="material-symbols-outlined" style="font-size:16px">close</span>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M14.0171 3.9909C13.7065 3.68032 13.2048 3.68032 12.8942 3.9909L9 7.87713L5.1058 3.98294C4.79522 3.67235 4.29352 3.67235 3.98294 3.98294C3.67235 4.29352 3.67235 4.79522 3.98294 5.1058L7.87713 9L3.98294 12.8942C3.67235 13.2048 3.67235 13.7065 3.98294 14.0171C4.29352 14.3276 4.79522 14.3276 5.1058 14.0171L9 10.1229L12.8942 14.0171C13.2048 14.3276 13.7065 14.3276 14.0171 14.0171C14.3276 13.7065 14.3276 13.2048 14.0171 12.8942L10.1229 9L14.0171 5.1058C14.3197 4.80319 14.3197 4.29352 14.0171 3.9909Z" fill="currentColor"/></svg>
       </button>
     </div>
   </div>
@@ -3784,7 +3787,7 @@ ESTRUTURA GERAL (flex row, space-between, height 56px, padding 0 16px):
 - border-bottom: 1px solid var(--border-subtle) #222222
 
 LADO ESQUERDO (flex row, gap 8px, align-items center):
-1. LOGO: img logo-trdr.svg, width 107px, height 40px
+1. LOGO: SVG inline (logo-trdr-45graus.svg), width 107px, height 42px
 2. DIVIDER: 1×18px, background var(--border-subtle), margin 0 8px
 3. NAV (flex row, gap 4px):
    Cada item: height 40px, padding 0 8px, border-radius var(--radius-sm), font var(--font-secondary) 14px/400
@@ -3804,7 +3807,7 @@ LADO DIREITO (flex row, gap 8px):
    - Badge: 14×14px, border-radius full, bg action.brand.default #00D4FF, text content.inverse #1A1A1A, font 9px/600, position absolute top-0 right-0
 2. CONEXÕES BTN (137×32px): border 1px solid border.subtle, font-secondary 13px, gap 6px, "5/6 Conexões"
    - Status dot: 6×6px, border-radius full, connected = context.trading.up, disconnected = context.trading.down
-3. WIN CONTROLS (3× 40×40px): Minimizar, Recolher, Fechar
+3. WIN CONTROLS (3× 40×40px): Minimizar, Restaurar, Fechar — SVGs customizados 18×18 (não Material Symbols)
    - Fechar: hover bg context.trading.down #F34F45
 
 REUTILIZAÇÃO: TextInput para campo de busca, FloatingMenu para dropdowns dos itens de nav.
