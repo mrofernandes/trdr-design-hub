@@ -197,16 +197,23 @@
   white-space: nowrap;
 }
 
+.trdr-badge-lg {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
 .trdr-badge-brand {
   background-color: var(--surface-brand);
   color: var(--content-brand);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--content-brand);
 }
 
 .trdr-badge-success {
   background-color: var(--surface-success);
   color: var(--content-success);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--content-success);
 }
 
 .trdr-badge-neutral {
@@ -218,6 +225,23 @@
 .trdr-badge-warning {
   background-color: var(--surface-warning);
   color: var(--content-warning);
+  border: 1px solid var(--content-warning);
+}
+
+.trdr-badge-archived {
+  background-color: var(--surface-tertiary);
+  color: var(--content-disabled);
+  border: 1px solid var(--border-disabled);
+}
+
+.trdr-badge-dot::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background-color: currentColor;
+  margin-left: 1px;
 }
 
 /* ==========================================================================

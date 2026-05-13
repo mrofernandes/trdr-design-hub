@@ -16,6 +16,7 @@ import TabelaCotacoes from './TabelaCotacoes'
 import TabelaOrdens from './TabelaOrdens'
 import NewsCard from './NewsCard'
 import Header from './Header'
+import Badge from './Badge'
 
 interface Props {
   slug: string
@@ -357,6 +358,28 @@ function renderPreview(slug: string) {
       return (
         <div className={styles.headerWrap}>
           <Header activeNav="Gráfico" />
+        </div>
+      )
+
+    case 'badge':
+      return (
+        <div className={styles.previewInner}>
+          <PreviewLabel>Default (12px)</PreviewLabel>
+          <div className={styles.row}>
+            <Badge variant="neutral">Badge</Badge>
+            <Badge variant="brand" dot>Active</Badge>
+            <Badge variant="success" dot>Merged</Badge>
+            <Badge variant="warning">Atenção</Badge>
+            <Badge variant="archived" dot>Archived</Badge>
+          </div>
+          <PreviewLabel>Large (14px)</PreviewLabel>
+          <div className={styles.row}>
+            <Badge variant="neutral" size="lg">Badge</Badge>
+            <Badge variant="brand" size="lg" dot>Active</Badge>
+            <Badge variant="success" size="lg" dot>Merged</Badge>
+            <Badge variant="warning" size="lg">Atenção</Badge>
+            <Badge variant="archived" size="lg" dot>Archived</Badge>
+          </div>
         </div>
       )
 

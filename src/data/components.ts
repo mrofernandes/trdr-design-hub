@@ -3811,6 +3811,180 @@ REUTILIZAÇÃO: TextInput para campo de busca, FloatingMenu para dropdowns dos i
 NUNCA usar hex direto. NUNCA usar --scale-spacing-* ou --scale-radius-*.`,
     },
   },
+  {
+    slug: 'badge',
+    name: 'Badge',
+    figmaId: '2316:8953',
+    category: 'outros',
+    description: 'Badge de status com dot opcional. 5 variantes (Neutral, Brand, Success, Warning, Archived) e 2 tamanhos (default 12px, large 14px). Height fixo 16px, border-radius 5px.',
+    props: [
+      { name: 'Variant', type: 'enum', values: ['Neutral', 'Brand', 'Success', 'Warning', 'Archived'] },
+      { name: 'Size', type: 'enum', values: ['Default', 'Large'] },
+      { name: 'Dot', type: 'boolean', values: ['true', 'false'] },
+    ],
+    dimensions: [
+      { label: 'Default', width: 'auto (hug)', height: '16px' },
+      { label: 'Dot icon', width: '6px', height: '6px' },
+    ],
+    tokens: [
+      { property: 'BG Neutral', token: 'surface-secondary', value: '#222222' },
+      { property: 'BG Brand', token: 'surface-brand', value: '#00D4FF29' },
+      { property: 'BG Success', token: 'surface-success', value: '#4FE29014' },
+      { property: 'BG Warning', token: 'surface-warning', value: '#FFCC4014' },
+      { property: 'BG Archived', token: 'surface-tertiary', value: '#1A1A1A' },
+      { property: 'Text Neutral', token: 'content-tertiary', value: '#A4A4A4' },
+      { property: 'Text Brand', token: 'content-brand', value: '#00D4FF' },
+      { property: 'Text Success', token: 'content-success', value: '#4FE290' },
+      { property: 'Text Warning', token: 'content-warning', value: '#FFD35A' },
+      { property: 'Text Archived', token: 'content-disabled', value: '#4A4A4A' },
+      { property: 'Border Neutral', token: 'border-subtle', value: '#222222' },
+      { property: 'Border Brand', token: 'content-brand', value: '#00D4FF' },
+      { property: 'Border Success', token: 'content-success', value: '#4FE290' },
+      { property: 'Border Warning', token: 'content-warning', value: '#FFD35A' },
+      { property: 'Border Archived', token: 'border-disabled', value: '#777777' },
+    ],
+    anatomy: `[span.trdr-badge .trdr-badge-{variant} .trdr-badge-lg? .trdr-badge-dot?]
+  └── [::before dot 6×6px border-radius full, cor = currentColor] (se .trdr-badge-dot)
+  └── [texto label]
+
+Container: inline-flex, align-items center, height 16px, padding 0 4px, border-radius 5px, border 1px solid
+Default: Inter 12px/500, letter-spacing 0.2px
+Large: Inter 14px/400, letter-spacing 0, line-height 1.2`,
+    implemented: true,
+    code: {
+      html: `<!-- Neutral (default) -->
+<span class="trdr-badge trdr-badge-neutral">Badge</span>
+
+<!-- Brand com dot -->
+<span class="trdr-badge trdr-badge-brand trdr-badge-dot">Active</span>
+
+<!-- Success com dot -->
+<span class="trdr-badge trdr-badge-success trdr-badge-dot">Merged</span>
+
+<!-- Warning -->
+<span class="trdr-badge trdr-badge-warning">Atenção</span>
+
+<!-- Archived com dot -->
+<span class="trdr-badge trdr-badge-archived trdr-badge-dot">Archived</span>
+
+<!-- Large -->
+<span class="trdr-badge trdr-badge-brand trdr-badge-lg trdr-badge-dot">Active</span>
+<span class="trdr-badge trdr-badge-success trdr-badge-lg trdr-badge-dot">Merged</span>
+<span class="trdr-badge trdr-badge-neutral trdr-badge-lg">Badge</span>`,
+      css: `.trdr-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 5px;                         /* fixo, não token */
+  font-family: var(--font-secondary);          /* Inter */
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Tamanho Large (Figma "Badge large") */
+.trdr-badge-lg {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
+/* --- Variantes --- */
+.trdr-badge-neutral {
+  background-color: var(--surface-secondary);  /* #222222 */
+  color: var(--content-tertiary);              /* #A4A4A4 */
+  border: 1px solid var(--border-subtle);      /* #222222 */
+}
+
+.trdr-badge-brand {
+  background-color: var(--surface-brand);      /* #00D4FF29 */
+  color: var(--content-brand);                 /* #00D4FF */
+  border: 1px solid var(--content-brand);      /* #00D4FF */
+}
+
+.trdr-badge-success {
+  background-color: var(--surface-success);    /* #4FE29014 */
+  color: var(--content-success);               /* #4FE290 */
+  border: 1px solid var(--content-success);    /* #4FE290 */
+}
+
+.trdr-badge-warning {
+  background-color: var(--surface-warning);    /* #FFCC4014 */
+  color: var(--content-warning);               /* #FFD35A */
+  border: 1px solid var(--content-warning);    /* #FFD35A */
+}
+
+.trdr-badge-archived {
+  background-color: var(--surface-tertiary);   /* #1A1A1A */
+  color: var(--content-disabled);              /* #4A4A4A */
+  border: 1px solid var(--border-disabled);    /* #777777 */
+}
+
+/* Dot indicator (pseudo-element) */
+.trdr-badge-dot::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);           /* 9999px */
+  background-color: currentColor;
+  margin-left: 1px;
+}`,
+      react: `import Badge from '@/components/ui/Badge'
+
+export default function Example() {
+  return (
+    <>
+      {/* Variantes default (12px) */}
+      <Badge variant="neutral">Badge</Badge>
+      <Badge variant="brand" dot>Active</Badge>
+      <Badge variant="success" dot>Merged</Badge>
+      <Badge variant="warning">Atenção</Badge>
+      <Badge variant="archived" dot>Archived</Badge>
+
+      {/* Variantes large (14px) — match do Figma "Badge large" */}
+      <Badge variant="brand" size="lg" dot>Active</Badge>
+      <Badge variant="success" size="lg" dot>Merged</Badge>
+      <Badge variant="neutral" size="lg">Badge</Badge>
+      <Badge variant="archived" size="lg" dot>Archived</Badge>
+    </>
+  )
+}`,
+      prompt: `Implemente o componente Badge do Design System TRDR.
+
+ESPECIFICAÇÕES PIXEL-PERFECT:
+- Height: 16px fixo
+- Padding: 0 4px
+- Border-radius: 5px (fixo, não token)
+- Border: 1px solid (cor varia por variante)
+- Font default: Inter 12px/500, letter-spacing 0.2px
+- Font large: Inter 14px/400, letter-spacing 0, line-height 1.2
+- Dot: 6×6px, border-radius full, cor = currentColor, margin-left 1px
+
+VARIANTES E TOKENS OBRIGATÓRIOS:
+- Neutral: bg --surface-secondary (#222222), text --content-tertiary (#A4A4A4), border --border-subtle (#222222)
+- Brand: bg --surface-brand (#00D4FF29), text --content-brand (#00D4FF), border --content-brand
+- Success: bg --surface-success (#4FE29014), text --content-success (#4FE290), border --content-success
+- Warning: bg --surface-warning (#FFCC4014), text --content-warning (#FFD35A), border --content-warning
+- Archived: bg --surface-tertiary (#1A1A1A), text --content-disabled (#4A4A4A), border --border-disabled (#777777)
+
+PROPS:
+- variant: 'neutral' | 'brand' | 'success' | 'warning' | 'archived' (default: 'neutral')
+- size: 'default' | 'lg' (default: 'default')
+- dot: boolean (default: false) — mostra dot 6×6 antes do texto via ::before
+
+NOTAS:
+- O dot usa currentColor para herdar a cor do texto da variante
+- Merged no Figma = variante "success" com dot
+- Active no Figma = variante "brand" com dot
+- Archived = variante dedicada com dot
+- NUNCA usar hex direto. NUNCA usar --scale-spacing-* ou --scale-radius-*.`,
+    },
+  },
 ]
 
 export function getComponentBySlug(slug: string): DesignComponent | undefined {
