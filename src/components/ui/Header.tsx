@@ -1,22 +1,15 @@
 'use client'
 
 import React from 'react'
-import TextInput from './TextInput'
 import styles from './Header.module.css'
 
+/* Material Symbols matching exact Figma icon names */
 const NAV_ITEMS = [
-  { label: 'Gráfico', icon: 'show_chart' },
-  { label: 'Book e Cotações', icon: 'format_list_bulleted' },
-  { label: 'Operação', icon: 'swap_horiz' },
-  { label: 'Ferramentas', icon: 'handyman' },
-  { label: 'Analistas', icon: 'groups' },
-]
-
-const RESULTADO_ITEMS = [
-  { symbol: 'WINFUT', last: '127.540', change: '+1,2%', positive: true },
-  { symbol: 'WDOFUT', last: '5.842', change: '-0,3%', positive: false },
-  { symbol: 'PETR4', last: '38,42', change: '+0,8%', positive: true },
-  { symbol: 'VALE3', last: '63,18', change: '-1,1%', positive: false },
+  { label: 'Gráfico', icon: 'chart_data' },
+  { label: 'Book e Cotações', icon: 'desktop_windows' },
+  { label: 'Operação', icon: 'candlestick_chart' },
+  { label: 'Ferramentas', icon: 'database' },
+  { label: 'Analistas', icon: 'speed' },
 ]
 
 const ICON_STYLE: React.CSSProperties = {
@@ -29,26 +22,56 @@ const ICON_STYLE: React.CSSProperties = {
 
 export interface HeaderProps {
   activeNav?: string
+  ticker?: string
+  barPercent?: number
+  pnlValue?: string
+  pnlPercent?: string
+  pnlPositive?: boolean
+  resultadoDia?: string
+  resultadoDiaPositive?: boolean
+  notifications?: number
+  profileBadge?: number
+  connections?: string
 }
 
-export default function Header({ activeNav = 'Gráfico' }: HeaderProps) {
+export default function Header({
+  activeNav = 'Gráfico',
+  ticker = 'WINFUT (Q19)',
+  barPercent = 60,
+  pnlValue = '+R$ 1.250',
+  pnlPercent = '+3,25%',
+  pnlPositive = true,
+  resultadoDia = '-R$ 180',
+  resultadoDiaPositive = false,
+  notifications = 4,
+  profileBadge = 1,
+  connections = '5/6 Conexões',
+}: HeaderProps) {
   return (
     <header className="trdr-header" role="banner">
+
+      {/* ── LEFT ─────────────────────────────────────────── */}
       <div className="trdr-header-left">
+
         {/* Logo */}
         <div className="trdr-header-logo">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo-trdr-design-hub.svg" alt="TRDR" width={107} height={40} />
         </div>
-        <div className="trdr-header-divider" />
 
-        {/* Nav principal */}
+        {/* Divider */}
+        <div className={styles.dividerMargin}>
+          <div className="trdr-header-divider" />
+        </div>
+
+        {/* Nav items */}
         <nav className="trdr-header-nav" aria-label="Navegação principal">
           {NAV_ITEMS.map(({ label, icon }) => (
             <button
               key={label}
               type="button"
               className={`trdr-header-nav-item${activeNav === label ? ' trdr-header-nav-item-active' : ''}`}
+              aria-current={activeNav === label ? 'page' : undefined}
             >
               <span className="trdr-header-nav-icon" style={ICON_STYLE} aria-hidden="true">
                 {icon}
@@ -58,71 +81,111 @@ export default function Header({ activeNav = 'Gráfico' }: HeaderProps) {
           ))}
         </nav>
 
-        {/* Busca */}
-        <TextInput
-          iconLeft
-          placeholder="Buscar ativo..."
-          aria-label="Buscar ativo"
-          className={styles.searchInput}
-        />
+        {/* Search — bg surface/primary, not TextInput */}
+        <button
+          type="button"
+          className="trdr-header-search"
+          aria-label="Pesquisar ativo"
+        >
+          <span className="trdr-header-search-icon" style={ICON_STYLE} aria-hidden="true">
+            search
+          </span>
+          Pesquisar...
+        </button>
 
-        {/* Resultado Row — cotações em tempo real */}
-        <div className="trdr-header-resultado">
-          {RESULTADO_ITEMS.map(({ symbol, last, change, positive }) => (
-            <div key={symbol} className={styles.resultadoItem}>
-              <span className={styles.resultadoSymbol}>{symbol}</span>
-              <span className={styles.resultadoLast}>{last}</span>
-              <span className={`${styles.resultadoChange} ${positive ? styles.positive : styles.negative}`}>
-                {change}
-              </span>
-            </div>
-          ))}
+        {/* Resultado Row — WINFUT + bar + P&L + Resultado Dia + arrow */}
+        <div className="trdr-header-resultado" role="button" tabIndex={0} aria-label="Resultado do dia">
+          <span className="trdr-header-resultado-ticker">{ticker}</span>
+
+          <div className="trdr-header-resultado-bar">
+            <div
+              className={`trdr-header-resultado-bar-fill ${pnlPositive ? 'positive' : 'negative'}`}
+              style={{ width: `${barPercent}%` }}
+            />
+          </div>
+
+          <span className={`trdr-header-resultado-value ${pnlPositive ? 'positive' : 'negative'}`}>
+            {pnlValue}
+          </span>
+          <span className={`trdr-header-resultado-value ${pnlPositive ? 'positive' : 'negative'}`}>
+            {pnlPercent}
+          </span>
+
+          <div className="trdr-header-resultado-divider" aria-hidden="true" />
+
+          <span className="trdr-header-resultado-label">Resultado Dia</span>
+          <span className={`trdr-header-resultado-daily ${resultadoDiaPositive ? 'positive' : 'negative'}`}>
+            {resultadoDia}
+          </span>
+
+          <span className="trdr-header-resultado-arrow" style={ICON_STYLE} aria-hidden="true">
+            arrow_drop_down
+          </span>
         </div>
       </div>
 
+      {/* ── RIGHT ────────────────────────────────────────── */}
       <div className="trdr-header-right">
-        {/* Botões de ícone com badge */}
-        <span className={styles.iconBtnWrap}>
-          <button className="trdr-header-icon-btn" aria-label="Notificações" type="button">
-            <span style={{ ...ICON_STYLE, fontSize: 20 }} aria-hidden="true">notifications</span>
-          </button>
-          <span className="trdr-header-badge" aria-label="4 notificações">4</span>
-        </span>
 
-        <span className={styles.iconBtnWrap}>
-          <button className="trdr-header-icon-btn" aria-label="Meu perfil" type="button">
-            <span style={{ ...ICON_STYLE, fontSize: 20 }} aria-hidden="true">person</span>
-          </button>
-          <span className="trdr-header-badge" aria-label="1 item">1</span>
-        </span>
-
-        <button className="trdr-header-icon-btn" aria-label="Configurações" type="button">
-          <span style={{ ...ICON_STYLE, fontSize: 20 }} aria-hidden="true">settings</span>
+        {/* Notificações */}
+        <button className="trdr-header-icon-btn" type="button" aria-label={`Notificações (${notifications})`}>
+          <span style={{ ...ICON_STYLE, fontSize: 24, color: 'var(--content-secondary)' }} aria-hidden="true">
+            notifications
+          </span>
+          {notifications > 0 && (
+            <span className="trdr-header-badge" aria-hidden="true">{notifications}</span>
+          )}
         </button>
 
-        <button className="trdr-header-icon-btn" aria-label="Layouts" type="button">
-          <span style={{ ...ICON_STYLE, fontSize: 20 }} aria-hidden="true">dashboard</span>
+        {/* Meu perfil */}
+        <button className="trdr-header-icon-btn" type="button" aria-label={`Meu perfil (${profileBadge} item)`}>
+          <span style={{ ...ICON_STYLE, fontSize: 24, color: 'var(--content-secondary)' }} aria-hidden="true">
+            person
+          </span>
+          {profileBadge > 0 && (
+            <span className="trdr-header-badge" aria-hidden="true">{profileBadge}</span>
+          )}
         </button>
 
-        {/* Conexões */}
-        <button className="trdr-header-conexoes" aria-label="5 de 6 conexões ativas" type="button">
-          <span className="trdr-header-status-dot connected" aria-hidden="true" />
-          5/6 Conexões
+        {/* Configurações */}
+        <button className="trdr-header-icon-btn" type="button" aria-label="Configurações da plataforma">
+          <span style={{ ...ICON_STYLE, fontSize: 24, color: 'var(--content-secondary)' }} aria-hidden="true">
+            settings
+          </span>
         </button>
 
-        {/* Controles de janela */}
+        {/* Layouts */}
+        <button className="trdr-header-icon-btn" type="button" aria-label="Layouts">
+          <span style={{ ...ICON_STYLE, fontSize: 24, color: 'var(--content-secondary)' }} aria-hidden="true">
+            auto_awesome_mosaic
+          </span>
+        </button>
+
+        {/* Conexões — sem border, com ícone de rede */}
+        <button className="trdr-header-conexoes" type="button" aria-label={connections}>
+          <span style={{ ...ICON_STYLE, fontSize: 24 }} aria-hidden="true">
+            lan
+          </span>
+          {connections}
+        </button>
+
+        {/* Divisor antes dos window controls */}
+        <div className="trdr-header-win-divider" aria-hidden="true" />
+
+        {/* Window controls — 18px icons, gap 32px */}
         <div className="trdr-header-wincontrols" aria-label="Controles da janela" role="group">
-          <button className="trdr-header-win-btn" aria-label="Minimizar" type="button">
-            <span style={{ ...ICON_STYLE, fontSize: 16 }} aria-hidden="true">remove</span>
+          <button className="trdr-header-win-btn" type="button" aria-label="Minimizar">
+            <span style={{ ...ICON_STYLE, fontSize: 18 }} aria-hidden="true">remove</span>
           </button>
-          <button className="trdr-header-win-btn" aria-label="Recolher" type="button">
-            <span style={{ ...ICON_STYLE, fontSize: 16 }} aria-hidden="true">minimize</span>
+          <button className="trdr-header-win-btn" type="button" aria-label="Restaurar">
+            <span style={{ ...ICON_STYLE, fontSize: 18 }} aria-hidden="true">crop_square</span>
           </button>
-          <button className="trdr-header-win-btn trdr-header-win-btn-close" aria-label="Fechar" type="button">
-            <span style={{ ...ICON_STYLE, fontSize: 16 }} aria-hidden="true">close</span>
+          <button className="trdr-header-win-btn trdr-header-win-btn-close" type="button" aria-label="Fechar">
+            <span style={{ ...ICON_STYLE, fontSize: 18 }} aria-hidden="true">close</span>
           </button>
         </div>
       </div>
+
     </header>
   )
 }

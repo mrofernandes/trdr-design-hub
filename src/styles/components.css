@@ -1357,15 +1357,15 @@
 }
 
 /* ==========================================================================
-   HEADER — Desktop navigation bar (1921:55292)
+   HEADER — Desktop navigation bar (Figma: 15:4644, 1920×56px)
    ========================================================================== */
 
 .trdr-header {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
   height: 56px;
-  padding: 0 16px;
+  padding: 8px 16px;
   background: var(--bg-primary);
   border-bottom: 1px solid var(--border-subtle);
   width: 100%;
@@ -1373,15 +1373,16 @@
   flex-shrink: 0;
 }
 
-/* Seções esquerda / direita */
+/* Seção esquerda — flex-1, reúne logo + nav + search + resultado */
 .trdr-header-left {
   display: flex;
   align-items: center;
   flex: 1;
   min-width: 0;
-  gap: 0;
+  gap: 16px;
 }
 
+/* Seção direita — ações + conexões + window controls */
 .trdr-header-right {
   display: flex;
   align-items: center;
@@ -1389,40 +1390,40 @@
   flex-shrink: 0;
 }
 
-/* Logo */
+/* Logo — 107×40px */
 .trdr-header-logo {
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  padding-right: 16px;
-  text-decoration: none;
+  height: 40px;
+  gap: 0;
 }
 
-/* Divisor vertical */
+/* Divisor vertical — 1×18px */
 .trdr-header-divider {
   width: 1px;
   height: 18px;
   background: var(--border-subtle);
   flex-shrink: 0;
-  margin-right: 8px;
+  margin: 0 -8px 0 0;
 }
 
-/* Grupo de nav links */
+/* Lista de nav items — sem gap, itens usam px-[8px] */
 .trdr-header-nav {
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  gap: 0;
+  height: 40px;
 }
 
-/* Item de nav (link ou botão) */
+/* Item de nav */
 .trdr-header-nav-item {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
-  height: 40px;
+  height: 100%;
   padding: 0 8px;
-  border-radius: var(--radius-sm);
   border: none;
   background: none;
   cursor: pointer;
@@ -1431,7 +1432,6 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 16px;
-  text-decoration: none;
   white-space: nowrap;
   transition: color 0.15s ease, background-color 0.15s ease;
 }
@@ -1447,28 +1447,58 @@
 
 /* Ícone do nav item (Material Symbols) */
 .trdr-header-nav-icon {
-  font-size: 20px;
-  line-height: 20px;
+  font-size: 24px;
+  line-height: 24px;
   font-family: 'Material Symbols Outlined';
   font-weight: 300;
+  font-style: normal;
   font-variation-settings: 'FILL' 0, 'GRAD' 0;
-}
-
-/* Pesquisa */
-.trdr-header-search {
-  margin-left: 16px;
   flex-shrink: 0;
 }
 
-/* Resultado do dia (mini ticker) */
+/* Campo de busca — bg surface/primary, 5px radius */
+.trdr-header-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 8px;
+  background: var(--surface-primary);
+  border-radius: 5px;
+  border: none;
+  cursor: text;
+  flex-shrink: 0;
+  color: var(--content-primary);
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  white-space: nowrap;
+  transition: background-color 0.15s ease;
+}
+
+.trdr-header-search:hover {
+  background: var(--surface-secondary);
+}
+
+.trdr-header-search-icon {
+  font-size: 24px;
+  line-height: 24px;
+  font-family: 'Material Symbols Outlined';
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings: 'FILL' 0, 'GRAD' 0;
+  color: var(--content-tertiary);
+  flex-shrink: 0;
+}
+
+/* Resultado do dia — ticker + barra + P&L + Resultado Dia + arrow */
 .trdr-header-resultado {
   display: flex;
   align-items: center;
   gap: 8px;
+  height: 32px;
   padding: 6px 8px;
-  border-radius: var(--radius-sm);
   cursor: pointer;
-  margin-left: 16px;
   flex-shrink: 0;
   transition: background-color 0.15s ease;
 }
@@ -1481,31 +1511,34 @@
   font-family: var(--font-secondary);
   font-size: 14px;
   font-weight: 400;
+  line-height: 1.2;
   color: var(--content-primary);
   white-space: nowrap;
 }
 
 .trdr-header-resultado-bar {
-  width: 51px;
+  flex: 1;
+  min-width: 1px;
   height: 4px;
-  background: var(--border-subtle);
+  background: var(--surface-secondary);
   border-radius: 2px;
   overflow: hidden;
-  flex-shrink: 0;
 }
 
 .trdr-header-resultado-bar-fill {
   height: 100%;
   border-radius: 2px;
+  width: 60px;
 }
 
 .trdr-header-resultado-bar-fill.positive { background: var(--context-trading-up); }
 .trdr-header-resultado-bar-fill.negative { background: var(--context-trading-down); }
 
 .trdr-header-resultado-value {
-  font-family: var(--font-mono);
+  font-family: var(--font-secondary);
   font-size: 14px;
   font-weight: 400;
+  line-height: 1.2;
   white-space: nowrap;
 }
 
@@ -1519,22 +1552,41 @@
   flex-shrink: 0;
 }
 
+/* "Resultado Dia" label — content/primary (branco) */
 .trdr-header-resultado-label {
   font-family: var(--font-secondary);
   font-size: 14px;
   font-weight: 400;
-  color: var(--content-tertiary);
+  line-height: 1.2;
+  color: var(--content-primary);
   white-space: nowrap;
 }
 
-.trdr-header-resultado-total {
-  font-family: var(--font-mono);
+/* Valor diário (positivo ou negativo) */
+.trdr-header-resultado-daily {
+  font-family: var(--font-secondary);
   font-size: 14px;
   font-weight: 400;
+  line-height: 1.2;
   white-space: nowrap;
 }
 
-/* Botão de ícone com badge (Notificações, Perfil, etc.) */
+.trdr-header-resultado-daily.positive { color: var(--context-trading-up); }
+.trdr-header-resultado-daily.negative { color: var(--context-trading-down); }
+
+/* Ícone de seta dropdown (24×24px) */
+.trdr-header-resultado-arrow {
+  font-size: 24px;
+  line-height: 24px;
+  font-family: 'Material Symbols Outlined';
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings: 'FILL' 0, 'GRAD' 0;
+  color: var(--content-tertiary);
+  flex-shrink: 0;
+}
+
+/* Botão de ícone — 32×32px, border-radius 16px (pill) */
 .trdr-header-icon-btn {
   position: relative;
   display: flex;
@@ -1542,11 +1594,12 @@
   justify-content: center;
   width: 32px;
   height: 32px;
-  border-radius: var(--radius-sm);
+  border-radius: 16px;
   border: none;
   background: none;
   cursor: pointer;
   color: var(--content-secondary);
+  flex-shrink: 0;
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
@@ -1555,86 +1608,87 @@
   color: var(--content-primary);
 }
 
+/* Badge numérico — min 16×16px, top: -4px, left: 16px (top-right do btn) */
 .trdr-header-badge {
   position: absolute;
-  top: -3px;
-  right: -3px;
-  min-width: 14px;
-  height: 14px;
-  padding: 0 3px;
-  border-radius: var(--radius-full);
-  background: var(--action-brand-default);
+  top: -4px;
+  left: 16px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 16px;
+  background: var(--content-brand);
   color: var(--content-inverse);
   font-family: var(--font-secondary);
-  font-size: 9px;
-  font-weight: 700;
-  line-height: 14px;
-  text-align: center;
+  font-size: 10px;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  white-space: nowrap;
 }
 
-/* Botão Conexões */
+/* Botão Conexões — sem border, com ícone de rede */
 .trdr-header-conexoes {
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  gap: 8px;
   height: 32px;
-  padding: 0 10px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-subtle);
+  padding: 0 8px;
+  border-radius: 6px;
+  border: none;
   background: none;
-  color: var(--content-secondary);
+  color: var(--content-primary);
   font-family: var(--font-secondary);
   font-size: 14px;
   font-weight: 400;
   cursor: pointer;
   white-space: nowrap;
-  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+  flex-shrink: 0;
+  transition: background-color 0.15s ease;
 }
 
 .trdr-header-conexoes:hover {
-  border-color: var(--border-default);
   background: var(--surface-secondary);
-  color: var(--content-primary);
 }
 
-.trdr-header-status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: var(--radius-full);
+/* Divisor antes dos window controls */
+.trdr-header-win-divider {
+  width: 1px;
+  height: 18px;
+  background: var(--border-subtle);
   flex-shrink: 0;
+  margin: 0 8px;
 }
 
-.trdr-header-status-dot.connected    { background: var(--context-trading-up); }
-.trdr-header-status-dot.disconnected { background: var(--context-trading-down); }
-
-/* Controles de janela (browser chrome) */
+/* Controles de janela — gap 32px entre ícones */
 .trdr-header-wincontrols {
   display: flex;
   align-items: center;
-  padding-left: 20px;
+  gap: 32px;
+  padding-left: 12px;
   flex-shrink: 0;
 }
 
+/* Ícone de controle — 18×18px, sem padding */
 .trdr-header-win-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 18px;
+  height: 18px;
   background: none;
   border: none;
   cursor: pointer;
   color: var(--content-tertiary);
-  border-radius: var(--radius-sm);
-  transition: color 0.15s ease, background-color 0.15s ease;
+  padding: 0;
+  transition: color 0.15s ease;
 }
 
-.trdr-header-win-btn:hover { color: var(--content-primary); background: var(--surface-secondary); }
-.trdr-header-win-btn-close:hover { background: var(--context-trading-down); color: var(--content-primary); }
+.trdr-header-win-btn:hover { color: var(--content-primary); }
+.trdr-header-win-btn-close:hover { color: var(--context-trading-down); }
 
 /* Sub-menu de nav (Book e Cotações, Operação, etc.) */
 .trdr-header-submenu {

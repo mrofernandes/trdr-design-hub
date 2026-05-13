@@ -1,53 +1,12 @@
-.searchInput {
-  width: 116px;
-  flex-shrink: 0;
-}
-
-.resultadoItem {
+/* Wrapper do divisor — espaço ao redor do separador logo/nav */
+/* pl-16px + 1px divider + pr-8px = Figma "Margin" container */
+.dividerMargin {
   display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 0 8px;
-  height: 40px;
-  border-left: 1px solid var(--border-subtle);
-  cursor: pointer;
-  transition: background-color 0.1s;
-}
-
-.resultadoItem:hover {
-  background-color: var(--surface-secondary);
-}
-
-.resultadoSymbol {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 400;
-  color: var(--content-tertiary);
-  text-transform: uppercase;
-}
-
-.resultadoLast {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--content-primary);
-}
-
-.resultadoChange {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 400;
-}
-
-.positive {
-  color: var(--context-trading-up);
-}
-
-.negative {
-  color: var(--context-trading-down);
-}
-
-.iconBtnWrap {
-  position: relative;
-  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0 8px 0 0;
+  flex-shrink: 0;
+  height: 100%;
+  margin-left: -4px;
 }
