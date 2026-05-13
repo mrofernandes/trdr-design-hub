@@ -1360,29 +1360,28 @@
    HEADER — Desktop navigation bar (Figma: 15:4644, 1920×56px)
    ========================================================================== */
 
+/* min-width: max-content impede squish em containers estreitos */
 .trdr-header {
   display: flex;
-  align-items: stretch;
+  align-items: center;
   justify-content: space-between;
   height: 56px;
   padding: 8px 16px;
   background: var(--bg-primary);
   border-bottom: 1px solid var(--border-subtle);
-  width: 100%;
+  min-width: max-content;
   box-sizing: border-box;
   flex-shrink: 0;
 }
 
-/* Seção esquerda — flex-1, reúne logo + nav + search + resultado */
+/* Esquerda: gap via margens individuais (não gap CSS) para controle preciso */
 .trdr-header-left {
   display: flex;
   align-items: center;
-  flex: 1;
-  min-width: 0;
-  gap: 16px;
+  gap: 0;
 }
 
-/* Seção direita — ações + conexões + window controls */
+/* Direita: icon btns + conexões + win controls */
 .trdr-header-right {
   display: flex;
   align-items: center;
@@ -1390,33 +1389,33 @@
   flex-shrink: 0;
 }
 
-/* Logo — 107×40px */
+/* Logo — 107×40px, 16px à direita antes do divider */
 .trdr-header-logo {
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  height: 40px;
-  gap: 0;
+  margin-right: 16px;
 }
 
-/* Divisor vertical — 1×18px */
+/* Divisor vertical — 1×18px, 8px à direita antes da nav */
 .trdr-header-divider {
   width: 1px;
   height: 18px;
   background: var(--border-subtle);
   flex-shrink: 0;
-  margin: 0 -8px 0 0;
+  margin-right: 8px;
 }
 
-/* Lista de nav items — sem gap, itens usam px-[8px] */
+/* Lista de nav items — sem gap entre eles, itens usam px-8px */
 .trdr-header-nav {
   display: flex;
   align-items: center;
   flex-shrink: 0;
   height: 40px;
+  margin-right: 16px;
 }
 
-/* Item de nav */
+/* Item de nav — 40px alto, ícone 24px + label */
 .trdr-header-nav-item {
   display: flex;
   align-items: center;
@@ -1445,7 +1444,7 @@
   color: var(--content-primary);
 }
 
-/* Ícone do nav item (Material Symbols) */
+/* Ícone Material Symbols nos nav items */
 .trdr-header-nav-icon {
   font-size: 24px;
   line-height: 24px;
@@ -1456,7 +1455,7 @@
   flex-shrink: 0;
 }
 
-/* Campo de busca — bg surface/primary, 5px radius */
+/* Campo de busca — bg surface/primary, radius 5px, 16px à direita */
 .trdr-header-search {
   display: flex;
   align-items: center;
@@ -1468,11 +1467,12 @@
   border: none;
   cursor: text;
   flex-shrink: 0;
-  color: var(--content-primary);
+  color: var(--content-tertiary);
   font-family: var(--font-secondary);
   font-size: 14px;
   font-weight: 400;
   white-space: nowrap;
+  margin-right: 16px;
   transition: background-color 0.15s ease;
 }
 
@@ -1487,19 +1487,20 @@
   font-weight: 300;
   font-style: normal;
   font-variation-settings: 'FILL' 0, 'GRAD' 0;
-  color: var(--content-tertiary);
   flex-shrink: 0;
 }
 
-/* Resultado do dia — ticker + barra + P&L + Resultado Dia + arrow */
+/* Resultado Row — largura fixa 506px (Figma), barra cresce internamente */
 .trdr-header-resultado {
   display: flex;
   align-items: center;
   gap: 8px;
-  height: 32px;
+  width: 506px;
+  height: 40px;
   padding: 6px 8px;
   cursor: pointer;
   flex-shrink: 0;
+  box-sizing: border-box;
   transition: background-color 0.15s ease;
 }
 
@@ -1514,45 +1515,51 @@
   line-height: 1.2;
   color: var(--content-primary);
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
+/* Barra de progresso — cresce para preencher espaço dentro dos 506px */
 .trdr-header-resultado-bar {
-  flex: 1;
+  flex: 1 1 0;
   min-width: 1px;
   height: 4px;
   background: var(--surface-secondary);
   border-radius: 2px;
   overflow: hidden;
+  align-self: center;
 }
 
 .trdr-header-resultado-bar-fill {
   height: 100%;
   border-radius: 2px;
-  width: 60px;
 }
 
 .trdr-header-resultado-bar-fill.positive { background: var(--context-trading-up); }
 .trdr-header-resultado-bar-fill.negative { background: var(--context-trading-down); }
 
+/* Valores P&L (+R$1.250, +3,25%) */
 .trdr-header-resultado-value {
   font-family: var(--font-secondary);
   font-size: 14px;
   font-weight: 400;
   line-height: 1.2;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .trdr-header-resultado-value.positive { color: var(--context-trading-up); }
 .trdr-header-resultado-value.negative { color: var(--context-trading-down); }
 
+/* Divisor vertical dentro do resultado row */
 .trdr-header-resultado-divider {
   width: 1px;
   height: 18px;
   background: var(--border-subtle);
   flex-shrink: 0;
+  align-self: center;
 }
 
-/* "Resultado Dia" label — content/primary (branco) */
+/* "Resultado Dia" — branco */
 .trdr-header-resultado-label {
   font-family: var(--font-secondary);
   font-size: 14px;
@@ -1560,21 +1567,23 @@
   line-height: 1.2;
   color: var(--content-primary);
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
-/* Valor diário (positivo ou negativo) */
+/* Valor diário (-R$ 180) */
 .trdr-header-resultado-daily {
   font-family: var(--font-secondary);
   font-size: 14px;
   font-weight: 400;
   line-height: 1.2;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .trdr-header-resultado-daily.positive { color: var(--context-trading-up); }
 .trdr-header-resultado-daily.negative { color: var(--context-trading-down); }
 
-/* Ícone de seta dropdown (24×24px) */
+/* Seta dropdown */
 .trdr-header-resultado-arrow {
   font-size: 24px;
   line-height: 24px;
@@ -1608,7 +1617,7 @@
   color: var(--content-primary);
 }
 
-/* Badge numérico — min 16×16px, top: -4px, left: 16px (top-right do btn) */
+/* Badge — top: -4px left: 16px (canto superior direito do btn 32px) */
 .trdr-header-badge {
   position: absolute;
   top: -4px;
@@ -1629,7 +1638,7 @@
   white-space: nowrap;
 }
 
-/* Botão Conexões — sem border, com ícone de rede */
+/* Botão Conexões — sem border, ícone + texto */
 .trdr-header-conexoes {
   display: flex;
   align-items: center;
@@ -1660,19 +1669,18 @@
   height: 18px;
   background: var(--border-subtle);
   flex-shrink: 0;
-  margin: 0 8px;
 }
 
-/* Controles de janela — gap 32px entre ícones */
+/* Window controls — 18px icons, gap 32px */
 .trdr-header-wincontrols {
   display: flex;
   align-items: center;
   gap: 32px;
-  padding-left: 12px;
+  padding-left: 20px;
   flex-shrink: 0;
 }
 
-/* Ícone de controle — 18×18px, sem padding */
+/* Botão de controle — 18×18px */
 .trdr-header-win-btn {
   display: flex;
   align-items: center;

@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import styles from './Header.module.css'
 
 /* Material Symbols matching exact Figma icon names */
 const NAV_ITEMS = [
@@ -60,9 +59,7 @@ export default function Header({
         </div>
 
         {/* Divider */}
-        <div className={styles.dividerMargin}>
-          <div className="trdr-header-divider" />
-        </div>
+        <div className="trdr-header-divider" aria-hidden="true" />
 
         {/* Nav items */}
         <nav className="trdr-header-nav" aria-label="Navegação principal">

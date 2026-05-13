@@ -1,12 +1,1 @@
-/* Wrapper do divisor — espaço ao redor do separador logo/nav */
-/* pl-16px + 1px divider + pr-8px = Figma "Margin" container */
-.dividerMargin {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 0 8px 0 0;
-  flex-shrink: 0;
-  height: 100%;
-  margin-left: -4px;
-}
+/* Header.module.css — reservado para estilos internos futuros */
