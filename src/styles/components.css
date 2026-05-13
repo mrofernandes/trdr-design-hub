@@ -394,6 +394,47 @@
   background-color: var(--bg-tertiary);
 }
 
+/* Wrapper — borda + radius + overflow */
+.trdr-table-wrapper {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+/* Variante: bordered — last-row mantém borda */
+.trdr-table-bordered tr:last-child td {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Variante: compact — padding reduzido */
+.trdr-table-compact th {
+  padding: var(--spacing-xs) var(--spacing-md);
+}
+
+.trdr-table-compact td {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: 12px;
+}
+
+/* Variante: striped — linhas alternadas */
+.trdr-table-striped tbody tr:nth-child(even) td {
+  background-color: var(--bg-secondary);
+}
+
+.trdr-table-striped tbody tr:nth-child(even):hover td {
+  background-color: var(--bg-tertiary);
+}
+
+/* Sem hover */
+.trdr-table-no-hover tr:hover td {
+  background-color: transparent;
+}
+
+.trdr-table-striped.trdr-table-no-hover tbody tr:nth-child(even):hover td {
+  background-color: var(--bg-secondary);
+}
+
 /* ==========================================================================
    Copy button feedback
    ========================================================================== */
@@ -422,6 +463,16 @@
   color: var(--content-success);
   background-color: var(--surface-success);
   border-color: var(--content-success);
+}
+
+.trdr-copy-btn-sm {
+  width: 20px;
+  height: 20px;
+}
+
+.trdr-copy-btn-sm svg {
+  width: 12px;
+  height: 12px;
 }
 
 /* ==========================================================================
@@ -1757,4 +1808,187 @@
 .trdr-header-submenu-item:hover {
   background: var(--surface-secondary);
   color: var(--content-primary);
+}
+
+/* ==========================================================================
+   Search Input — wrapper com ícone de busca
+   ========================================================================== */
+.trdr-search-input {
+  position: relative;
+  width: 100%;
+}
+
+.trdr-search-input-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--content-tertiary);
+  pointer-events: none;
+}
+
+.trdr-search-input .trdr-input {
+  padding-left: 36px;
+}
+
+/* ==========================================================================
+   Stat Card — card de estatística com valor destaque
+   ========================================================================== */
+.trdr-stat-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-2xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.trdr-stat-card-accent {
+  border-color: var(--action-brand-alpha);
+  background: linear-gradient(135deg, var(--action-brand-alpha) 0%, var(--bg-secondary) 100%);
+}
+
+.trdr-stat-value {
+  font-family: var(--font-primary);
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--content-primary);
+  line-height: 1;
+}
+
+.trdr-stat-card-accent .trdr-stat-value {
+  color: var(--action-brand-default);
+}
+
+.trdr-stat-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--content-secondary);
+}
+
+.trdr-stat-desc {
+  font-size: 12px;
+  color: var(--content-tertiary);
+  margin-top: var(--spacing-xs);
+}
+
+/* ==========================================================================
+   Sidebar — navegação lateral genérica
+   ========================================================================== */
+.trdr-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 240px;
+  background-color: var(--bg-secondary);
+  border-right: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex-shrink: 0;
+}
+
+.trdr-sidebar-header {
+  padding: 32px;
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.trdr-sidebar-nav {
+  flex: 1;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  overflow-y: auto;
+}
+
+.trdr-sidebar-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.trdr-sidebar-group-label {
+  font-family: var(--font-secondary);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--content-brand);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.trdr-sidebar-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.trdr-sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 8px;
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--content-secondary);
+  border-radius: 4px;
+  text-decoration: none;
+  transition: color 0.12s ease, background-color 0.12s ease;
+}
+
+.trdr-sidebar-item:hover {
+  color: var(--content-primary);
+  background-color: var(--surface-secondary);
+}
+
+.trdr-sidebar-item-active {
+  color: var(--content-primary);
+  background-color: var(--surface-secondary);
+}
+
+.trdr-sidebar-icon {
+  font-family: 'Material Symbols Outlined';
+  font-weight: 300;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 20px;
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20;
+  color: var(--content-tertiary);
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.trdr-sidebar-item-active .trdr-sidebar-icon {
+  color: var(--content-secondary);
+}
+
+.trdr-sidebar-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.trdr-sidebar-version {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--content-brand);
+  background-color: var(--surface-brand);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.trdr-sidebar-version-label {
+  font-size: 11px;
+  color: var(--content-tertiary);
 }

@@ -4034,6 +4034,863 @@ NOTAS:
     },
     dependencies: [],
   },
+
+  // =========================================================================
+  // COMPONENTES DO HUB — mapeados e implementados
+  // =========================================================================
+  {
+    slug: 'table',
+    name: 'Table',
+    figmaId: '—',
+    category: 'outros',
+    description: 'Tabela genérica do Design System TRDR. Header 11px uppercase, cells 13px, hover row, border-bottom subtle. Variantes: bordered (wrapper com borda + radius), compact (padding reduzido), striped (linhas alternadas).',
+    props: [
+      { name: 'Bordered', type: 'boolean', values: ['true', 'false'] },
+      { name: 'Compact', type: 'boolean', values: ['true', 'false'] },
+      { name: 'Striped', type: 'boolean', values: ['true', 'false'] },
+      { name: 'Hoverable', type: 'boolean', values: ['true', 'false'] },
+    ],
+    dimensions: [
+      { label: 'Default', width: '100% (fill)', height: 'auto' },
+      { label: 'Header row', width: '100%', height: 'auto (~28px)' },
+      { label: 'Body row', width: '100%', height: 'auto (~40px)' },
+    ],
+    tokens: [
+      { property: 'Header text', token: 'content-tertiary', value: '#A4A4A4' },
+      { property: 'Header border', token: 'border-subtle', value: '#222222' },
+      { property: 'Header padding', token: 'spacing-sm / spacing-lg', value: '8px / 16px' },
+      { property: 'Cell text', token: 'content-secondary', value: '#E8E8E8' },
+      { property: 'Cell border', token: 'border-subtle', value: '#222222' },
+      { property: 'Cell padding', token: 'spacing-md / spacing-lg', value: '12px / 16px' },
+      { property: 'Hover BG', token: 'bg-tertiary', value: '#141519' },
+      { property: 'Striped BG', token: 'bg-secondary', value: '#0E0E0E' },
+      { property: 'Wrapper border', token: 'border-subtle', value: '#222222' },
+      { property: 'Wrapper radius', token: 'radius-md', value: '8px' },
+    ],
+    anatomy: `[div.trdr-table-wrapper?]  ← wrapper opcional (bordered): borda + radius + overflow
+  └── [table.trdr-table .trdr-table-compact? .trdr-table-striped? .trdr-table-bordered?]
+        ├── thead > tr > th  ← 11px/600/uppercase, letter-spacing 0.08em, tertiary
+        └── tbody > tr > td  ← 13px/secondary, hover bg-tertiary
+
+Compact: padding reduzido (xs/md), font 12px
+Striped: nth-child(even) bg-secondary
+Bordered: wrapper com border 1px subtle, radius-md, overflow hidden`,
+    implemented: true,
+    code: {
+      html: `<!-- Default -->
+<table class="trdr-table">
+  <thead>
+    <tr>
+      <th>Token</th>
+      <th>CSS Variable</th>
+      <th>Valor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>bg-primary</td>
+      <td>--bg-primary</td>
+      <td>#0A0A0A</td>
+    </tr>
+    <tr>
+      <td>bg-secondary</td>
+      <td>--bg-secondary</td>
+      <td>#0E0E0E</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Bordered (com wrapper) -->
+<div class="trdr-table-wrapper">
+  <table class="trdr-table trdr-table-bordered">
+    <thead>
+      <tr><th>Prop</th><th>Tipo</th><th>Default</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>variant</td><td>enum</td><td>neutral</td></tr>
+      <tr><td>size</td><td>enum</td><td>default</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Compact + Striped -->
+<table class="trdr-table trdr-table-compact trdr-table-striped">
+  <thead>
+    <tr><th>Ativo</th><th>Preço</th><th>Var%</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>PETR4</td><td>38.42</td><td>+1.2%</td></tr>
+    <tr><td>VALE3</td><td>62.18</td><td>-0.8%</td></tr>
+    <tr><td>ITUB4</td><td>34.56</td><td>+0.3%</td></tr>
+    <tr><td>BBDC4</td><td>14.20</td><td>-1.1%</td></tr>
+  </tbody>
+</table>`,
+      css: `.trdr-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.trdr-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--content-tertiary);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.trdr-table td {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 13px;
+  color: var(--content-secondary);
+  vertical-align: middle;
+}
+
+.trdr-table tr:last-child td {
+  border-bottom: none;
+}
+
+.trdr-table tr:hover td {
+  background-color: var(--bg-tertiary);
+}
+
+/* Wrapper — borda + radius + overflow */
+.trdr-table-wrapper {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.trdr-table-bordered tr:last-child td {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Compact — padding reduzido */
+.trdr-table-compact th {
+  padding: var(--spacing-xs) var(--spacing-md);
+}
+
+.trdr-table-compact td {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: 12px;
+}
+
+/* Striped — linhas alternadas */
+.trdr-table-striped tbody tr:nth-child(even) td {
+  background-color: var(--bg-secondary);
+}
+
+.trdr-table-striped tbody tr:nth-child(even):hover td {
+  background-color: var(--bg-tertiary);
+}
+
+/* Sem hover */
+.trdr-table-no-hover tr:hover td {
+  background-color: transparent;
+}`,
+      react: `import Table from '@/components/ui/Table'
+
+export default function Example() {
+  return (
+    <>
+      {/* Default */}
+      <Table>
+        <thead>
+          <tr><th>Token</th><th>CSS Variable</th><th>Valor</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>bg-primary</td><td>--bg-primary</td><td>#0A0A0A</td></tr>
+          <tr><td>bg-secondary</td><td>--bg-secondary</td><td>#0E0E0E</td></tr>
+        </tbody>
+      </Table>
+
+      {/* Bordered — renderiza wrapper automaticamente */}
+      <Table bordered>
+        <thead>
+          <tr><th>Prop</th><th>Tipo</th><th>Default</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>variant</td><td>enum</td><td>neutral</td></tr>
+        </tbody>
+      </Table>
+
+      {/* Compact + Striped */}
+      <Table compact striped>
+        <thead>
+          <tr><th>Ativo</th><th>Preço</th><th>Var%</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>PETR4</td><td>38.42</td><td>+1.2%</td></tr>
+          <tr><td>VALE3</td><td>62.18</td><td>-0.8%</td></tr>
+        </tbody>
+      </Table>
+
+      {/* Sem hover */}
+      <Table hoverable={false}>
+        <thead>
+          <tr><th>Coluna</th><th>Valor</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Dado</td><td>123</td></tr>
+        </tbody>
+      </Table>
+    </>
+  )
+}`,
+      prompt: `Implemente o componente Table do Design System TRDR.
+
+ESPECIFICAÇÕES PIXEL-PERFECT:
+- width: 100%, border-collapse: collapse
+- Header (th): 11px/600/uppercase, letter-spacing 0.08em, color --content-tertiary, padding --spacing-sm --spacing-lg, border-bottom 1px solid --border-subtle
+- Cell (td): 13px, color --content-secondary, padding --spacing-md --spacing-lg, border-bottom 1px solid --border-subtle, vertical-align middle
+- Last row: sem border-bottom
+- Hover: bg --bg-tertiary com transition
+
+VARIANTES:
+- bordered: wrapper div com border 1px solid --border-subtle, border-radius --radius-md (8px), overflow hidden; last-row mantém borda
+- compact: th padding --spacing-xs --spacing-md, td padding --spacing-sm --spacing-md, font 12px
+- striped: nth-child(even) bg --bg-secondary
+- hoverable: true por padrão, false remove hover
+
+TOKENS OBRIGATÓRIOS:
+- --content-tertiary (#A4A4A4) — header text
+- --content-secondary (#E8E8E8) — cell text
+- --border-subtle (#222222) — borders
+- --bg-tertiary (#141519) — hover
+- --bg-secondary (#0E0E0E) — striped rows
+- --spacing-sm (8px), --spacing-md (12px), --spacing-lg (16px), --spacing-xs (4px)
+- --radius-md (8px) — wrapper bordered
+- Font: var(--font-secondary) — Inter
+
+NOTAS:
+- O componente React aceita children (thead, tbody direto)
+- bordered=true renderiza wrapper automaticamente
+- NUNCA usar hex direto. NUNCA usar --scale-spacing-*.`,
+    },
+    dependencies: [],
+  },
+  {
+    slug: 'copy-button',
+    name: 'CopyButton',
+    figmaId: '—',
+    category: 'outros',
+    description: 'Botão de copiar para clipboard com feedback visual. Ícone copy → check ao clicar, com transição de cor. 2 tamanhos (default 28px, sm 20px).',
+    props: [
+      { name: 'Size', type: 'enum', values: ['Default', 'Small'] },
+      { name: 'State', type: 'enum', values: ['Idle', 'Copied'] },
+    ],
+    dimensions: [
+      { label: 'Default', width: '28px', height: '28px' },
+      { label: 'Small', width: '20px', height: '20px' },
+    ],
+    tokens: [
+      { property: 'Icon color', token: 'content-tertiary', value: '#A4A4A4' },
+      { property: 'Icon hover', token: 'content-primary', value: '#FFFFFF' },
+      { property: 'BG hover', token: 'surface-secondary', value: '#222222' },
+      { property: 'Border hover', token: 'border-default', value: '#4A4A4A' },
+      { property: 'Copied color', token: 'content-success', value: '#4FE290' },
+      { property: 'Copied BG', token: 'surface-success', value: '#4FE29014' },
+      { property: 'Copied border', token: 'content-success', value: '#4FE290' },
+      { property: 'Border radius', token: 'radius-sm', value: '4px' },
+    ],
+    anatomy: `[button.trdr-copy-btn .trdr-copy-btn-sm?]
+  └── [svg 14×14 (default) / 12×12 (sm)]
+        ├── idle: ícone copy (rect + path)
+        └── copied: ícone check (polyline)
+
+Default: 28×28px, border-radius radius-sm, bg transparent, border 1px transparent
+Small: 20×20px, svg 12×12px
+Hover: icon primary, bg surface-secondary, border border-default
+Copied: icon + border content-success, bg surface-success — auto-reset 1.5s`,
+    implemented: true,
+    code: {
+      html: `<!-- Default -->
+<button class="trdr-copy-btn" title="Copiar">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+  </svg>
+</button>
+
+<!-- Small -->
+<button class="trdr-copy-btn trdr-copy-btn-sm" title="Copiar">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+  </svg>
+</button>
+
+<!-- Estado copiado (class .copied) -->
+<button class="trdr-copy-btn copied" title="Copiado!">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="20 6 9 17 4 12" />
+  </svg>
+</button>`,
+      css: `.trdr-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--content-tertiary);
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.trdr-copy-btn:hover {
+  color: var(--content-primary);
+  background-color: var(--surface-secondary);
+  border-color: var(--border-default);
+}
+
+.trdr-copy-btn.copied {
+  color: var(--content-success);
+  background-color: var(--surface-success);
+  border-color: var(--content-success);
+}
+
+.trdr-copy-btn-sm {
+  width: 20px;
+  height: 20px;
+}
+
+.trdr-copy-btn-sm svg {
+  width: 12px;
+  height: 12px;
+}`,
+      react: `import CopyButton from '@/components/ui/CopyButton'
+
+export default function Example() {
+  return (
+    <>
+      {/* Default (28px) */}
+      <CopyButton text="--bg-primary" label="Token" />
+
+      {/* Small (20px) */}
+      <CopyButton text="--bg-primary" label="Token" size="sm" />
+    </>
+  )
+}`,
+      prompt: `Implemente o componente CopyButton do Design System TRDR.
+
+ESPECIFICAÇÕES:
+- Default: 28×28px, border-radius var(--radius-sm), bg transparent, border 1px transparent
+- Small: 20×20px, svg 12×12px (classe .trdr-copy-btn-sm)
+- Ícone SVG inline: copy (rect + path) → check (polyline) ao copiar
+- Auto-reset para idle após 1.5s
+
+ESTADOS:
+- Idle: cor --content-tertiary
+- Hover: cor --content-primary, bg --surface-secondary, border --border-default
+- Copied: cor --content-success, bg --surface-success, border --content-success
+
+TOKENS OBRIGATÓRIOS:
+- --content-tertiary (#A4A4A4) — ícone idle
+- --content-primary (#FFFFFF) — ícone hover
+- --surface-secondary (#222222) — bg hover
+- --border-default (#4A4A4A) — border hover
+- --content-success (#4FE290) — ícone/border copied
+- --surface-success (#4FE29014) — bg copied
+- --radius-sm (4px)
+
+NOTAS:
+- Usa navigator.clipboard.writeText com fallback document.execCommand
+- NUNCA usar hex direto. NUNCA usar --scale-spacing-*.`,
+    },
+    dependencies: [],
+  },
+  {
+    slug: 'search-input',
+    name: 'SearchInput',
+    figmaId: '—',
+    category: 'formulario',
+    description: 'Input de busca com ícone lupa à esquerda. Baseado no TextInput (.trdr-input) com wrapper posicional para o ícone. Modo controlado (value/onChange) ou URL-sync (paramName).',
+    props: [
+      { name: 'Placeholder', type: 'string', values: ['Buscar...'] },
+      { name: 'Mode', type: 'enum', values: ['Controlled', 'URL-sync'] },
+    ],
+    dimensions: [
+      { label: 'Default', width: '100% (fill, max 400px)', height: '24px' },
+    ],
+    tokens: [
+      { property: 'Icon color', token: 'content-tertiary', value: '#A4A4A4' },
+      { property: 'Input BG', token: 'surface-primary', value: '#141519' },
+      { property: 'Input border', token: 'border-default', value: '#4A4A4A' },
+      { property: 'Input text', token: 'content-primary', value: '#FFFFFF' },
+      { property: 'Placeholder', token: 'content-disabled', value: '#4A4A4A' },
+    ],
+    anatomy: `[div.trdr-search-input]
+  ├── [svg.trdr-search-input-icon 16×16]  ← absolute, left 10px, vertical-center
+  └── [input.trdr-input]  ← padding-left 36px para dar espaço ao ícone
+
+Herda todos os estilos de .trdr-input (TextInput)`,
+    implemented: true,
+    code: {
+      html: `<!-- Search Input -->
+<div class="trdr-search-input">
+  <svg class="trdr-search-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="11" cy="11" r="8" />
+    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+  </svg>
+  <input type="text" class="trdr-input" placeholder="Buscar..." />
+</div>`,
+      css: `.trdr-search-input {
+  position: relative;
+  width: 100%;
+}
+
+.trdr-search-input-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--content-tertiary);
+  pointer-events: none;
+}
+
+.trdr-search-input .trdr-input {
+  padding-left: 36px;
+}`,
+      react: `import SearchInput from '@/components/ui/SearchInput'
+
+export default function Example() {
+  const [query, setQuery] = useState('')
+
+  return (
+    <>
+      {/* Modo controlado */}
+      <SearchInput
+        value={query}
+        onChange={setQuery}
+        placeholder="Buscar tokens..."
+      />
+
+      {/* Modo URL-sync (Next.js) */}
+      <SearchInput paramName="q" placeholder="Buscar..." />
+    </>
+  )
+}`,
+      prompt: `Implemente o componente SearchInput do Design System TRDR.
+
+ESPECIFICAÇÕES:
+- Wrapper: position relative, width 100%
+- Ícone: SVG lupa 16×16, position absolute, left 10px, top 50%, transform translateY(-50%), cor --content-tertiary
+- Input: classe .trdr-input (herda do TextInput), padding-left 36px para não sobrepor ícone
+
+TOKENS OBRIGATÓRIOS:
+- --content-tertiary (#A4A4A4) — ícone lupa
+- Herda tokens de .trdr-input: --surface-primary (bg), --border-default (border), --content-primary (text)
+
+DEPENDÊNCIA: TextInput (.trdr-input deve estar disponível no CSS)
+
+NOTAS:
+- Aceita modo controlado (value + onChange) ou URL-sync (paramName para query params Next.js)
+- NUNCA usar hex direto. NUNCA usar --scale-spacing-*.`,
+    },
+    dependencies: ['text-input'],
+  },
+  {
+    slug: 'stat-card',
+    name: 'StatCard',
+    figmaId: '—',
+    category: 'outros',
+    description: 'Card de estatística com valor destaque (36px bold), label e descrição opcional. Variante accent com gradient brand e cor de valor em brand.',
+    props: [
+      { name: 'Accent', type: 'boolean', values: ['true', 'false'] },
+    ],
+    dimensions: [
+      { label: 'Default', width: 'auto (fill)', height: 'auto' },
+    ],
+    tokens: [
+      { property: 'BG', token: 'bg-secondary', value: '#0E0E0E' },
+      { property: 'Border', token: 'border-subtle', value: '#222222' },
+      { property: 'Radius', token: 'radius-md', value: '8px' },
+      { property: 'Padding', token: 'spacing-2xl', value: '24px' },
+      { property: 'Gap', token: 'spacing-xs', value: '4px' },
+      { property: 'Value color', token: 'content-primary', value: '#FFFFFF' },
+      { property: 'Value font', token: 'font-primary', value: 'JetBrains Mono' },
+      { property: 'Label color', token: 'content-secondary', value: '#E8E8E8' },
+      { property: 'Desc color', token: 'content-tertiary', value: '#A4A4A4' },
+      { property: 'Accent border', token: 'action-brand-alpha', value: '#00D4FF29' },
+      { property: 'Accent value', token: 'action-brand-default', value: '#00D4FF' },
+    ],
+    anatomy: `[div.trdr-stat-card .trdr-stat-card-accent?]
+  ├── [div.trdr-stat-value]  ← font-primary 36px/600, primary (accent: brand)
+  ├── [div.trdr-stat-label]  ← 13px/500, secondary
+  └── [div.trdr-stat-desc?]  ← 12px, tertiary, margin-top spacing-xs
+
+Default: bg-secondary, border 1px subtle, radius-md, padding spacing-2xl, flex-col gap spacing-xs
+Accent: border action-brand-alpha, bg gradient 135deg brand-alpha → bg-secondary`,
+    implemented: true,
+    code: {
+      html: `<!-- Default -->
+<div class="trdr-stat-card">
+  <div class="trdr-stat-value">292</div>
+  <div class="trdr-stat-label">Tokens</div>
+  <div class="trdr-stat-desc">Primitivos + semânticos</div>
+</div>
+
+<!-- Accent -->
+<div class="trdr-stat-card trdr-stat-card-accent">
+  <div class="trdr-stat-value">20</div>
+  <div class="trdr-stat-label">Componentes</div>
+  <div class="trdr-stat-desc">Implementados com código</div>
+</div>`,
+      css: `.trdr-stat-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-2xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.trdr-stat-card-accent {
+  border-color: var(--action-brand-alpha);
+  background: linear-gradient(135deg, var(--action-brand-alpha) 0%, var(--bg-secondary) 100%);
+}
+
+.trdr-stat-value {
+  font-family: var(--font-primary);
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--content-primary);
+  line-height: 1;
+}
+
+.trdr-stat-card-accent .trdr-stat-value {
+  color: var(--action-brand-default);
+}
+
+.trdr-stat-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--content-secondary);
+}
+
+.trdr-stat-desc {
+  font-size: 12px;
+  color: var(--content-tertiary);
+  margin-top: var(--spacing-xs);
+}`,
+      react: `import StatCard from '@/components/ui/StatCard'
+
+export default function Example() {
+  return (
+    <>
+      {/* Default */}
+      <StatCard value={292} label="Tokens" description="Primitivos + semânticos" />
+
+      {/* Accent */}
+      <StatCard value={20} label="Componentes" description="Implementados com código" accent />
+    </>
+  )
+}`,
+      prompt: `Implemente o componente StatCard do Design System TRDR.
+
+ESPECIFICAÇÕES:
+- Container: bg --bg-secondary, border 1px --border-subtle, radius --radius-md (8px), padding --spacing-2xl (24px), flex-col, gap --spacing-xs (4px)
+- Value: font --font-primary, 36px/600, cor --content-primary, line-height 1
+- Label: 13px/500, cor --content-secondary
+- Desc: 12px, cor --content-tertiary, margin-top --spacing-xs
+
+VARIANTE ACCENT:
+- border-color: --action-brand-alpha (#00D4FF29)
+- bg: linear-gradient(135deg, --action-brand-alpha 0%, --bg-secondary 100%)
+- Value cor: --action-brand-default (#00D4FF)
+
+TOKENS OBRIGATÓRIOS:
+- --bg-secondary (#0E0E0E), --border-subtle (#222222), --radius-md (8px), --spacing-2xl (24px), --spacing-xs (4px)
+- --content-primary (#FFFFFF), --content-secondary (#E8E8E8), --content-tertiary (#A4A4A4)
+- --action-brand-alpha (#00D4FF29), --action-brand-default (#00D4FF)
+- --font-primary (JetBrains Mono)
+
+NOTAS:
+- NUNCA usar hex direto. NUNCA usar --scale-spacing-*.`,
+    },
+    dependencies: [],
+  },
+  {
+    slug: 'sidebar',
+    name: 'Sidebar',
+    figmaId: '—',
+    category: 'navegacao',
+    description: 'Navegação lateral genérica com grupos de itens, ícones Material Symbols, header com logo e footer com versão. Width 240px, sticky top 0, height 100vh.',
+    props: [
+      { name: 'Width', type: 'enum', values: ['240px (default)'] },
+    ],
+    dimensions: [
+      { label: 'Default', width: '240px', height: '100vh' },
+      { label: 'Item', width: '100%', height: '32px' },
+      { label: 'Icon', width: '20px', height: '20px' },
+    ],
+    tokens: [
+      { property: 'BG', token: 'bg-secondary', value: '#0E0E0E' },
+      { property: 'Border', token: 'border-subtle', value: '#222222' },
+      { property: 'Group label', token: 'content-brand', value: '#00D4FF' },
+      { property: 'Item text', token: 'content-secondary', value: '#E8E8E8' },
+      { property: 'Item hover text', token: 'content-primary', value: '#FFFFFF' },
+      { property: 'Item hover BG', token: 'surface-secondary', value: '#222222' },
+      { property: 'Item active text', token: 'content-primary', value: '#FFFFFF' },
+      { property: 'Item active BG', token: 'surface-secondary', value: '#222222' },
+      { property: 'Icon color', token: 'content-tertiary', value: '#A4A4A4' },
+      { property: 'Icon active', token: 'content-secondary', value: '#E8E8E8' },
+      { property: 'Version BG', token: 'surface-brand', value: '#00D4FF29' },
+      { property: 'Version text', token: 'content-brand', value: '#00D4FF' },
+      { property: 'Version label', token: 'content-tertiary', value: '#A4A4A4' },
+    ],
+    anatomy: `[aside.trdr-sidebar]
+  ├── [div.trdr-sidebar-header]  ← logo, padding 32px, border-bottom
+  ├── [nav.trdr-sidebar-nav]  ← flex-1, padding 32px 24px, gap 32px
+  │     └── [div.trdr-sidebar-group] × N
+  │           ├── [span.trdr-sidebar-group-label]  ← 12px/400, brand, uppercase
+  │           └── [ul.trdr-sidebar-list]
+  │                 └── [li > a.trdr-sidebar-item .trdr-sidebar-item-active?]
+  │                       ├── [span.trdr-sidebar-icon]  ← Material Symbols 20px
+  │                       └── label text
+  └── [div.trdr-sidebar-footer]  ← border-top, flex, gap 8px
+        ├── [span.trdr-sidebar-version]  ← mono 11px, brand bg/text
+        └── [span.trdr-sidebar-version-label]  ← 11px, tertiary
+
+Item: height 32px, padding 0 8px, gap 8px, radius 4px, Inter 14px/400
+Hover: text primary, bg surface-secondary
+Active: mesmos estilos de hover + icon secondary`,
+    implemented: true,
+    code: {
+      html: `<aside class="trdr-sidebar">
+  <div class="trdr-sidebar-header">
+    <img src="/logo.svg" alt="Logo" width="120" />
+  </div>
+
+  <nav class="trdr-sidebar-nav">
+    <div class="trdr-sidebar-group">
+      <span class="trdr-sidebar-group-label">Visão Geral</span>
+      <ul class="trdr-sidebar-list">
+        <li>
+          <a href="/" class="trdr-sidebar-item trdr-sidebar-item-active">
+            <span class="trdr-sidebar-icon">home</span>
+            Home
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="trdr-sidebar-group">
+      <span class="trdr-sidebar-group-label">Tokens</span>
+      <ul class="trdr-sidebar-list">
+        <li>
+          <a href="/tokens" class="trdr-sidebar-item">
+            <span class="trdr-sidebar-icon">grain</span>
+            Primitivos
+          </a>
+        </li>
+        <li>
+          <a href="/semanticos" class="trdr-sidebar-item">
+            <span class="trdr-sidebar-icon">join_left</span>
+            Semânticos
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="trdr-sidebar-footer">
+    <span class="trdr-sidebar-version">v1.5</span>
+    <span class="trdr-sidebar-version-label">designtokens.md</span>
+  </div>
+</aside>`,
+      css: `.trdr-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 240px;
+  background-color: var(--bg-secondary);
+  border-right: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex-shrink: 0;
+}
+
+.trdr-sidebar-header {
+  padding: 32px;
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.trdr-sidebar-nav {
+  flex: 1;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  overflow-y: auto;
+}
+
+.trdr-sidebar-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.trdr-sidebar-group-label {
+  font-family: var(--font-secondary);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--content-brand);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.trdr-sidebar-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.trdr-sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 8px;
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--content-secondary);
+  border-radius: 4px;
+  text-decoration: none;
+  transition: color 0.12s ease, background-color 0.12s ease;
+}
+
+.trdr-sidebar-item:hover {
+  color: var(--content-primary);
+  background-color: var(--surface-secondary);
+}
+
+.trdr-sidebar-item-active {
+  color: var(--content-primary);
+  background-color: var(--surface-secondary);
+}
+
+.trdr-sidebar-icon {
+  font-family: 'Material Symbols Outlined';
+  font-weight: 300;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 20px;
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20;
+  color: var(--content-tertiary);
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.trdr-sidebar-item-active .trdr-sidebar-icon {
+  color: var(--content-secondary);
+}
+
+.trdr-sidebar-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.trdr-sidebar-version {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--content-brand);
+  background-color: var(--surface-brand);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.trdr-sidebar-version-label {
+  font-size: 11px;
+  color: var(--content-tertiary);
+}`,
+      react: `// A Sidebar do Hub usa a versão com rotas hardcoded.
+// Para uso genérico, passe groups como prop:
+
+interface SidebarGroup {
+  label: string
+  items: Array<{ href: string; label: string; icon: string; active?: boolean }>
+}
+
+function Sidebar({ groups }: { groups: SidebarGroup[] }) {
+  return (
+    <aside className="trdr-sidebar">
+      <div className="trdr-sidebar-header">
+        <img src="/logo.svg" alt="Logo" width={120} />
+      </div>
+      <nav className="trdr-sidebar-nav">
+        {groups.map(group => (
+          <div key={group.label} className="trdr-sidebar-group">
+            <span className="trdr-sidebar-group-label">{group.label}</span>
+            <ul className="trdr-sidebar-list">
+              {group.items.map(item => (
+                <li key={item.href}>
+                  <a
+                    href={item.href}
+                    className={\`trdr-sidebar-item \${item.active ? 'trdr-sidebar-item-active' : ''}\`}
+                  >
+                    <span className="trdr-sidebar-icon">{item.icon}</span>
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </nav>
+      <div className="trdr-sidebar-footer">
+        <span className="trdr-sidebar-version">v1.0</span>
+        <span className="trdr-sidebar-version-label">app</span>
+      </div>
+    </aside>
+  )
+}`,
+      prompt: `Implemente o componente Sidebar do Design System TRDR.
+
+ESPECIFICAÇÕES:
+- Container: sticky top 0, height 100vh, width 240px, bg --bg-secondary, border-right 1px --border-subtle, flex-col, overflow-y auto
+- Header: padding 32px, border-bottom 1px --border-subtle (logo aqui)
+- Nav: flex 1, padding 32px 24px, gap 32px entre grupos
+- Group label: Inter 12px/400, --content-brand, uppercase, letter-spacing 0.02em
+- Item: flex, gap 8px, height 32px, padding 0 8px, Inter 14px/400, --content-secondary, radius 4px
+- Item hover/active: text --content-primary, bg --surface-secondary
+- Icon: Material Symbols 20px, --content-tertiary (active: --content-secondary)
+- Footer: padding 16px 24px, border-top, flex, gap 8px
+- Version badge: mono 11px, --content-brand, bg --surface-brand, padding 2px 6px, radius 4px
+
+TOKENS OBRIGATÓRIOS:
+- --bg-secondary (#0E0E0E), --border-subtle (#222222), --surface-secondary (#222222)
+- --content-brand (#00D4FF), --content-secondary (#E8E8E8), --content-primary (#FFFFFF), --content-tertiary (#A4A4A4)
+- --surface-brand (#00D4FF29)
+- --font-secondary (Inter), --font-mono
+- Font Material Symbols Outlined para ícones
+
+NOTAS:
+- Aceitar groups como prop para ser genérico (não hardcodar nav items)
+- NUNCA usar hex direto. NUNCA usar --scale-spacing-*.`,
+    },
+    dependencies: [],
+  },
 ]
 
 export function getComponentBySlug(slug: string): DesignComponent | undefined {

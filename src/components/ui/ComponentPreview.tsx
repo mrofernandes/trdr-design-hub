@@ -20,6 +20,9 @@ import Badge from './Badge'
 import SegmentedControl from './SegmentedControl'
 import Abas from './Abas'
 import SubMenu from './SubMenu'
+import Table from './Table'
+import CopyButton from './CopyButton'
+import StatCard from './StatCard'
 
 interface Props {
   slug: string
@@ -350,9 +353,177 @@ function renderPreview(slug: string) {
         </div>
       )
 
+    case 'table':
+      return (
+        <div className={styles.previewInner}>
+          <PreviewLabel>Default</PreviewLabel>
+          <Table>
+            <thead>
+              <tr><th>Token</th><th>CSS Variable</th><th>Valor</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>bg-primary</td><td>--bg-primary</td><td>#0A0A0A</td></tr>
+              <tr><td>bg-secondary</td><td>--bg-secondary</td><td>#0E0E0E</td></tr>
+              <tr><td>bg-tertiary</td><td>--bg-tertiary</td><td>#141519</td></tr>
+            </tbody>
+          </Table>
+          <PreviewLabel>Bordered</PreviewLabel>
+          <Table bordered>
+            <thead>
+              <tr><th>Prop</th><th>Tipo</th><th>Default</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>variant</td><td>enum</td><td>neutral</td></tr>
+              <tr><td>size</td><td>enum</td><td>default</td></tr>
+              <tr><td>dot</td><td>boolean</td><td>false</td></tr>
+            </tbody>
+          </Table>
+          <PreviewLabel>Compact + Striped</PreviewLabel>
+          <Table compact striped>
+            <thead>
+              <tr><th>Ativo</th><th>Preço</th><th>Var%</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>PETR4</td><td>38.42</td><td>+1.2%</td></tr>
+              <tr><td>VALE3</td><td>62.18</td><td>-0.8%</td></tr>
+              <tr><td>ITUB4</td><td>34.56</td><td>+0.3%</td></tr>
+              <tr><td>BBDC4</td><td>14.20</td><td>-1.1%</td></tr>
+            </tbody>
+          </Table>
+          <PreviewLabel>Bordered + Compact + Striped</PreviewLabel>
+          <Table bordered compact striped>
+            <thead>
+              <tr><th>Ativo</th><th>Último</th><th>Variação</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>WINFUT</td><td>128.450</td><td style={{ color: 'var(--context-trading-up)' }}>+0.85%</td></tr>
+              <tr><td>DOLFUT</td><td>5.632</td><td style={{ color: 'var(--context-trading-down)' }}>-0.32%</td></tr>
+              <tr><td>IBOV</td><td>127.890</td><td style={{ color: 'var(--context-trading-up)' }}>+1.10%</td></tr>
+            </tbody>
+          </Table>
+        </div>
+      )
+
+    case 'copy-button':
+      return <CopyButtonPreview />
+
+    case 'search-input':
+      return <SearchInputPreview />
+
+    case 'stat-card':
+      return (
+        <div className={styles.previewInner}>
+          <PreviewLabel>Default</PreviewLabel>
+          <div className={styles.row} style={{ flexWrap: 'wrap' }}>
+            <StatCard value={292} label="Tokens" description="Primitivos + semânticos" />
+            <StatCard value={25} label="Componentes" description="Com código copiável" />
+            <StatCard value={5} label="Layouts" description="Páginas de referência" />
+          </div>
+          <PreviewLabel>Accent</PreviewLabel>
+          <div className={styles.row} style={{ flexWrap: 'wrap' }}>
+            <StatCard value={20} label="Implementados" description="Com preview funcional" accent />
+            <StatCard value="v1.5" label="Versão" description="designtokens.md" accent />
+          </div>
+        </div>
+      )
+
+    case 'sidebar':
+      return (
+        <div className={styles.previewInner}>
+          <PreviewLabel>Sidebar (240px)</PreviewLabel>
+          <div style={{ height: 400, overflow: 'hidden', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+            <aside className="trdr-sidebar" style={{ position: 'relative', height: '100%' }}>
+              <div className="trdr-sidebar-header">
+                <span style={{ fontFamily: 'var(--font-primary)', fontSize: 18, fontWeight: 600, color: 'var(--content-primary)' }}>Logo</span>
+              </div>
+              <nav className="trdr-sidebar-nav">
+                <div className="trdr-sidebar-group">
+                  <span className="trdr-sidebar-group-label">Visão Geral</span>
+                  <ul className="trdr-sidebar-list">
+                    <li><span className="trdr-sidebar-item trdr-sidebar-item-active"><span className="trdr-sidebar-icon">home</span>Home</span></li>
+                  </ul>
+                </div>
+                <div className="trdr-sidebar-group">
+                  <span className="trdr-sidebar-group-label">Tokens</span>
+                  <ul className="trdr-sidebar-list">
+                    <li><span className="trdr-sidebar-item"><span className="trdr-sidebar-icon">grain</span>Primitivos</span></li>
+                    <li><span className="trdr-sidebar-item"><span className="trdr-sidebar-icon">join_left</span>Semânticos</span></li>
+                    <li><span className="trdr-sidebar-item"><span className="trdr-sidebar-icon">text_fields</span>Tipografia</span></li>
+                  </ul>
+                </div>
+                <div className="trdr-sidebar-group">
+                  <span className="trdr-sidebar-group-label">Componentes</span>
+                  <ul className="trdr-sidebar-list">
+                    <li><span className="trdr-sidebar-item"><span className="trdr-sidebar-icon">widgets</span>Catálogo</span></li>
+                  </ul>
+                </div>
+              </nav>
+              <div className="trdr-sidebar-footer">
+                <span className="trdr-sidebar-version">v1.5</span>
+                <span className="trdr-sidebar-version-label">designtokens.md</span>
+              </div>
+            </aside>
+          </div>
+        </div>
+      )
+
     default:
       return null
   }
+}
+
+function CopyButtonPreview() {
+  return (
+    <div className={styles.previewInner}>
+      <PreviewLabel>Default (28px)</PreviewLabel>
+      <div className={styles.row}>
+        <CopyButton text="--bg-primary" label="Token" />
+        <CopyButton text="var(--content-brand)" label="CSS" />
+        <CopyButton text="#00D4FF" label="Hex" />
+      </div>
+      <PreviewLabel>Small (20px)</PreviewLabel>
+      <div className={styles.row}>
+        <CopyButton text="--bg-primary" label="Token" size="sm" />
+        <CopyButton text="var(--content-brand)" label="CSS" size="sm" />
+        <CopyButton text="#00D4FF" label="Hex" size="sm" />
+      </div>
+    </div>
+  )
+}
+
+function SearchInputPreview() {
+  const [query, setQuery] = useState('')
+  return (
+    <div className={styles.previewInner} style={{ maxWidth: 400 }}>
+      <PreviewLabel>Controlado</PreviewLabel>
+      <div className="trdr-search-input">
+        <svg className="trdr-search-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input
+          type="text"
+          className="trdr-input"
+          placeholder="Buscar tokens..."
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+        />
+      </div>
+      <PreviewLabel>Placeholder</PreviewLabel>
+      <div className="trdr-search-input">
+        <svg className="trdr-search-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input
+          type="text"
+          className="trdr-input"
+          placeholder="Buscar componentes..."
+          readOnly
+        />
+      </div>
+    </div>
+  )
 }
 
 function CheckboxPreview() {

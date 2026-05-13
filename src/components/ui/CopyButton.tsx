@@ -2,13 +2,16 @@
 
 import { useState } from 'react'
 
+export type CopyButtonSize = 'default' | 'sm'
+
 interface CopyButtonProps {
   text: string
   label?: string
+  size?: CopyButtonSize
   className?: string
 }
 
-export default function CopyButton({ text, label, className }: CopyButtonProps) {
+export default function CopyButton({ text, label, size = 'default', className }: CopyButtonProps) {
   const [copied, setCopied] = useState(false)
 
   async function handleCopy() {
@@ -32,7 +35,7 @@ export default function CopyButton({ text, label, className }: CopyButtonProps) 
   return (
     <button
       onClick={handleCopy}
-      className={`trdr-copy-btn ${copied ? 'copied' : ''} ${className ?? ''}`}
+      className={`trdr-copy-btn ${size === 'sm' ? 'trdr-copy-btn-sm' : ''} ${copied ? 'copied' : ''} ${className ?? ''}`}
       title={copied ? 'Copiado!' : `Copiar: ${text}`}
       aria-label={copied ? 'Copiado!' : `Copiar ${label ?? text}`}
     >
