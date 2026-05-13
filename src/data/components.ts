@@ -3492,6 +3492,325 @@ Quando href é passado, renderizar como <a target="_blank" rel="noreferrer">, se
 Use APENAS tokens semânticos do TRDR. NUNCA hex direto. NUNCA --scale-spacing-* ou --scale-radius-*.`,
     },
   },
+  // HEADER
+  // =========================================================================
+  {
+    slug: 'header',
+    name: 'Header Desktop',
+    figmaId: '1921:55292',
+    category: 'navegacao',
+    description: 'Barra de navegação superior da plataforma TRDR — 56px de altura, logo, nav principal, busca de ativos, cotações em tempo real, botões de ação, status de conexões e controles de janela.',
+    implemented: true,
+    props: [
+      { name: 'activeNav', type: 'string', values: ['Gráfico', 'Book e Cotações', 'Operação', 'Ferramentas', 'Analistas'] },
+    ],
+    dimensions: [
+      { label: 'Altura', width: '100%', height: '56px' },
+      { label: 'Nav item', width: 'auto', height: '40px' },
+      { label: 'Botão de ícone', width: '32px', height: '32px' },
+      { label: 'Conexões btn', width: '137px', height: '32px' },
+      { label: 'Badge', width: 'auto (min 14px)', height: '14px' },
+      { label: 'Divider vertical', width: '1px', height: '18px' },
+    ],
+    tokens: [
+      { property: 'Background', token: 'bg.primary', value: '#0E0E0E' },
+      { property: 'Border bottom', token: 'border.subtle', value: '#222222' },
+      { property: 'Padding horizontal', token: 'spacing.lg', value: '16px' },
+      { property: 'Nav item — texto default', token: 'content.tertiary', value: '#A4A4A4' },
+      { property: 'Nav item — texto hover/active', token: 'content.primary', value: '#FFFFFF' },
+      { property: 'Nav item — BG hover', token: 'surface.secondary', value: '#222222' },
+      { property: 'Ícone botão', token: 'content.secondary', value: '#E8E8E8' },
+      { property: 'Badge BG', token: 'action.brand.default', value: '#00D4FF' },
+      { property: 'Badge texto', token: 'content.inverse', value: '#1A1A1A' },
+      { property: 'Conexões border', token: 'border.subtle', value: '#222222' },
+      { property: 'Status dot — conectado', token: 'context.trading.up', value: '#4FE290' },
+      { property: 'Status dot — desconectado', token: 'context.trading.down', value: '#F34F45' },
+      { property: 'Win btn close hover', token: 'context.trading.down', value: '#F34F45' },
+      { property: 'Resultado — alta', token: 'context.trading.up', value: '#4FE290' },
+      { property: 'Resultado — baixa', token: 'context.trading.down', value: '#F34F45' },
+    ],
+    anatomy: `Header (flex row, space-between, height 56px, padding 0 16px, bg-primary, border-bottom subtle):\n  LEFT: [Logo 107×40] [Divider 1×18] [Nav itens gap-16 — cada item: 40px h, 8px H-pad, ícone 20px + label 14px] [TextInput 116×32 com ícone busca] [Resultado Row — cotações gap-0]\n  RIGHT: [4× icon-btn 32×32 + badge absoluto] [Conexões btn 137×32, borda subtle, status dot] [Win Controls 3× 40×40]`,
+    notes: 'Componente de 1920px de largura — ocupa 100% da viewport na plataforma. O preview é scrollável horizontalmente. Na platform real, reutiliza TextInput (busca) e FloatingMenu (dropdowns dos itens de nav).',
+    code: {
+      html: `<!-- Header Desktop — Design System TRDR (Figma: 1921:55292) -->
+<!-- Adicionar .trdr-header-nav-item-active no item ativo -->
+<header class="trdr-header">
+  <div class="trdr-header-left">
+    <!-- Logo -->
+    <div class="trdr-header-logo">
+      <img src="/logo-trdr.svg" alt="TRDR" width="107" height="40" />
+    </div>
+    <div class="trdr-header-divider"></div>
+
+    <!-- Nav principal -->
+    <nav class="trdr-header-nav">
+      <button class="trdr-header-nav-item trdr-header-nav-item-active" type="button">
+        <span class="trdr-header-nav-icon material-symbols-outlined">show_chart</span>
+        Gráfico
+      </button>
+      <button class="trdr-header-nav-item" type="button">
+        <span class="trdr-header-nav-icon material-symbols-outlined">format_list_bulleted</span>
+        Book e Cotações
+      </button>
+      <button class="trdr-header-nav-item" type="button">
+        <span class="trdr-header-nav-icon material-symbols-outlined">swap_horiz</span>
+        Operação
+      </button>
+    </nav>
+
+    <!-- Busca — reutilizar TextInput -->
+    <div class="trdr-text-input trdr-text-input-with-icon" style="width:116px">
+      <input type="text" placeholder="Buscar ativo..." />
+    </div>
+  </div>
+
+  <div class="trdr-header-right">
+    <!-- Ícone com badge -->
+    <div style="position:relative;display:inline-flex">
+      <button class="trdr-header-icon-btn" type="button" aria-label="Notificações">
+        <span class="material-symbols-outlined" style="font-size:20px">notifications</span>
+      </button>
+      <span class="trdr-header-badge">4</span>
+    </div>
+
+    <!-- Conexões -->
+    <button class="trdr-header-conexoes" type="button">
+      <span class="trdr-header-status-dot connected"></span>
+      5/6 Conexões
+    </button>
+
+    <!-- Controles de janela -->
+    <div class="trdr-header-wincontrols">
+      <button class="trdr-header-win-btn" aria-label="Minimizar" type="button">
+        <span class="material-symbols-outlined" style="font-size:16px">remove</span>
+      </button>
+      <button class="trdr-header-win-btn trdr-header-win-btn-close" aria-label="Fechar" type="button">
+        <span class="material-symbols-outlined" style="font-size:16px">close</span>
+      </button>
+    </div>
+  </div>
+</header>`,
+      css: `/* Header Desktop — Design System TRDR (Figma: 1921:55292, 1920×56px) */
+
+/* Container principal */
+.trdr-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 var(--spacing-lg);     /* 0 16px */
+  background-color: var(--bg-primary);             /* #0E0E0E */
+  border-bottom: 1px solid var(--border-subtle);   /* #222222 */
+  width: 100%;
+}
+
+.trdr-header-left,
+.trdr-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+}
+
+/* Divider vertical */
+.trdr-header-divider {
+  width: 1px;
+  height: 18px;
+  background-color: var(--border-subtle);
+  margin: 0 8px;
+}
+
+/* Nav items */
+.trdr-header-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+}
+
+.trdr-header-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 40px;
+  padding: 0 8px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  color: var(--content-tertiary);               /* #A4A4A4 */
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: color 0.15s ease, background-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.trdr-header-nav-item:hover {
+  color: var(--content-primary);                /* #FFFFFF */
+  background-color: var(--surface-secondary);  /* #222222 */
+}
+
+.trdr-header-nav-item-active {
+  color: var(--content-primary) !important;
+}
+
+.trdr-header-nav-icon {
+  font-family: 'Material Symbols Outlined';
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 1;
+  font-variation-settings: 'FILL' 0, 'GRAD' 0;
+}
+
+/* Botão de ícone (32×32) */
+.trdr-header-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  color: var(--content-secondary);
+  cursor: pointer;
+  transition: background-color 0.1s;
+}
+
+.trdr-header-icon-btn:hover {
+  background-color: var(--surface-secondary);
+}
+
+/* Badge numérico (posição absoluta sobre ícone) */
+.trdr-header-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--action-brand-default); /* #00D4FF */
+  color: var(--content-inverse);                  /* #1A1A1A */
+  font-family: var(--font-secondary);
+  font-size: 9px;
+  font-weight: 600;
+  min-width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Botão Conexões */
+.trdr-header-conexoes {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--content-secondary);
+  font-family: var(--font-secondary);
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.1s, background-color 0.1s;
+}
+
+.trdr-header-conexoes:hover {
+  border-color: var(--border-default);
+  background-color: var(--surface-secondary);
+}
+
+/* Dot de status */
+.trdr-header-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.trdr-header-status-dot.connected    { background-color: var(--context-trading-up); }
+.trdr-header-status-dot.disconnected { background-color: var(--context-trading-down); }
+
+/* Controles de janela */
+.trdr-header-wincontrols {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  margin-left: 8px;
+}
+
+.trdr-header-win-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  color: var(--content-tertiary);
+  cursor: pointer;
+  transition: background-color 0.1s, color 0.1s;
+}
+
+.trdr-header-win-btn:hover {
+  background-color: var(--surface-secondary);
+  color: var(--content-primary);
+}
+
+.trdr-header-win-btn-close:hover {
+  background-color: var(--context-trading-down) !important;
+  color: var(--content-primary) !important;
+}`,
+      react: `import Header from '@/components/ui/Header'
+
+// Estado padrão — nav "Gráfico" ativo
+<Header activeNav="Gráfico" />
+
+// Com outro item de nav ativo
+<Header activeNav="Book e Cotações" />
+
+// Itens de nav disponíveis:
+// 'Gráfico' | 'Book e Cotações' | 'Operação' | 'Ferramentas' | 'Analistas'`,
+      prompt: `Implemente o componente Header Desktop do Design System TRDR — barra de navegação superior 1920×56px, pixel-perfect com o Figma 1921:55292.
+
+ESTRUTURA GERAL (flex row, space-between, height 56px, padding 0 16px):
+- background: var(--bg-primary) #0E0E0E
+- border-bottom: 1px solid var(--border-subtle) #222222
+
+LADO ESQUERDO (flex row, gap 8px, align-items center):
+1. LOGO: img logo-trdr.svg, width 107px, height 40px
+2. DIVIDER: 1×18px, background var(--border-subtle), margin 0 8px
+3. NAV (flex row, gap 4px):
+   Cada item: height 40px, padding 0 8px, border-radius var(--radius-sm), font var(--font-secondary) 14px/400
+   - Default: color var(--content-tertiary) #A4A4A4
+   - Hover: color var(--content-primary) + background var(--surface-secondary) #222222
+   - Active: color var(--content-primary)
+   - Ícone Material Symbols Outlined 20px + label (gap 4px)
+4. TEXT INPUT (reutilizar componente TextInput): width 116px, height 32px, iconLeft, placeholder "Buscar ativo..."
+5. RESULTADO ROW: cotações em tempo real — por item (flex row, gap 6px, border-left 1px subtle, padding 0 8px):
+   - Symbol: font-mono 11px content.tertiary
+   - Last price: font-mono 13px/500 content.primary
+   - Change: font-mono 12px — positivo: context.trading.up #4FE290, negativo: context.trading.down #F34F45
+
+LADO DIREITO (flex row, gap 8px):
+1. 4× ICON BTN (32×32px, border-radius sm, hover surface.secondary, color content.secondary):
+   - Notificações + badge "4", Meu perfil + badge "1", Configurações, Layouts
+   - Badge: 14×14px, border-radius full, bg action.brand.default #00D4FF, text content.inverse #1A1A1A, font 9px/600, position absolute top-0 right-0
+2. CONEXÕES BTN (137×32px): border 1px solid border.subtle, font-secondary 13px, gap 6px, "5/6 Conexões"
+   - Status dot: 6×6px, border-radius full, connected = context.trading.up, disconnected = context.trading.down
+3. WIN CONTROLS (3× 40×40px): Minimizar, Recolher, Fechar
+   - Fechar: hover bg context.trading.down #F34F45
+
+REUTILIZAÇÃO: TextInput para campo de busca, FloatingMenu para dropdowns dos itens de nav.
+NUNCA usar hex direto. NUNCA usar --scale-spacing-* ou --scale-radius-*.`,
+    },
+  },
 ]
 
 export function getComponentBySlug(slug: string): DesignComponent | undefined {

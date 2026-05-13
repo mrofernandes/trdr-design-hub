@@ -15,6 +15,7 @@ import FloatingMenu from './FloatingMenu'
 import TabelaCotacoes from './TabelaCotacoes'
 import TabelaOrdens from './TabelaOrdens'
 import NewsCard from './NewsCard'
+import Header from './Header'
 
 interface Props {
   slug: string
@@ -349,6 +350,13 @@ function renderPreview(slug: string) {
             <NewsCard sentiment="down" title="Petrobras shares fall on dividend cut" source="Valor Econômico" time="45m ago" />
             <NewsCard sentiment="neutral" title="Banco Central mantém Selic em 10,5%" source="Folha" time="1h ago" />
           </div>
+        </div>
+      )
+
+    case 'header':
+      return (
+        <div className={styles.headerWrap}>
+          <Header activeNav="Gráfico" />
         </div>
       )
 

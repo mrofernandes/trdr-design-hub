@@ -93,6 +93,12 @@
   background-color: var(--surface-secondary);
 }
 
+/* Header — full-width component, scroll horizontally */
+.headerWrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
 /* Card examples */
 .cardExample {
   display: flex;
