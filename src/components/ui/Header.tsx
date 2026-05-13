@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Badge from './Badge'
 
 /* Material Symbols matching exact Figma icon names */
 const NAV_ITEMS = [
@@ -150,7 +151,7 @@ export default function Header({
             notifications
           </span>
           {notifications > 0 && (
-            <span className="trdr-header-badge" aria-hidden="true">{notifications}</span>
+            <Badge variant="brand" className="trdr-header-badge">{notifications}</Badge>
           )}
         </button>
 
@@ -160,7 +161,7 @@ export default function Header({
             person
           </span>
           {profileBadge > 0 && (
-            <span className="trdr-header-badge" aria-hidden="true">{profileBadge}</span>
+            <Badge variant="brand" className="trdr-header-badge">{profileBadge}</Badge>
           )}
         </button>
 

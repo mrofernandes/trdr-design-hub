@@ -1,0 +1,43 @@
+.abas {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid var(--border-subtle);
+  overflow-x: auto;
+  height: 45px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 0 12px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--font-secondary);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--content-tertiary);
+  white-space: nowrap;
+  transition: color 0.15s ease;
+}
+
+.item:hover {
+  color: var(--content-secondary);
+}
+
+.active {
+  color: var(--content-primary);
+}
+
+.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--action-brand-active);
+}

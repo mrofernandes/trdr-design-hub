@@ -94,7 +94,7 @@ export default function ParaIAPage() {
               <span className="material-symbols-outlined">auto_fix_high</span>
             </div>
             <div>
-              <div className={iaStyles.skillTitle}>/trdr-ds — TRDR Design System Installer <span className={iaStyles.commandBadge} style={{ marginLeft: 8, fontSize: 11 }}>v1.7.0</span></div>
+              <div className={iaStyles.skillTitle}>/trdr-ds — TRDR Design System Installer <span className={iaStyles.commandBadge} style={{ marginLeft: 8, fontSize: 11 }}>v1.8.0</span></div>
               <div className={iaStyles.skillSubtitle}>Analisa o projeto → gera sprint plan → aguarda aprovação → executa em sprints independentes com rollback via git</div>
             </div>
           </div>
@@ -243,6 +243,27 @@ export default function ParaIAPage() {
               <span className={iaStyles.skillStepDesc}>Lógica profunda ou domínio específico. Não é modificado — recebe comentário TODO e entrada detalhada no DS_MIGRATION.md.</span>
             </div>
           </div>
+        </div>
+
+        {/* Component dependencies */}
+        <div className={iaStyles.subSection}>
+          <h3 className={iaStyles.subSectionTitle}>Dependências de componentes — ordem topológica</h3>
+          <p className={iaStyles.sectionDesc}>Componentes compostos reutilizam componentes atômicos. A skill resolve a ordem de instalação automaticamente: atômicos primeiro, compostos depois — garantindo que imports de sub-componentes já existam quando um composto é instalado.</p>
+          <div className={iaStyles.fileList}>
+            <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>Boleta</code>
+              <span className={iaStyles.fileDesc}>SegmentedControl, TextInput, Checkbox, Button, Dropdown</span>
+            </div>
+            <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>Janela</code>
+              <span className={iaStyles.fileDesc}>FloatingMenu, Abas</span>
+            </div>
+            <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>NewsCard, Tabelas, Header</code>
+              <span className={iaStyles.fileDesc}>Badge</span>
+            </div>
+          </div>
+          <p className={iaStyles.note}>O campo <code style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}>dependencies</code> no <a href="/components.json" style={{ color: 'var(--content-brand)' }}>components.json</a> lista os slugs de sub-componentes de cada composto.</p>
         </div>
 
         {/* Icon size preservation */}

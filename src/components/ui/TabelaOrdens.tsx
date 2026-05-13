@@ -1,5 +1,6 @@
 'use client'
 import styles from './TabelaOrdens.module.css'
+import Badge, { BadgeVariant } from './Badge'
 
 export type OrdemTipo = 'C' | 'V'
 export type OrdemStatus = 'aberta' | 'executada' | 'cancelada' | 'parcial'
@@ -37,6 +38,13 @@ const STATUS_LABEL: Record<OrdemStatus, string> = {
   executada: 'Executada',
   cancelada: 'Cancelada',
   parcial:   'Parcial',
+}
+
+const STATUS_BADGE: Record<OrdemStatus, BadgeVariant> = {
+  aberta:    'brand',
+  executada: 'success',
+  cancelada: 'warning',
+  parcial:   'neutral',
 }
 
 interface TabelaOrdensProps {
@@ -93,7 +101,7 @@ export default function TabelaOrdens({ rows = SAMPLE_ROWS, className }: TabelaOr
               <td>{row.disp ?? '.'}</td>
               <td>{row.aberta ?? '.'}</td>
               <td>{row.exec ?? '.'}</td>
-              <td>{STATUS_LABEL[row.status]}</td>
+              <td><Badge variant={STATUS_BADGE[row.status]} dot>{STATUS_LABEL[row.status]}</Badge></td>
               <td>{row.validade ?? '.'}</td>
               <td>{row.origem ?? '.'}</td>
             </tr>

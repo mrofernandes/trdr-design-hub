@@ -62,6 +62,7 @@ export interface DesignComponent {
   notes?: string
   implemented?: boolean
   code?: ComponentCode
+  dependencies?: string[]
 }
 
 export const components: DesignComponent[] = [
@@ -360,6 +361,7 @@ Disabled (global): opacity 0.4, cursor not-allowed
 
 Implemente como componente React com CSS Module. Props: variant, size, iconLeft, iconRight + atributos nativos do button. Resultado deve ser pixel-perfect em relação ao Figma.`,
     },
+    dependencies: [],
   },
   {
     slug: 'text-input',
@@ -648,6 +650,7 @@ ESTADOS CSS:
 
 Resultado deve ser pixel-perfect em relação ao Figma node 1327:17000.`,
     },
+    dependencies: [],
   },
   {
     slug: 'dropdown',
@@ -791,6 +794,7 @@ COMPORTAMENTO:
 - :disabled → content-tertiary, cursor not-allowed
 - Variante sem-stroke: border-color transparent`,
     },
+    dependencies: [],
   },
   {
     slug: 'combo-input',
@@ -912,6 +916,7 @@ COMPORTAMENTO:
 - O chevron sempre tem borda focus no estado default (design TRDR)
 - Selecionar o input ativa borda focus na seção esquerda`,
     },
+    dependencies: [],
   },
   {
     slug: 'checkbox',
@@ -1037,6 +1042,7 @@ ESTADOS:
 - :focus-visible → outline border-focus
 - disabled: opacity 0.5, cursor not-allowed`,
     },
+    dependencies: [],
   },
   {
     slug: 'radio-button',
@@ -1179,6 +1185,7 @@ VARIANTE BUTTON (pill):
 
 FONT: 12px / 500 / --font-secondary / --content-primary`,
     },
+    dependencies: [],
   },
   {
     slug: 'switch',
@@ -1367,6 +1374,7 @@ COMPORTAMENTO:
 - :focus-visible com outline no track (não no botão inteiro)
 - :disabled: cursor not-allowed, label muted, track escurecido`,
     },
+    dependencies: [],
   },
   {
     slug: 'segmented-control',
@@ -1475,6 +1483,7 @@ ESPECIFICAÇÕES:
 
 Use classes CSS globais. Gerencie o estado ativo via useState no React.`,
     },
+    dependencies: [],
   },
   {
     slug: 'tooltip',
@@ -1593,6 +1602,7 @@ SETAS CSS POR DIREÇÃO:
 - left/right: seta lateral 6×12px, posicionada em top=50%
 - Alinhamentos: center=50%+translateX, left=8px, right=8px`,
     },
+    dependencies: [],
   },
 
   // =========================================================================
@@ -1700,6 +1710,7 @@ ESPECIFICAÇÕES PIXEL-PERFECT:
 - Indicador ativo: ::after position absolute, bottom 0, left 0, right 0, height 2px, bg --action-brand-active (#007D99)
 - Largura total: 476px | Transição: color 0.15s ease`,
     },
+    dependencies: [],
   },
   {
     slug: 'sub-menu-item',
@@ -1805,6 +1816,7 @@ ESPECIFICAÇÕES:
 
 Implemente com estado ativo via useState.`,
     },
+    dependencies: [],
   },
 
   // =========================================================================
@@ -1968,6 +1980,12 @@ Implemente com estado ativo via useState.`,
 }
 .trdr-boleta-btn-zerar:hover { background: var(--context-trading-stop-alpha); }`,
       react: `import Boleta from '@/components/ui/Boleta'
+// Sub-componentes usados internamente:
+// import SegmentedControl from '@/components/ui/SegmentedControl'
+// import TextInput from '@/components/ui/TextInput'
+// import Checkbox from '@/components/ui/Checkbox'
+// import Button from '@/components/ui/Button'
+// import Dropdown from '@/components/ui/Dropdown'
 
 // Versão padrão (Avançado)
 <Boleta />
@@ -1979,33 +1997,35 @@ Implemente com estado ativo via useState.`,
 <Boleta versao="avancado" className="meu-override" />`,
       prompt: `Implemente o componente Boleta do Design System TRDR — painel lateral de negociações de 283px de largura.
 
+SUB-COMPONENTES OBRIGATÓRIOS (importar do DS):
+- SegmentedControl — abas Avançado/Simples
+- TextInput (size="large") — campos Quantidade e Preço da Ordem
+- Checkbox — toggle TP/SL
+- Button (variant="long"/"short"/"ghost") — botões de ação de compra/venda e ações secundárias
+- Dropdown (stroke={false}) — seletor de Estratégia
+
 ESTRUTURA (3 seções com border-left: 1px solid --border-subtle):
 
 1. ABAS (height: 45px, padding: 8px, border-bottom sutil)
-   - Segmented control pill (border-radius: 9999px, bg: --surface-secondary #222)
-   - 2 segments: "Avançado" (ativo) e "Simples" (inativo)
-   - Segment ativo: bg --action-secondary-default #4A4A4A, radius 16px, padding 8px 12px
-   - Segment inativo: bg transparente, text --content-tertiary
+   - <SegmentedControl tabs={['Avançado', 'Simples']} active={0} />
 
 2. CONTAINER — campos do formulário (padding: 8px, gap: 16px, border-bottom sutil)
-   - Linha "Estratégia": label (tertiary 12px/500) + valor "Manejo" + chevron (primary)
-   - Linha "Disp.": label + valor "258.010.200,00 USDT" (primary)
-   - Grupo "Quantidade": label 12px + input 32px (bg --surface-primary, radius 8px, padding 8px) + 3 quick buttons (border --border-default, radius 8px, padding 8px 12px, font 14px/600 secondary, gap 4px)
-   - Grupo "Preço da Ordem": label 12px + input 32px
-   - Linha "TP/SL": checkbox 16x16 (border default, radius 5px, bg --surface-tertiary) + label primary
+   - "Estratégia": label + <Dropdown value="Manejo" stroke={false} />
+   - "Disp.": label + valor "258.010.200,00 USDT" (primary)
+   - "Quantidade": label + <TextInput placeholder="Inserir" size="large" /> + 3 quick <Button variant="ghost" size="lg">
+   - "Preço da Ordem": label + <TextInput defaultValue="0,00" size="large" />
+   - <Checkbox checked={false} label="TP/SL" />
 
 3. BOTÕES (padding: 8px, gap: 8px)
-   - 4 rows de ação (gap 8px cada):
-     • Long (flex:1, bg --context-trading-long-default, text --context-trading-long-text #4FE290, radius 8px, padding 8px, font 14px/600)
-     • Short (flex:1, bg --context-trading-short-default, text --context-trading-short-text #F34F45, radius 8px, padding 8px 12px, font 14px/600)
-   - "Zerar (5)": width 100%, height 32px, border 1px sólido --color-orange-500 (#FF6400), text --color-orange-500, radius 8px
-   - "Cancelar ordens (2) + Zerar (5)": width 100%, border --border-default, text --content-secondary, radius 8px
-   - Row "Cancelar Ordem" (shrink-0) + "Inverter" (flex:1 min-width:100px): ambos border --border-default
-   - Resumo Posição: "Posição" (14px tertiary) / "Zerado" (16px --content-success #4FE290), + 2 linhas meta 12px tertiary
+   - 4 rows de ação: <Button variant="long" size="lg"> + <Button variant="short" size="lg">
+   - "Zerar (5)": botão custom (border --color-orange-500, text laranja) — sem variante atômica
+   - "Cancelar ordens (2) + Zerar (5)": <Button variant="ghost" size="lg">
+   - Row "Cancelar Ordem" + "Inverter": <Button variant="ghost" size="lg">
+   - Resumo Posição: "Posição" (14px tertiary) / "Zerado" (16px --content-success), + 2 linhas meta
 
-Hover states: long-hover rgba(79,226,144,0.12), short-hover rgba(243,79,69,0.12), zerar-hover --context-trading-stop-alpha.
 Resultado pixel-perfect com exatamente 283px de largura.`,
     },
+    dependencies: ['segmented-control', 'text-input', 'checkbox', 'button', 'dropdown'],
   },
 
   // =========================================================================
@@ -2163,6 +2183,7 @@ Resultado pixel-perfect com exatamente 283px de largura.`,
 .trdr-tabela-cotacoes .col-tend-up   { color: var(--context-trading-up);   }
 .trdr-tabela-cotacoes .col-tend-down { color: var(--context-trading-down); }`,
       react: `import TabelaCotacoes, { CotacaoRow } from '@/components/ui/TabelaCotacoes'
+// Badge é importado internamente — a coluna Var% renderiza <Badge> automaticamente
 
 const rows: CotacaoRow[] = [
   {
@@ -2192,6 +2213,9 @@ export default function Example() {
   return <TabelaCotacoes rows={rows} />
 }`,
       prompt: `Crie um componente React 'TabelaCotacoes' pixel-perfect baseado no Figma TRDR (node 77:3681).
+
+COMPOSIÇÃO: A coluna Var% usa o componente Badge (@/components/ui/Badge) com dot.
+Variação positiva → Badge variant="success", negativa → Badge variant="warning".
 
 ESTRUTURA:
 - Elemento <table> com table-layout: fixed e border-collapse: collapse
@@ -2228,6 +2252,7 @@ interface CotacaoRow {
 
 Usar APENAS tokens semânticos TRDR. NUNCA hex direto. NUNCA --scale-spacing-*.`,
     },
+    dependencies: ['badge'],
   },
   {
     slug: 'tabela-ordens',
@@ -2376,6 +2401,7 @@ Usar APENAS tokens semânticos TRDR. NUNCA hex direto. NUNCA --scale-spacing-*.`
   font-weight: 600;
 }`,
       react: `import TabelaOrdens, { OrdemRow } from '@/components/ui/TabelaOrdens'
+// Badge é importado internamente — a coluna Status renderiza <Badge> automaticamente
 
 const rows: OrdemRow[] = [
   {
@@ -2418,6 +2444,9 @@ export default function Example() {
 }`,
       prompt: `Crie um componente React 'TabelaOrdens' pixel-perfect baseado no Figma TRDR (node 336:3114).
 
+COMPOSIÇÃO: A coluna Status usa o componente Badge (@/components/ui/Badge) com dot.
+Mapeamento de variantes: aberta→brand, executada→success, cancelada→warning, parcial→neutral.
+
 ESTRUTURA:
 - Elemento <table> com table-layout: fixed e border-collapse: collapse
 - Wrapper <div> com overflow-x: auto e background: var(--bg-primary)
@@ -2451,6 +2480,7 @@ interface OrdemRow {
 
 Usar APENAS tokens semânticos TRDR. NUNCA hex direto. NUNCA --scale-spacing-*.`,
     },
+    dependencies: ['badge'],
   },
 
   // =========================================================================
@@ -2722,6 +2752,7 @@ Tokens TRDR obrigatórios:
 
 Implemente como componente React com CSS Module. Use as classes .trdr-badge e .trdr-badge-{variant} para os badges. O componente deve aceitar as props: href, icon?, title, description, headerBadges?, footerLeft?, footerBadges?.`,
     },
+    dependencies: [],
   },
 
   // =========================================================================
@@ -2946,6 +2977,7 @@ API: import FloatingMenu from '@/components/ui/FloatingMenu'
 
 Use Object.assign(FloatingMenuRoot, { Item, Title, Divider }) para montar o compound component. NUNCA hex direto — apenas tokens var(--*). NUNCA --scale-spacing-* ou --scale-radius-*.`,
     },
+    dependencies: [],
   },
 
   // =========================================================================
@@ -3225,7 +3257,7 @@ Use Object.assign(FloatingMenuRoot, { Item, Title, Divider }) para montar o comp
 .trdr-janela-action-item:hover { background: var(--surface-secondary); }
 .trdr-janela-action-item .material-symbols-outlined { color: var(--content-tertiary); font-size: 20px; }`,
       react: `import Janela from '@/components/ui/Janela'
-import Boleta from '@/components/ui/Boleta'
+// Internamente usa: FloatingMenu (menu de ações) e Abas (tool tabs no header)
 
 // Versão default — slot vazio mostra "Componente coringa"
 <Janela />
@@ -3258,6 +3290,9 @@ import Boleta from '@/components/ui/Boleta'
 />`,
       prompt: `Implemente o componente Janela do Design System TRDR — janela de ferramenta de trading composta, pixel-perfect com o Figma 1909:41600.
 
+COMPOSIÇÃO: O header usa o componente Abas (@/components/ui/Abas) para as tool tabs (underline).
+O menu de ações usa o componente FloatingMenu (@/components/ui/FloatingMenu) com FloatingMenu.Item.
+
 DIMENSÕES (fixas): 476×312 px, border-radius var(--radius-md) (8px), border 1px solid var(--border-subtle), background var(--bg-secondary), overflow hidden, position relative, font-family var(--font-secondary). Layout em coluna com 3 faixas:
 
 1. HEADER (height 41px, bg var(--bg-secondary), border-bottom 1px var(--border-subtle), padding 0 8px, gap 8px):
@@ -3285,6 +3320,7 @@ API React (TypeScript): props { tools?: JanelaTool[]; activeTool?: number; onToo
 
 Use APENAS tokens semânticos do TRDR (var(--bg-*), var(--surface-*), var(--content-*), var(--action-*), var(--border-*), var(--radius-*), var(--spacing-*)). NUNCA hex direto. NUNCA --scale-spacing-* ou --scale-radius-* (não existem). O componente deve funcionar nos dois temas (light e dark) sem alterações.`,
     },
+    dependencies: ['floating-menu', 'abas'],
   },
 
   // =========================================================================
@@ -3438,8 +3474,9 @@ Use APENAS tokens semânticos do TRDR (var(--bg-*), var(--surface-*), var(--cont
   background-color: var(--surface-secondary);
 }`,
       react: `import NewsCard from '@/components/ui/NewsCard'
+// Badge é importado internamente — a meta row exibe <Badge> de sentimento automaticamente
 
-// Notícia de alta (dot verde)
+// Notícia de alta (dot verde + Badge "Alta" success)
 <NewsCard
   sentiment="up"
   title="Bitcoin ETF sees record inflows as institutional interest grows"
@@ -3448,7 +3485,7 @@ Use APENAS tokens semânticos do TRDR (var(--bg-*), var(--surface-*), var(--cont
   href="https://coindesk.com/article/..."
 />
 
-// Notícia de baixa (dot vermelho)
+// Notícia de baixa (dot vermelho + Badge "Baixa" warning)
 <NewsCard
   sentiment="down"
   title="Petrobras shares fall on dividend cut concerns"
@@ -3456,7 +3493,7 @@ Use APENAS tokens semânticos do TRDR (var(--bg-*), var(--surface-*), var(--cont
   time="45m ago"
 />
 
-// Neutro com callback no botão de ação
+// Neutro (Badge "Neutro" neutral)
 <NewsCard
   sentiment="neutral"
   title="Banco Central mantém Selic em 10,5% ao ano"
@@ -3486,11 +3523,15 @@ LAYOUT INTERNO (flex-row, gap 8px, align-items flex-start):
    - Hover: background var(--surface-secondary)
    - Ícone: Material Symbols "open_in_new" 12px
 
+COMPOSIÇÃO: A meta row usa o componente Badge (@/components/ui/Badge) com dot para indicar sentimento.
+Mapeamento: up→success "Alta", down→warning "Baixa", neutral→neutral "Neutro".
+
 API React: props { title: string; source: string; time: string; sentiment?: 'up' | 'down' | 'neutral'; href?: string; onShare?: () => void }
 Quando href é passado, renderizar como <a target="_blank" rel="noreferrer">, senão como <div>.
 
 Use APENAS tokens semânticos do TRDR. NUNCA hex direto. NUNCA --scale-spacing-* ou --scale-radius-*.`,
     },
+    dependencies: ['badge'],
   },
   // HEADER
   // =========================================================================
@@ -3771,6 +3812,7 @@ Use APENAS tokens semânticos do TRDR. NUNCA hex direto. NUNCA --scale-spacing-*
   color: var(--content-primary) !important;
 }`,
       react: `import Header from '@/components/ui/Header'
+// Badge é importado internamente — os badges de notificação usam <Badge variant="brand">
 
 // Estado padrão — nav "Gráfico" ativo
 <Header activeNav="Gráfico" />
@@ -3781,6 +3823,8 @@ Use APENAS tokens semânticos do TRDR. NUNCA hex direto. NUNCA --scale-spacing-*
 // Itens de nav disponíveis:
 // 'Gráfico' | 'Book e Cotações' | 'Operação' | 'Ferramentas' | 'Analistas'`,
       prompt: `Implemente o componente Header Desktop do Design System TRDR — barra de navegação superior 1920×56px, pixel-perfect com o Figma 1921:55292.
+
+COMPOSIÇÃO: Os badges numéricos dos botões de ícone (notificações, perfil) usam o componente Badge (@/components/ui/Badge) com variant="brand".
 
 ESTRUTURA GERAL (flex row, space-between, height 56px, padding 0 16px):
 - background: var(--bg-primary) #0E0E0E
@@ -3813,6 +3857,7 @@ LADO DIREITO (flex row, gap 8px):
 REUTILIZAÇÃO: TextInput para campo de busca, FloatingMenu para dropdowns dos itens de nav.
 NUNCA usar hex direto. NUNCA usar --scale-spacing-* ou --scale-radius-*.`,
     },
+    dependencies: ['badge'],
   },
   {
     slug: 'badge',
@@ -3987,6 +4032,7 @@ NOTAS:
 - Archived = variante dedicada com dot
 - NUNCA usar hex direto. NUNCA usar --scale-spacing-* ou --scale-radius-*.`,
     },
+    dependencies: [],
   },
 ]
 

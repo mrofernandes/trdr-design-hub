@@ -17,6 +17,9 @@ import TabelaOrdens from './TabelaOrdens'
 import NewsCard from './NewsCard'
 import Header from './Header'
 import Badge from './Badge'
+import SegmentedControl from './SegmentedControl'
+import Abas from './Abas'
+import SubMenu from './SubMenu'
 
 interface Props {
   slug: string
@@ -101,67 +104,31 @@ function renderPreview(slug: string) {
     case 'abas':
       return (
         <div className={styles.previewInner}>
-          <div className={styles.tabsWrapper}>
-            {['Todos os tokens', 'Primitivos', 'Semânticos', 'Scale', 'Tipografia'].map((label, i) => (
-              <div key={label} className={styles.tabItem} data-active={i === 0 ? 'true' : undefined}>
-                <span style={{
-                  fontFamily: 'var(--font-secondary)',
-                  fontSize: 16,
-                  fontWeight: 500,
-                  color: i === 0 ? 'var(--content-primary)' : 'var(--content-tertiary)',
-                  padding: '12px',
-                  whiteSpace: 'nowrap',
-                }}>
-                  {label}
-                </span>
-                {i === 0 && <div className={styles.tabUnderline} />}
-              </div>
-            ))}
-          </div>
+          <Abas
+            tabs={['Todos os tokens', 'Primitivos', 'Semânticos', 'Scale', 'Tipografia']}
+            active={0}
+          />
         </div>
       )
 
     case 'segmented-control':
       return (
         <div className={styles.previewInner}>
-          <div className="trdr-segment-control">
-            {['Filtro 1', 'Filtro 2', 'Filtro 3', 'Filtro 4', 'Filtro 5'].map((label, i) => (
-              <span
-                key={label}
-                className={`trdr-segment ${i === 0 ? 'trdr-segment-active' : 'trdr-segment-inactive'}`}
-              >
-                {label}
-              </span>
-            ))}
-          </div>
+          <SegmentedControl
+            tabs={['Filtro 1', 'Filtro 2', 'Filtro 3', 'Filtro 4', 'Filtro 5']}
+            active={0}
+          />
         </div>
       )
 
     case 'sub-menu-item':
       return (
         <div className={styles.previewInner}>
-          <div className={styles.menuList}>
-            {[
-              { icon: 'palette', label: 'Todos os tokens' },
-              { icon: 'widgets', label: 'Catálogo' },
-              { icon: 'smart_toy', label: 'Guia & Regras' },
-            ].map(({ icon, label }, i) => (
-              <div
-                key={label}
-                className={styles.menuItem}
-                data-active={i === 0 ? 'true' : undefined}
-              >
-                <span style={{ ...ICON_STYLE, color: 'var(--content-tertiary)' }}>{icon}</span>
-                <span style={{
-                  fontFamily: 'var(--font-secondary)',
-                  fontSize: 14,
-                  color: 'var(--content-secondary)',
-                }}>
-                  {label}
-                </span>
-              </div>
-            ))}
-          </div>
+          <SubMenu>
+            <SubMenu.Item icon="palette" active>Todos os tokens</SubMenu.Item>
+            <SubMenu.Item icon="widgets">Catálogo</SubMenu.Item>
+            <SubMenu.Item icon="smart_toy">Guia &amp; Regras</SubMenu.Item>
+          </SubMenu>
         </div>
       )
 

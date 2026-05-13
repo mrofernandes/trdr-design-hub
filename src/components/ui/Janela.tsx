@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react'
 import styles from './Janela.module.css'
+import FloatingMenu from './FloatingMenu'
+import Abas from './Abas'
 
 export interface JanelaTool {
   label: string
@@ -116,16 +118,12 @@ export default function Janela({
         </div>
 
         <div className={styles.toolTabs}>
-          {tools.map((tool, i) => (
-            <button
-              key={tool.label}
-              type="button"
-              className={[styles.toolTab, i === currentTool ? styles.toolTabActive : ''].filter(Boolean).join(' ')}
-              onClick={() => handleToolClick(i)}
-            >
-              {tool.label}
-            </button>
-          ))}
+          <Abas
+            tabs={tools.map(t => ({ label: t.label, icon: t.icon }))}
+            active={currentTool}
+            onChange={handleToolClick}
+            className={styles.toolAbas}
+          />
           <button
             type="button"
             className={styles.toolChevron}
@@ -218,22 +216,19 @@ export default function Janela({
         {showSideScroll && showBottomScroll && <div className={styles.scrollCorner} />}
       </div>
 
-      {/* FLOATING ACTIONS MENU */}
+      {/* FLOATING ACTIONS MENU — usa componente FloatingMenu */}
       {showActionsMenu && (
-        <div className={styles.actionsMenu} role="menu">
+        <FloatingMenu width={172} className={styles.actionsMenu}>
           {actions.map((action) => (
-            <button
+            <FloatingMenu.Item
               key={action.label}
-              type="button"
-              role="menuitem"
-              className={styles.actionItem}
+              icon={action.icon}
               onClick={action.onClick}
             >
-              <Icon name={action.icon} />
               {action.label}
-            </button>
+            </FloatingMenu.Item>
           ))}
-        </div>
+        </FloatingMenu>
       )}
     </div>
   )

@@ -51,7 +51,7 @@
   line-height: 1;
 }
 
-/* Tabs Ferramentas */
+/* Tabs Ferramentas — reutiliza componente Abas */
 .toolTabs {
   display: flex;
   align-items: stretch;
@@ -61,41 +61,10 @@
   overflow: hidden;
 }
 
-.toolTab {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 var(--spacing-md);
+.toolAbas {
+  border-bottom: none;
   height: 100%;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  position: relative;
-  font-family: var(--font-secondary);
   font-size: 14px;
-  font-weight: 400;
-  line-height: 16.8px;
-  color: var(--content-tertiary);
-  white-space: nowrap;
-  transition: color 0.15s ease;
-}
-
-.toolTab:hover:not(.toolTabActive) {
-  color: var(--content-secondary);
-}
-
-.toolTabActive {
-  color: var(--content-primary);
-}
-
-.toolTabActive::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 2px;
-  background: var(--bg-brand);
 }
 
 .toolChevron {
@@ -400,31 +369,3 @@
   z-index: 10;
 }
 
-.actionItem {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  height: 32px;
-  padding: 0 var(--spacing-sm);
-  background: transparent;
-  border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  font-family: var(--font-secondary);
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.8px;
-  color: var(--content-secondary);
-  text-align: left;
-  width: 100%;
-  transition: background 0.12s ease;
-}
-
-.actionItem:hover {
-  background: var(--surface-secondary);
-}
-
-.actionItem .materialIcon {
-  color: var(--content-tertiary);
-  flex-shrink: 0;
-}

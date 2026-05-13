@@ -1,5 +1,6 @@
 'use client'
 import styles from './TabelaCotacoes.module.css'
+import Badge from './Badge'
 
 export type TendDirection = 'up' | 'down' | null
 
@@ -84,7 +85,9 @@ export default function TabelaCotacoes({ rows = SAMPLE_ROWS, className }: Tabela
                 <td>{row.ativo}</td>
                 <td className="col-ultimo">{String(row.ultimo)}</td>
                 <td>{row.qUlt ?? '.'}</td>
-                <td className={varClass}>{formatVar(row.varPct)}</td>
+                <td className={varClass}>
+                  <Badge variant={isUp ? 'success' : 'warning'} dot>{formatVar(row.varPct)}</Badge>
+                </td>
                 <td>
                   {tendIcon && (
                     <span className={`col-tend-icon ${tendClass}`}>{tendIcon}</span>
