@@ -3816,14 +3816,15 @@ NUNCA usar hex direto. NUNCA usar --scale-spacing-* ou --scale-radius-*.`,
     name: 'Badge',
     figmaId: '2316:8953',
     category: 'outros',
-    description: 'Badge de status com dot opcional. 5 variantes (Neutral, Brand, Success, Warning, Archived) e 2 tamanhos (default 12px, large 14px). Height fixo 16px, border-radius 5px.',
+    description: 'Badge de status com dot opcional. 5 variantes (Neutral, Brand, Success, Warning, Archived) e 2 tamanhos (default 12px/16px, large 14px/25px). Border-radius 5px.',
     props: [
       { name: 'Variant', type: 'enum', values: ['Neutral', 'Brand', 'Success', 'Warning', 'Archived'] },
       { name: 'Size', type: 'enum', values: ['Default', 'Large'] },
       { name: 'Dot', type: 'boolean', values: ['true', 'false'] },
     ],
     dimensions: [
-      { label: 'Default', width: 'auto (hug)', height: '16px' },
+      { label: 'Default (sm)', width: 'auto (hug)', height: '16px' },
+      { label: 'Large', width: 'auto (hug)', height: '25px' },
       { label: 'Dot icon', width: '6px', height: '6px' },
     ],
     tokens: [
@@ -3847,9 +3848,9 @@ NUNCA usar hex direto. NUNCA usar --scale-spacing-* ou --scale-radius-*.`,
   └── [::before dot 6×6px border-radius full, cor = currentColor] (se .trdr-badge-dot)
   └── [texto label]
 
-Container: inline-flex, align-items center, height 16px, padding 0 4px, border-radius 5px, border 1px solid
-Default: Inter 12px/500, letter-spacing 0.2px
-Large: Inter 14px/400, letter-spacing 0, line-height 1.2`,
+Container: inline-flex, align-items center, border-radius 5px, border 1px solid
+Default (sm): height 16px, padding 0 4px, Inter 12px/500, letter-spacing 0.2px
+Large: height auto (~25px), padding 4px uniforme, Inter 14px/400, letter-spacing 0, line-height 1.2`,
     implemented: true,
     code: {
       html: `<!-- Neutral (default) -->
@@ -3891,6 +3892,8 @@ Large: Inter 14px/400, letter-spacing 0, line-height 1.2`,
   font-weight: 400;
   letter-spacing: 0;
   line-height: 1.2;
+  padding: 4px;                                /* 4px uniforme */
+  height: auto;                                /* ~25px, hug content */
 }
 
 /* --- Variantes --- */
@@ -3932,7 +3935,6 @@ Large: Inter 14px/400, letter-spacing 0, line-height 1.2`,
   height: 6px;
   border-radius: var(--radius-full);           /* 9999px */
   background-color: currentColor;
-  margin-left: 1px;
 }`,
       react: `import Badge from '@/components/ui/Badge'
 
@@ -3957,13 +3959,11 @@ export default function Example() {
       prompt: `Implemente o componente Badge do Design System TRDR.
 
 ESPECIFICAÇÕES PIXEL-PERFECT:
-- Height: 16px fixo
-- Padding: 0 4px
 - Border-radius: 5px (fixo, não token)
 - Border: 1px solid (cor varia por variante)
-- Font default: Inter 12px/500, letter-spacing 0.2px
-- Font large: Inter 14px/400, letter-spacing 0, line-height 1.2
-- Dot: 6×6px, border-radius full, cor = currentColor, margin-left 1px
+- Default (sm): height 16px, padding 0 4px, Inter 12px/500, letter-spacing 0.2px
+- Large: height auto (~25px), padding 4px uniforme, Inter 14px/400, letter-spacing 0, line-height 1.2
+- Dot: 6×6px, border-radius full, cor = currentColor
 
 VARIANTES E TOKENS OBRIGATÓRIOS:
 - Neutral: bg --surface-secondary (#222222), text --content-tertiary (#A4A4A4), border --border-subtle (#222222)
