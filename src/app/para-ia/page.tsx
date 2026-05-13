@@ -26,8 +26,8 @@ const phaseOneSteps = [
   },
   {
     n: '5',
-    label: 'Apresentar o plano e aguardar',
-    desc: 'Exibe score de conformidade, arquivos a criar, logos a corrigir, violações por categoria e estimativa de lotes (todos os projetos usam 4 sub-fases com checkpoint). Nenhum arquivo é alterado antes da sua resposta.',
+    label: 'Gerar sprint plan e aguardar',
+    desc: 'Salva DS_ANALYSIS.md + SPRINT_PLAN.md (sprints independentes agrupados por pasta, máx. 15 arquivos cada). Classifica componentes em simple/complex/manual. Nenhum arquivo é alterado antes da sua resposta.',
   },
 ]
 
@@ -39,7 +39,8 @@ const phaseTwoFiles = [
   { file: 'logo-trdr.svg', desc: 'Logos errados encontrados na Fase 1 são substituídos no lugar pelo logo oficial (105×41px). Se não houver logo e public/ existir, o arquivo é copiado para public/logo-trdr.svg.' },
   { file: 'MISSING_COMPONENTS.md', desc: 'Apenas se algum stub for encontrado no projeto — registra slug, figmaId e tokens recomendados.' },
   { file: 'DS_MIGRATION.md', desc: 'Log completo da migração + checklist de passos manuais (fontes, dark mode, trading UI, stubs).' },
-  { file: 'DS_PROGRESS.md', desc: 'Checkpoint de execução em todos os projetos — registra sub-fases A/B/C/D e lotes de violações com status PENDING / IN_PROGRESS / COMPLETED. Permite retomar com /trdr-ds resume após interrupções.' },
+  { file: 'DS_PROGRESS.md', desc: 'Checkpoint de execução — registra sprints, sub-fases e progresso geral. Permite retomar com /trdr-ds resume.' },
+  { file: 'SPRINT_PLAN.md', desc: 'Plano de sprints gerado na análise — cada sprint é independente e executável em uma janela de contexto limpa.' },
 ]
 
 const responseCommands = [
@@ -52,10 +53,10 @@ const responseCommands = [
 ]
 
 const batchCommands = [
-  { cmd: '"continuar"', desc: 'Processa o próximo lote.' },
-  { cmd: '"tudo"', desc: 'Processa todos os lotes restantes sem pausar — sem interrupções até o final.' },
-  { cmd: '"pular src/legacy"', desc: 'Pula a pasta do próximo lote e vai para o seguinte.' },
-  { cmd: '"parar"', desc: 'Salva o progresso e para — retome depois com /trdr-ds resume.' },
+  { cmd: '"continuar"', desc: 'Processa o próximo sprint.' },
+  { cmd: '"tudo"', desc: 'Processa todos os sprints restantes sem pausar.' },
+  { cmd: '"pular src/legacy"', desc: 'Pula a pasta do próximo sprint e vai para o seguinte.' },
+  { cmd: '"parar"', desc: 'Salva o progresso e para — retome com /trdr-ds resume.' },
 ]
 
 const triggerPhrases = [
@@ -93,23 +94,23 @@ export default function ParaIAPage() {
               <span className="material-symbols-outlined">auto_fix_high</span>
             </div>
             <div>
-              <div className={iaStyles.skillTitle}>/trdr-ds — TRDR Design System Installer <span className={iaStyles.commandBadge} style={{ marginLeft: 8, fontSize: 11 }}>v1.6.5</span></div>
-              <div className={iaStyles.skillSubtitle}>Analisa o projeto → gera plano → aguarda aprovação → executa em 4 sub-fases com checkpoint</div>
+              <div className={iaStyles.skillTitle}>/trdr-ds — TRDR Design System Installer <span className={iaStyles.commandBadge} style={{ marginLeft: 8, fontSize: 11 }}>v1.7.0</span></div>
+              <div className={iaStyles.skillSubtitle}>Analisa o projeto → gera sprint plan → aguarda aprovação → executa em sprints independentes com rollback via git</div>
             </div>
           </div>
 
           <div className={iaStyles.skillSteps}>
             <div className={iaStyles.skillStep}>
-              <span className={iaStyles.skillStepLabel}>1 — Análise</span>
-              <span className={iaStyles.skillStepDesc}>Detecta framework, mapeia estilos, encontra violações e busca componentes disponíveis no Hub ao vivo</span>
+              <span className={iaStyles.skillStepLabel}>1 — Análise + Sprint Plan</span>
+              <span className={iaStyles.skillStepDesc}>Detecta framework, encontra violações, classifica componentes e gera SPRINT_PLAN.md com sprints independentes</span>
             </div>
             <div className={iaStyles.skillStep}>
-              <span className={iaStyles.skillStepLabel}>2 — Aprovação</span>
-              <span className={iaStyles.skillStepDesc}>Apresenta plano completo com score de conformidade. Nenhum arquivo é alterado antes da sua resposta</span>
+              <span className={iaStyles.skillStepLabel}>2 — Backup + Aprovação</span>
+              <span className={iaStyles.skillStepDesc}>Cria branch git de backup antes de qualquer modificação. Apresenta o plano — nenhum arquivo é alterado antes da sua resposta</span>
             </div>
             <div className={iaStyles.skillStep}>
-              <span className={iaStyles.skillStepLabel}>3 — Execução em 4 sub-fases</span>
-              <span className={iaStyles.skillStepDesc}>Foundation (tokens.css, components.css, CLAUDE.md) → Violations (lotes de violações) → Components (classes DS) → Final (logos + DS_MIGRATION.md). Checkpoint salvo após cada sub-fase — retomável a qualquer momento</span>
+              <span className={iaStyles.skillStepLabel}>3 — Execução por Sprints</span>
+              <span className={iaStyles.skillStepDesc}>Cada sprint é independente: Foundation → Violations (por pasta) → Components (3 passes) → Final. Limpe o contexto entre sprints com /clear e retome com /trdr-ds resume</span>
             </div>
           </div>
         </div>
@@ -158,7 +159,7 @@ export default function ParaIAPage() {
           <div className={iaStyles.fileList}>
             <div className={iaStyles.fileItem}>
               <code className={iaStyles.fileName}>/components.json</code>
-              <span className={iaStyles.fileDesc}>Catálogo completo em JSON: 18 componentes implementados (com 4 code blocks cada). <a href="/components.json" style={{ color: 'var(--content-brand)' }}>Abrir endpoint →</a></span>
+              <span className={iaStyles.fileDesc}>Catálogo completo em JSON: 20 componentes implementados (com 4 code blocks cada). <a href="/components.json" style={{ color: 'var(--content-brand)' }}>Abrir endpoint →</a></span>
             </div>
             <div className={iaStyles.fileItem}>
               <code className={iaStyles.fileName}>/tokens.css</code>
@@ -171,25 +172,29 @@ export default function ParaIAPage() {
           </div>
         </div>
 
-        {/* Large projects */}
+        {/* Sprints */}
         <div className={iaStyles.subSection}>
-          <h3 className={iaStyles.subSectionTitle}>Checkpoints e lotes — todos os projetos</h3>
-          <p className={iaStyles.sectionDesc}>Todos os projetos — independente do tamanho — executam em 4 sub-fases com checkpoint: Foundation → Violations → Components → Final. Isso previne sobrecarga de contexto e alucinações. A sub-fase Violations processa <strong>5 arquivos por lote</strong> (padrão), salva progresso em <code style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--content-brand)' }}>DS_PROGRESS.md</code> e pausa entre lotes para você decidir.</p>
+          <h3 className={iaStyles.subSectionTitle}>Sistema de Sprints — projetos de qualquer tamanho</h3>
+          <p className={iaStyles.sectionDesc}>A migração é dividida em <strong>sprints independentes</strong>. Cada sprint cabe em uma única janela de contexto — ideal para projetos grandes (4GB+). Entre sprints, use <code style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--content-brand)' }}>/clear</code> para limpar o contexto e <code style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--content-brand)' }}>/trdr-ds resume</code> para continuar.</p>
           <div className={iaStyles.fileList}>
             <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>SPRINT_PLAN.md</code>
+              <span className={iaStyles.fileDesc}>Gerado na Fase 1 — lista todos os sprints com escopo, arquivos e status. Cada sprint processa no máximo 15 arquivos.</span>
+            </div>
+            <div className={iaStyles.fileItem}>
               <code className={iaStyles.fileName}>/trdr-ds resume</code>
-              <span className={iaStyles.fileDesc}>Retoma de onde parou — lê DS_PROGRESS.md e continua a partir do último checkpoint (sub-fase ou lote). Funciona mesmo em sessões diferentes.</span>
+              <span className={iaStyles.fileDesc}>Encontra o próximo sprint pendente no SPRINT_PLAN.md e executa — lê apenas os dados necessários para aquele sprint, sem sobrecarregar o contexto.</span>
             </div>
             <div className={iaStyles.fileItem}>
               <code className={iaStyles.fileName}>/trdr-ds status</code>
-              <span className={iaStyles.fileDesc}>Mostra tabela de progresso (sub-fases A/B/C/D, lotes concluídos, violações corrigidas, pendências) sem modificar nenhum arquivo.</span>
+              <span className={iaStyles.fileDesc}>Tabela de progresso com todos os sprints (completos, em andamento, pendentes), violações corrigidas e próxima ação.</span>
             </div>
             <div className={iaStyles.fileItem}>
-              <code className={iaStyles.fileName}>/trdr-ds batch N</code>
-              <span className={iaStyles.fileDesc}>Define o tamanho de cada lote de violações (padrão: 5 arquivos). Use batch 10 ou batch 20 para projetos onde prefere menos interrupções.</span>
+              <code className={iaStyles.fileName}>/trdr-ds rollback</code>
+              <span className={iaStyles.fileDesc}>Reverte TODA a migração ao estado original usando o branch git de backup criado antes do primeiro sprint.</span>
             </div>
           </div>
-          <p className={iaStyles.sectionDesc} style={{ marginTop: 'var(--spacing-lg)' }}>Entre um lote e outro, responda com:</p>
+          <p className={iaStyles.sectionDesc} style={{ marginTop: 'var(--spacing-lg)' }}>Entre sprints, responda com:</p>
           <div className={iaStyles.responseGrid}>
             {batchCommands.map(r => (
               <div key={r.cmd} className={iaStyles.responseCard}>
@@ -200,10 +205,87 @@ export default function ParaIAPage() {
           </div>
         </div>
 
+        {/* Rollback */}
+        <div className={iaStyles.subSection}>
+          <h3 className={iaStyles.subSectionTitle}>Rollback — desfazer a migração</h3>
+          <p className={iaStyles.sectionDesc}>Antes de modificar qualquer arquivo, a skill cria um <strong>branch git de backup</strong> com o estado completo do projeto. Se algo der errado, desfaça tudo com um comando.</p>
+          <div className={iaStyles.fileList}>
+            <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>Backup automático</code>
+              <span className={iaStyles.fileDesc}>Branch <code style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}>trdr-ds/backup-YYYY-MM-DD-HHmmss</code> criado antes do Sprint 1. Mudanças não commitadas são preservadas via git stash.</span>
+            </div>
+            <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>/trdr-ds rollback</code>
+              <span className={iaStyles.fileDesc}>Lê o branch de backup do DS_PROGRESS.md, pede confirmação, e executa git reset --hard para restaurar o estado original.</span>
+            </div>
+            <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>Sem git?</code>
+              <span className={iaStyles.fileDesc}>Se o projeto não tem repositório git, a skill oferece inicializar com git init ou continuar sem backup (irreversível).</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Component implementation */}
+        <div className={iaStyles.subSection}>
+          <h3 className={iaStyles.subSectionTitle}>Implementação de componentes — 3 níveis</h3>
+          <p className={iaStyles.sectionDesc}>Na Fase 1, a skill classifica cada candidato a componente em 3 níveis de complexidade. Na Fase 2 (Sprint de Components), cada nível recebe um tratamento diferente:</p>
+          <div className={iaStyles.skillSteps}>
+            <div className={iaStyles.skillStep}>
+              <span className={iaStyles.skillStepLabel}>Simple</span>
+              <span className={iaStyles.skillStepDesc}>Elemento simples (só texto, sem handlers). Substituído completamente pela estrutura do componente DS, adaptando o conteúdo do projeto.</span>
+            </div>
+            <div className={iaStyles.skillStep}>
+              <span className={iaStyles.skillStepLabel}>Complex-preservable</span>
+              <span className={iaStyles.skillStepDesc}>Elemento com handlers/bindings/condicionais, mas mapeável ao DS. Recebe classes e estrutura DS, preservando toda a lógica existente.</span>
+            </div>
+            <div className={iaStyles.skillStep}>
+              <span className={iaStyles.skillStepLabel}>Manual</span>
+              <span className={iaStyles.skillStepDesc}>Lógica profunda ou domínio específico. Não é modificado — recebe comentário TODO e entrada detalhada no DS_MIGRATION.md.</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Icon size preservation */}
+        <div className={iaStyles.subSection}>
+          <h3 className={iaStyles.subSectionTitle}>Ícones Material Design — tamanho preservado</h3>
+          <p className={iaStyles.sectionDesc}>SVGs inline são substituídos por Material Icons mantendo o tamanho original do ícone. A skill mede width/height do SVG (ou viewBox) antes de substituir.</p>
+          <div className={iaStyles.fileList}>
+            <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>.mi-2xs</code>
+              <span className={iaStyles.fileDesc}>12px — indicadores muito pequenos</span>
+            </div>
+            <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>.mi-xs</code>
+              <span className={iaStyles.fileDesc}>14px — UI compacta</span>
+            </div>
+            <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>.mi-sm</code>
+              <span className={iaStyles.fileDesc}>16px — ícones pequenos</span>
+            </div>
+            <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>default</code>
+              <span className={iaStyles.fileDesc}>20px — sem classe, tamanho padrão</span>
+            </div>
+            <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>.mi-lg</code>
+              <span className={iaStyles.fileDesc}>24px — tamanho padrão Material Design</span>
+            </div>
+            <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>.mi-xl</code>
+              <span className={iaStyles.fileDesc}>28px — ícones maiores</span>
+            </div>
+            <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>.mi-2xl</code>
+              <span className={iaStyles.fileDesc}>32px — ícones hero/feature</span>
+            </div>
+          </div>
+          <p className={iaStyles.note}>Para tamanhos não padrão: <code style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}>style=&quot;font-size:18px&quot;</code> é aceito APENAS para font-size de ícones, nunca para cor.</p>
+        </div>
+
         {/* Stub fallback */}
         <div className={iaStyles.subSection}>
           <h3 className={iaStyles.subSectionTitle}>Componentes &quot;stub&quot; — fallback inteligente</h3>
-          <p className={iaStyles.sectionDesc}>O TRDR DS tem 82+ componentes no Figma. Os 18 com 4 code blocks completos no catálogo (HTML, CSS, React e prompt) são aplicados direto durante a sub-fase C. Os demais entram como stubs (implemented: false) — a skill não inventa código, mas aplica os tokens recomendados, comenta no fonte com figmaId e link para o Hub, e registra em MISSING_COMPONENTS.md no projeto.</p>
+          <p className={iaStyles.sectionDesc}>O TRDR DS tem 82+ componentes no Figma. Os 20 com 4 code blocks completos no catálogo (HTML, CSS, React e prompt) são implementados durante o sprint de Components — com 3 níveis de complexidade (simple/complex-preservable/manual). Os demais entram como stubs (implemented: false) — a skill não inventa código, mas aplica os tokens recomendados, comenta no fonte com figmaId e link para o Hub, e registra em MISSING_COMPONENTS.md no projeto.</p>
         </div>
 
         {/* Phase 1 */}
@@ -246,7 +328,7 @@ export default function ParaIAPage() {
             <span className={iaStyles.phaseBadge2}>Fase 2</span>
             <h3 className={iaStyles.subSectionTitle}>Execução — o que é criado</h3>
           </div>
-          <p className={iaStyles.sectionDesc}>Após aprovação, a skill executa 4 sub-fases com checkpoint: <strong>A — Foundation</strong> (cria os arquivos base), <strong>B — Violations</strong> (corrige lotes de violações), <strong>C — Components</strong> (aplica classes DS nos elementos) e <strong>D — Final</strong> (logos + DS_MIGRATION.md). Os arquivos gerados são:</p>
+          <p className={iaStyles.sectionDesc}>Após aprovação, a skill cria um <strong>backup git</strong> e executa por sprints: <strong>Sprint 1 — Foundation</strong> (tokens, components, CLAUDE.md), <strong>Sprints 2-N — Violations</strong> (por pasta, máx. 15 arquivos), <strong>Sprint N+1 — Components</strong> (3 passes: simple/complex/manual), <strong>Sprint Final</strong> (logos, ícones com tamanho preservado, DS_MIGRATION.md). Os arquivos gerados são:</p>
           <div className={iaStyles.fileList}>
             {phaseTwoFiles.map(f => (
               <div key={f.file} className={iaStyles.fileItem}>
@@ -262,28 +344,28 @@ export default function ParaIAPage() {
           <h3 className={iaStyles.subSectionTitle}>Exemplos de uso</h3>
           <div className={iaStyles.examples}>
             <div className={iaStyles.example}>
-              <span className={iaStyles.exampleLabel}>Aplicar tudo</span>
-              <pre className={iaStyles.exampleCode}>{`# No Claude Code, digite:\n/trdr-ds\n\n# A skill analisa o projeto e apresenta o plano.\n# Após o plano aparecer, responda:\nApply`}</pre>
+              <span className={iaStyles.exampleLabel}>Aplicar tudo (projeto pequeno)</span>
+              <pre className={iaStyles.exampleCode}>{`# No Claude Code, digite:\n/trdr-ds\n\n# A skill analisa, gera SPRINT_PLAN.md e apresenta o plano.\n# Após o plano aparecer, responda:\nApply`}</pre>
             </div>
             <div className={iaStyles.example}>
-              <span className={iaStyles.exampleLabel}>Apenas tokens e CLAUDE.md (sem corrigir violações)</span>
+              <span className={iaStyles.exampleLabel}>Projeto grande — sprint por sprint</span>
+              <pre className={iaStyles.exampleCode}>{`# Análise e primeiro sprint:\n/trdr-ds\nApply\n\n# Sprint 1 (Foundation) executa e para.\n# Limpe o contexto:\n/clear\n\n# Continue o próximo sprint:\n/trdr-ds resume\n\n# Repita /clear + /trdr-ds resume até completar.`}</pre>
+            </div>
+            <div className={iaStyles.example}>
+              <span className={iaStyles.exampleLabel}>Desfazer toda a migração</span>
+              <pre className={iaStyles.exampleCode}>{`# A qualquer momento durante ou após a migração:\n/trdr-ds rollback\n\n# Confirme com:\nconfirmar\n\n# O projeto volta ao estado exato de antes da migração.`}</pre>
+            </div>
+            <div className={iaStyles.example}>
+              <span className={iaStyles.exampleLabel}>Ver progresso e status dos sprints</span>
+              <pre className={iaStyles.exampleCode}>{`# Tabela completa de sprints sem alterar nada:\n/trdr-ds status\n\n# Retomar de onde parou:\n/trdr-ds resume`}</pre>
+            </div>
+            <div className={iaStyles.example}>
+              <span className={iaStyles.exampleLabel}>Apenas tokens (sem violações nem componentes)</span>
               <pre className={iaStyles.exampleCode}>{`/trdr-ds\n\n# Após o plano:\nOnly tokens`}</pre>
             </div>
             <div className={iaStyles.example}>
-              <span className={iaStyles.exampleLabel}>Pular um diretório específico</span>
-              <pre className={iaStyles.exampleCode}>{`/trdr-ds\n\n# Após o plano:\nApply, skip src/legacy`}</pre>
-            </div>
-            <div className={iaStyles.example}>
-              <span className={iaStyles.exampleLabel}>Invocar por frase natural</span>
-              <pre className={iaStyles.exampleCode}>{`# Funciona sem digitar /trdr-ds:\naplicar design system TRDR neste projeto`}</pre>
-            </div>
-            <div className={iaStyles.example}>
-              <span className={iaStyles.exampleLabel}>Controlar o tamanho dos lotes de violações</span>
-              <pre className={iaStyles.exampleCode}>{`/trdr-ds\n\n# Após o plano, definir lotes maiores (padrão: 5 arquivos):\nApply, batch 20\n\n# Entre lotes da sub-fase Violations:\ncontinuar\n\n# Ou processar todos os lotes de uma vez:\ntudo`}</pre>
-            </div>
-            <div className={iaStyles.example}>
-              <span className={iaStyles.exampleLabel}>Retomar migração pausada</span>
-              <pre className={iaStyles.exampleCode}>{`# Em qualquer sessão, enquanto DS_PROGRESS.md existir:\n/trdr-ds resume\n\n# Ver progresso sem alterar nada:\n/trdr-ds status`}</pre>
+              <span className={iaStyles.exampleLabel}>Pular diretório ou invocar por frase</span>
+              <pre className={iaStyles.exampleCode}>{`# Pular um caminho:\n/trdr-ds\nApply, skip src/vendor\n\n# Frase natural (sem /trdr-ds):\naplicar design system TRDR neste projeto`}</pre>
             </div>
           </div>
         </div>
