@@ -7,7 +7,7 @@ const phaseOneSteps = [
   {
     n: '1',
     label: 'Detectar framework',
-    desc: 'Lê package.json e identifica Next.js, React, Vue, TypeScript e a abordagem de estilos (CSS Modules, Tailwind, plain CSS). Detecta stylingMode duplo — quando Tailwind e styled-components coexistem, ativa scan especial de template literals além dos arquivos CSS.',
+    desc: 'Lê package.json e identifica Next.js, React, Vue, TypeScript e a abordagem de estilos (CSS Modules, Tailwind, plain CSS, MUI). Detecta stylingMode duplo (Tailwind + styled-components) e prioridade MUI — quando @mui/material está presente, ativa modo mui com scan de theme files, sx props e styled(MuiComponent).',
   },
   {
     n: '2',
@@ -17,7 +17,7 @@ const phaseOneSteps = [
   {
     n: '3',
     label: 'Encontrar violações e auditar logo',
-    desc: 'Busca 11 categorias: cores hardcoded A/A* (incluindo SVG attrs e Tailwind arbitrary bg-[#hex]), font-family B, spacing px C, primitivos via var() D (uso e definição em :root), rgba F, gradientes G (inclusive com rgba stops), font-size H, inline styles I, atribuições DOM imperativas I.2 (element.style.prop = valor), SVGs inline J/J.medium, e logo incorreta K. Verifica fingerprint do logo oficial (viewBox 105×41, fill #00D4FF).',
+    desc: 'Busca 14 categorias: cores hardcoded A/A*, font-family B, spacing px C, primitivos D, rgba F, gradientes G, font-size H, inline styles I/I.2, SVGs inline J, logo K — e para projetos MUI: valores hardcoded no theme L (palette, typography, shape, styleOverrides), em sx props M, e em styled(MuiComponent) N. Verifica fingerprint do logo oficial (viewBox 105×41, fill #00D4FF).',
   },
   {
     n: '4',
@@ -94,8 +94,8 @@ export default function ParaIAPage() {
               <span className="material-symbols-outlined">auto_fix_high</span>
             </div>
             <div>
-              <div className={iaStyles.skillTitle}>/trdr-ds — TRDR Design System Installer <span className={iaStyles.commandBadge} style={{ marginLeft: 8, fontSize: 11 }}>v1.8.0</span></div>
-              <div className={iaStyles.skillSubtitle}>Analisa o projeto → gera sprint plan → aguarda aprovação → executa em sprints independentes com rollback via git</div>
+              <div className={iaStyles.skillTitle}>/trdr-ds — TRDR Design System Installer <span className={iaStyles.commandBadge} style={{ marginLeft: 8, fontSize: 11 }}>v1.9.0</span></div>
+              <div className={iaStyles.skillSubtitle}>Analisa o projeto → gera sprint plan → aguarda aprovação → executa em sprints independentes com rollback via git. Suporte completo a MUI (Material UI).</div>
             </div>
           </div>
 
@@ -159,7 +159,7 @@ export default function ParaIAPage() {
           <div className={iaStyles.fileList}>
             <div className={iaStyles.fileItem}>
               <code className={iaStyles.fileName}>/components.json</code>
-              <span className={iaStyles.fileDesc}>Catálogo completo em JSON: 20 componentes implementados (com 4 code blocks cada). <a href="/components.json" style={{ color: 'var(--content-brand)' }}>Abrir endpoint →</a></span>
+              <span className={iaStyles.fileDesc}>Catálogo completo em JSON: 25 componentes implementados (com 4 code blocks cada). <a href="/components.json" style={{ color: 'var(--content-brand)' }}>Abrir endpoint →</a></span>
             </div>
             <div className={iaStyles.fileItem}>
               <code className={iaStyles.fileName}>/tokens.css</code>
@@ -266,6 +266,45 @@ export default function ParaIAPage() {
           <p className={iaStyles.note}>O campo <code style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}>dependencies</code> no <a href="/components.json" style={{ color: 'var(--content-brand)' }}>components.json</a> lista os slugs de sub-componentes de cada composto.</p>
         </div>
 
+        {/* MUI support */}
+        <div className={iaStyles.subSection}>
+          <h3 className={iaStyles.subSectionTitle}>Projetos MUI (Material UI) — integração via theme</h3>
+          <p className={iaStyles.sectionDesc}>Quando a skill detecta <code style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--content-brand)' }}>@mui/material</code> no package.json, ativa o modo <strong>mui</strong> — uma abordagem completamente diferente dos outros modos. Em vez de aplicar classes CSS, a skill integra os tokens diretamente no sistema de theme do MUI.</p>
+          <div className={iaStyles.skillSteps}>
+            <div className={iaStyles.skillStep}>
+              <span className={iaStyles.skillStepLabel}>Detecção automática</span>
+              <span className={iaStyles.skillStepDesc}>Se @mui/material está no package.json, stylingMode é <strong>mui</strong> — mesmo que @emotion/* esteja presente (é dependência transitiva, não CSS-in-JS direto). Localiza o theme file (createTheme) e conta arquivos com sx props.</span>
+            </div>
+            <div className={iaStyles.skillStep}>
+              <span className={iaStyles.skillStepLabel}>Foundation + Theme</span>
+              <span className={iaStyles.skillStepDesc}>Cria tokens.css (fonte de verdade) e atualiza o MUI theme com palette, typography e shape referenciando var(--token). O theme fica na ponte entre CSS vars e componentes MUI.</span>
+            </div>
+            <div className={iaStyles.skillStep}>
+              <span className={iaStyles.skillStepLabel}>Violações L / M / N</span>
+              <span className={iaStyles.skillStepDesc}>Escaneia valores hardcoded no theme (L), em sx props (M) e em styled(MuiComponent) (N) — categorias que não existem nos outros modos. Substitui por var(--token).</span>
+            </div>
+            <div className={iaStyles.skillStep}>
+              <span className={iaStyles.skillStepLabel}>styleOverrides</span>
+              <span className={iaStyles.skillStepDesc}>Em vez de substituir HTML tags por classes DS, gera styleOverrides no theme para cada MUI component detectado (MuiButton, MuiTextField, MuiCard, etc.) — aplicando tokens DS globalmente via theme provider.</span>
+            </div>
+          </div>
+          <div className={iaStyles.fileList}>
+            <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>palette → DS</code>
+              <span className={iaStyles.fileDesc}>primary.main = var(--action-brand-default), background.default = var(--bg-primary), text.primary = var(--content-primary), etc.</span>
+            </div>
+            <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>typography → DS</code>
+              <span className={iaStyles.fileDesc}>h1-h6 = var(--font-primary), body/caption = var(--font-secondary), button = textTransform: none + 600</span>
+            </div>
+            <div className={iaStyles.fileItem}>
+              <code className={iaStyles.fileName}>sx props</code>
+              <span className={iaStyles.fileDesc}>Valores hardcoded migrados para tokens. Layout (display, flex, grid) mantido como está. sx é idiomático no MUI e não é eliminado.</span>
+            </div>
+          </div>
+          <p className={iaStyles.note}>Para MUI v6+, a skill recomenda <code style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}>cssVariables: true</code> no createTheme() — habilita suporte nativo a CSS variables e evita problemas com cálculos internos de palette.</p>
+        </div>
+
         {/* Icon size preservation */}
         <div className={iaStyles.subSection}>
           <h3 className={iaStyles.subSectionTitle}>Ícones Material Design — tamanho preservado</h3>
@@ -306,7 +345,7 @@ export default function ParaIAPage() {
         {/* Stub fallback */}
         <div className={iaStyles.subSection}>
           <h3 className={iaStyles.subSectionTitle}>Componentes &quot;stub&quot; — fallback inteligente</h3>
-          <p className={iaStyles.sectionDesc}>O TRDR DS tem 82+ componentes no Figma. Os 20 com 4 code blocks completos no catálogo (HTML, CSS, React e prompt) são implementados durante o sprint de Components — com 3 níveis de complexidade (simple/complex-preservable/manual). Os demais entram como stubs (implemented: false) — a skill não inventa código, mas aplica os tokens recomendados, comenta no fonte com figmaId e link para o Hub, e registra em MISSING_COMPONENTS.md no projeto.</p>
+          <p className={iaStyles.sectionDesc}>O TRDR DS tem 82+ componentes no Figma. Os 25 com 4 code blocks completos no catálogo (HTML, CSS, React e prompt) são implementados durante o sprint de Components — com 3 níveis de complexidade (simple/complex-preservable/manual). Os demais entram como stubs (implemented: false) — a skill não inventa código, mas aplica os tokens recomendados, comenta no fonte com figmaId e link para o Hub, e registra em MISSING_COMPONENTS.md no projeto.</p>
         </div>
 
         {/* Phase 1 */}
